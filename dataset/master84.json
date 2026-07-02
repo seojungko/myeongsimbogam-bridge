@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "slug": "master84",
+  "title": "명심보감 첫 암기 84",
+  "locale": "ko-KR",
+  "records": [
+    {
+      "id": "master84-001",
+      "page": 8,
+      "title": "착한 일을 가까이하기",
+      "source": "명심보감 계선편",
+      "promptHanja": "爲善者",
+      "promptKorean": "위선자",
+      "fullHanja": "爲善者 天報之以福\n爲不善者 天報之以禍",
+      "fullKorean": "위선자 천보지이복\n위불선자 천보지이화",
+      "promptTranslation": "착한 일을",
+      "translation": "착한 일을 하는 사람에게는 하늘이 복으로 갚고, 착하지 않은 일을 하는 사람에게는 하늘이 재앙으로 갚는다.",
+      "characters": [
+        { "character": "爲", "meaning": "할", "sound": "위" },
+        { "character": "善", "meaning": "착할", "sound": "선" },
+        { "character": "者", "meaning": "사람", "sound": "자" },
+        { "character": "天", "meaning": "하늘", "sound": "천" },
+        { "character": "報", "meaning": "갚을", "sound": "보" },
+        { "character": "之", "meaning": "갈", "sound": "지" },
+        { "character": "以", "meaning": "써", "sound": "이" },
+        { "character": "福", "meaning": "복", "sound": "복" },
+        { "character": "不", "meaning": "아닐", "sound": "불" },
+        { "character": "禍", "meaning": "재앙", "sound": "화" }
+      ],
+      "tags": ["계선", "실천", "기초"]
+    },
+    {
+      "id": "master84-002",
+      "page": 9,
+      "title": "하루를 돌아보기",
+      "source": "명심보감 성심편",
+      "promptHanja": "見善",
+      "promptKorean": "견선",
+      "fullHanja": "見善如不及\n見不善如探湯",
+      "fullKorean": "견선여불급\n견불선여탐탕",
+      "translation": "좋은 것은 서둘러 배우고, 그른 것은 가까이하지 않는 태도를 익힌다.",
+      "characters": [
+        { "character": "見", "meaning": "볼", "sound": "견" },
+        { "character": "善", "meaning": "착할", "sound": "선" },
+        { "character": "如", "meaning": "같을", "sound": "여" },
+        { "character": "不", "meaning": "아닐", "sound": "불" },
+        { "character": "及", "meaning": "미칠", "sound": "급" },
+        { "character": "探", "meaning": "찾을", "sound": "탐" },
+        { "character": "湯", "meaning": "끓는 물", "sound": "탕" }
+      ],
+      "tags": ["성찰", "습관"]
+    },
+    {
+      "id": "master84-003",
+      "page": 10,
+      "title": "배움의 속도",
+      "source": "명심보감 권학편",
+      "promptHanja": "學如",
+      "promptKorean": "학여",
+      "fullHanja": "學如不及\n猶恐失之",
+      "fullKorean": "학여불급\n유공실지",
+      "translation": "배움은 천천히 쌓이지만 놓치지 않으려는 마음이 꾸준함을 만든다.",
+      "characters": [
+        { "character": "學", "meaning": "배울", "sound": "학" },
+        { "character": "如", "meaning": "같을", "sound": "여" },
+        { "character": "不", "meaning": "아닐", "sound": "불" },
+        { "character": "及", "meaning": "미칠", "sound": "급" },
+        { "character": "猶", "meaning": "오히려", "sound": "유" },
+        { "character": "恐", "meaning": "두려울", "sound": "공" },
+        { "character": "失", "meaning": "잃을", "sound": "실" },
+        { "character": "之", "meaning": "갈", "sound": "지" }
+      ],
+      "tags": ["권학", "반복"]
+    }
+  ]
+}
