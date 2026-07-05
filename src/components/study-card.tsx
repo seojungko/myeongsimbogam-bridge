@@ -10,6 +10,72 @@ type StudyCardProps = {
 };
 
 type StudyViewMode = "study" | "translation" | "characters";
+type CardDensity = "short" | "medium" | "long" | "extraLong";
+
+const densityClasses: Record<
+  CardDensity,
+  {
+    content: string;
+    hanja: string;
+    korean: string;
+    sectionGap: string;
+    translation: string;
+  }
+> = {
+  short: {
+    content: "overflow-hidden px-1 py-4",
+    hanja: "text-[clamp(1.9rem,7vw,2.6rem)] leading-[1.35]",
+    korean: "text-[clamp(1.15rem,4.8vw,1.65rem)] leading-[1.55]",
+    sectionGap: "gap-6",
+    translation: "text-[clamp(1.15rem,4.6vw,1.5rem)] leading-[1.65]"
+  },
+  medium: {
+    content: "overflow-hidden px-1 py-3",
+    hanja: "text-[clamp(1.6rem,6vw,2.2rem)] leading-[1.35]",
+    korean: "text-[clamp(1.05rem,4.2vw,1.45rem)] leading-[1.5]",
+    sectionGap: "gap-5",
+    translation: "text-[clamp(1.05rem,4vw,1.35rem)] leading-[1.6]"
+  },
+  long: {
+    content: "overflow-hidden px-1 py-2",
+    hanja: "text-[clamp(1.35rem,5vw,1.8rem)] leading-[1.32]",
+    korean: "text-[clamp(0.95rem,3.8vw,1.25rem)] leading-[1.45]",
+    sectionGap: "gap-4",
+    translation: "text-[clamp(0.95rem,3.6vw,1.2rem)] leading-[1.55]"
+  },
+  extraLong: {
+    content: "overflow-y-auto overflow-x-hidden px-1 py-2",
+    hanja: "text-[clamp(1.15rem,4.3vw,1.55rem)] leading-[1.3]",
+    korean: "text-[clamp(0.9rem,3.4vw,1.1rem)] leading-[1.42]",
+    sectionGap: "gap-3",
+    translation: "text-[clamp(0.88rem,3.2vw,1.05rem)] leading-[1.5]"
+  }
+};
+
+function countVisibleCharacters(value: string) {
+  return Array.from(value).filter((character) => !/\s/.test(character)).length;
+}
+
+function getCardDensity(passage: StudyPageRecord): CardDensity {
+  const totalCharacters =
+    countVisibleCharacters(passage.fullHanja) +
+    countVisibleCharacters(passage.fullKorean) +
+    countVisibleCharacters(passage.translation);
+
+  if (totalCharacters >= 300) {
+    return "extraLong";
+  }
+
+  if (totalCharacters >= 190) {
+    return "long";
+  }
+
+  if (totalCharacters >= 110) {
+    return "medium";
+  }
+
+  return "short";
+}
 
 function maskVisibleCharacters(value: string) {
   return Array.from(value)
@@ -67,6 +133,8 @@ export function StudyCard({ passages }: StudyCardProps) {
 
   const currentIndex = Math.min(pageIndex, totalPages - 1);
   const passage = passages[currentIndex];
+  const density = getCardDensity(passage);
+  const classes = densityClasses[density];
   const progressDotIndexes = getCompactDotIndexes(currentIndex, totalPages);
   const fullTranslation = passage.translation;
   const promptTranslation = passage.promptTranslation;
@@ -152,19 +220,35 @@ export function StudyCard({ passages }: StudyCardProps) {
           </div>
         </header>
 
-        <section className="study-page-content flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden px-1 py-4 text-center">
+        <section
+          className={cn(
+            "study-page-content flex min-h-0 flex-1 flex-col items-center text-center",
+            density === "extraLong" ? "justify-start" : "justify-center",
+            classes.content
+          )}
+        >
           {viewMode === "study" ? (
-            <div className="flex w-full flex-col gap-6">
+            <div className={cn("flex w-full flex-col", classes.sectionGap)}>
               <div className="w-full">
                 <p className="text-white/52 text-xs font-semibold">한자</p>
-                <p className="mt-2 w-full max-w-full whitespace-pre-wrap break-keep text-[clamp(1.9rem,7vw,2.6rem)] font-black leading-[1.35] tracking-normal text-white">
+                <p
+                  className={cn(
+                    "mt-2 w-full max-w-full whitespace-pre-wrap break-keep font-black tracking-normal text-white",
+                    classes.hanja
+                  )}
+                >
                   {isRevealed ? passage.fullHanja : maskedHanja}
                 </p>
               </div>
 
               <div className="w-full">
                 <p className="text-white/52 text-xs font-semibold">소리</p>
-                <p className="mt-2 w-full max-w-full whitespace-pre-wrap break-keep text-[clamp(1.15rem,4.8vw,1.65rem)] font-bold leading-[1.55] tracking-normal text-white">
+                <p
+                  className={cn(
+                    "mt-2 w-full max-w-full whitespace-pre-wrap break-keep font-bold tracking-normal text-white",
+                    classes.korean
+                  )}
+                >
                   {isRevealed ? passage.fullKorean : maskedKorean}
                 </p>
               </div>
@@ -176,7 +260,12 @@ export function StudyCard({ passages }: StudyCardProps) {
           ) : null}
 
           {viewMode === "translation" ? (
-            <p className="text-white/84 w-full max-w-full whitespace-pre-wrap break-keep px-1 text-[clamp(1.05rem,4.5vw,1.35rem)] font-semibold leading-[1.65]">
+            <p
+              className={cn(
+                "text-white/84 w-full max-w-full whitespace-pre-wrap break-keep px-1 font-semibold",
+                classes.translation
+              )}
+            >
               {isRevealed ? fullTranslation : maskedTranslation}
             </p>
           ) : null}
@@ -192,7 +281,12 @@ export function StudyCard({ passages }: StudyCardProps) {
           ) : null}
         </section>
 
-        <div className="flex shrink-0 flex-col gap-3">
+        <div
+          className={cn(
+            "flex shrink-0 flex-col",
+            density === "short" || density === "medium" ? "gap-3" : "gap-2"
+          )}
+        >
           <button
             type="button"
             className={cn(
