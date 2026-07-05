@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "dataset:check": "node scripts/validate-dataset.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

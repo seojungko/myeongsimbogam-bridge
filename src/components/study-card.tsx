@@ -34,12 +34,6 @@ function maskAfterPrompt(fullText: string, prompt: string) {
   return `${maskVisibleCharacters(beforePrompt)}${prompt}${maskVisibleCharacters(afterPrompt)}`;
 }
 
-function getTranslationPrompt(translation: string) {
-  const match = translation.match(/^\s*\S+(?:\s+\S+)?/u);
-
-  return match?.[0] ?? "";
-}
-
 function getCompactDotIndexes(currentIndex: number, totalPages: number) {
   const maxDots = 7;
 
@@ -74,9 +68,8 @@ export function StudyCard({ passages }: StudyCardProps) {
   const currentIndex = Math.min(pageIndex, totalPages - 1);
   const passage = passages[currentIndex];
   const progressDotIndexes = getCompactDotIndexes(currentIndex, totalPages);
-  const fullTranslation = passage.fullTranslation ?? passage.translation;
-  const promptTranslation =
-    passage.promptTranslation ?? getTranslationPrompt(fullTranslation);
+  const fullTranslation = passage.translation;
+  const promptTranslation = passage.promptTranslation;
   const maskedHanja = maskAfterPrompt(passage.fullHanja, passage.promptHanja);
   const maskedKorean = maskAfterPrompt(
     passage.fullKorean,

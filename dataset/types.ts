@@ -6,16 +6,16 @@ export type StudyPageRecord = {
   id: string;
   page: number;
   title: string;
-  source: string;
+  source?: string;
   promptHanja: string;
   promptKorean: string;
+  promptTranslation: string;
   fullHanja: string;
   fullKorean: string;
-  promptTranslation?: string;
-  fullTranslation?: string;
   translation: string;
-  characters: readonly CharacterMeaning[];
-  tags: readonly string[];
+  deepMeaning?: string;
+  characters: CharacterMeaning[];
+  tags?: string[];
 };
 
 export type CharacterMeaning = {
@@ -29,7 +29,7 @@ export type Master84Dataset = {
   slug: DatasetSlug;
   title: string;
   locale: DatasetLocale;
-  records: readonly StudyPageRecord[];
+  records: StudyPageRecord[];
 };
 
 export type StudyDataset = Master84Dataset;

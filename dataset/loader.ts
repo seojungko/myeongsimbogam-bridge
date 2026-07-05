@@ -6,95 +6,213 @@ import type {
   StudyPageRecord
 } from "./types";
 
+export type DatasetValidationResult = {
+  duplicateIds: string[];
+  invalidRecords: string[];
+  pages: number[];
+  totalRecords: number;
+};
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object";
+}
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
 function isCharacterMeaning(value: unknown): value is CharacterMeaning {
-  if (!value || typeof value !== "object") {
+  if (!isObject(value)) {
     return false;
   }
 
-  const character = value as Record<string, unknown>;
-
   return (
-    typeof character.character === "string" &&
-    typeof character.meaning === "string" &&
-    typeof character.sound === "string"
+    isNonEmptyString(value.character) &&
+    isNonEmptyString(value.meaning) &&
+    isNonEmptyString(value.sound)
   );
 }
 
-function isRecord(value: unknown): value is StudyPageRecord {
-  if (!value || typeof value !== "object") {
-    return false;
+function getRecordErrors(value: unknown, index: number) {
+  const label = isObject(value) && typeof value.id === "string" ? value.id : `index ${index}`;
+  const errors: string[] = [];
+
+  if (!isObject(value)) {
+    return [`${label}: record must be an object`];
   }
 
-  const record = value as Record<string, unknown>;
+  const record = value;
 
-  return (
-    typeof record.id === "string" &&
-    typeof record.page === "number" &&
-    typeof record.title === "string" &&
-    typeof record.source === "string" &&
-    typeof record.promptHanja === "string" &&
-    typeof record.promptKorean === "string" &&
-    typeof record.fullHanja === "string" &&
-    typeof record.fullKorean === "string" &&
-    (record.promptTranslation === undefined ||
-      typeof record.promptTranslation === "string") &&
-    (record.fullTranslation === undefined ||
-      typeof record.fullTranslation === "string") &&
-    typeof record.translation === "string" &&
-    Array.isArray(record.characters) &&
-    record.characters.every(isCharacterMeaning) &&
-    Array.isArray(record.tags) &&
-    record.tags.every((tag) => typeof tag === "string")
-  );
-}
-
-function assertMaster84Dataset(
-  value: unknown
-): asserts value is Master84Dataset {
-  if (!value || typeof value !== "object") {
-    throw new Error("master84 dataset must be an object.");
+  if (!isNonEmptyString(record.id)) {
+    errors.push(`${label}: id must be a non-empty string`);
   }
 
-  const dataset = value as Record<string, unknown>;
+  if (typeof record.page !== "number") {
+    errors.push(`${label}: page must be a number`);
+  }
+
+  if (!isNonEmptyString(record.title)) {
+    errors.push(`${label}: title must be a non-empty string`);
+  }
+
+  if (record.source !== undefined && typeof record.source !== "string") {
+    errors.push(`${label}: source must be a string when provided`);
+  }
+
+  if (!isNonEmptyString(record.promptHanja)) {
+    errors.push(`${label}: promptHanja must be a non-empty string`);
+  }
+
+  if (!isNonEmptyString(record.promptKorean)) {
+    errors.push(`${label}: promptKorean must be a non-empty string`);
+  }
+
+  if (!isNonEmptyString(record.promptTranslation)) {
+    errors.push(`${label}: promptTranslation must be a non-empty string`);
+  }
+
+  if (!isNonEmptyString(record.fullHanja)) {
+    errors.push(`${label}: fullHanja must not be empty`);
+  }
+
+  if (!isNonEmptyString(record.fullKorean)) {
+    errors.push(`${label}: fullKorean must not be empty`);
+  }
+
+  if (!isNonEmptyString(record.translation)) {
+    errors.push(`${label}: translation must not be empty`);
+  }
+
+  const promptHanja = isNonEmptyString(record.promptHanja)
+    ? record.promptHanja
+    : null;
+  const promptKorean = isNonEmptyString(record.promptKorean)
+    ? record.promptKorean
+    : null;
+  const promptTranslation = isNonEmptyString(record.promptTranslation)
+    ? record.promptTranslation
+    : null;
+  const fullHanja = isNonEmptyString(record.fullHanja)
+    ? record.fullHanja
+    : null;
+  const fullKorean = isNonEmptyString(record.fullKorean)
+    ? record.fullKorean
+    : null;
+  const translation = isNonEmptyString(record.translation)
+    ? record.translation
+    : null;
+
+  if (promptHanja && fullHanja && !fullHanja.includes(promptHanja)) {
+    errors.push(`${label}: promptHanja must appear inside fullHanja`);
+  }
+
+  if (promptKorean && fullKorean && !fullKorean.includes(promptKorean)) {
+    errors.push(`${label}: promptKorean must appear inside fullKorean`);
+  }
 
   if (
-    dataset.schemaVersion !== 1 ||
-    dataset.slug !== "master84" ||
-    dataset.locale !== "ko-KR" ||
-    typeof dataset.title !== "string" ||
-    !Array.isArray(dataset.records) ||
-    !dataset.records.every(isRecord)
+    promptTranslation &&
+    translation &&
+    !translation.includes(promptTranslation)
   ) {
-    throw new Error("master84 dataset has an invalid shape.");
+    errors.push(`${label}: promptTranslation must appear inside translation`);
   }
 
-  const pages = new Set<number>();
+  if (!Array.isArray(record.characters)) {
+    errors.push(`${label}: characters must be an array`);
+  } else {
+    record.characters.forEach((character, characterIndex) => {
+      if (!isCharacterMeaning(character)) {
+        errors.push(
+          `${label}: characters[${characterIndex}] must have character, meaning, sound`
+        );
+      }
+    });
+  }
 
-  for (const record of dataset.records) {
-    if (pages.has(record.page)) {
-      throw new Error(`Duplicate page in master84 dataset: ${record.page}`);
-    }
-
-    if (!record.fullHanja.startsWith(record.promptHanja)) {
-      throw new Error(`fullHanja must start with promptHanja: ${record.id}`);
-    }
-
-    if (!record.fullKorean.startsWith(record.promptKorean)) {
-      throw new Error(`fullKorean must start with promptKorean: ${record.id}`);
-    }
-
+  if (record.tags !== undefined) {
     if (
-      record.promptTranslation &&
-      !(record.fullTranslation ?? record.translation).includes(
-        record.promptTranslation
-      )
+      !Array.isArray(record.tags) ||
+      !record.tags.every((tag) => typeof tag === "string")
     ) {
-      throw new Error(
-        `translation must include promptTranslation: ${record.id}`
-      );
+      errors.push(`${label}: tags must be a string array when provided`);
     }
+  }
 
-    pages.add(record.page);
+  return errors;
+}
+
+export function validateMaster84Dataset(value: unknown): DatasetValidationResult {
+  const invalidRecords: string[] = [];
+  const duplicateIds: string[] = [];
+  const pages: number[] = [];
+
+  if (!isObject(value)) {
+    return {
+      duplicateIds,
+      invalidRecords: ["dataset must be an object"],
+      pages,
+      totalRecords: 0
+    };
+  }
+
+  if (
+    value.schemaVersion !== 1 ||
+    value.slug !== "master84" ||
+    value.locale !== "ko-KR" ||
+    !isNonEmptyString(value.title)
+  ) {
+    invalidRecords.push("dataset metadata is invalid");
+  }
+
+  if (!Array.isArray(value.records)) {
+    return {
+      duplicateIds,
+      invalidRecords: [...invalidRecords, "records must be an array"],
+      pages,
+      totalRecords: 0
+    };
+  }
+
+  const seenIds = new Set<string>();
+
+  value.records.forEach((record, index) => {
+    invalidRecords.push(...getRecordErrors(record, index));
+
+    if (isObject(record)) {
+      if (typeof record.id === "string") {
+        if (seenIds.has(record.id)) {
+          duplicateIds.push(record.id);
+        }
+
+        seenIds.add(record.id);
+      }
+
+      if (typeof record.page === "number") {
+        pages.push(record.page);
+      }
+    }
+  });
+
+  return {
+    duplicateIds,
+    invalidRecords,
+    pages,
+    totalRecords: value.records.length
+  };
+}
+
+function assertMaster84Dataset(value: unknown): asserts value is Master84Dataset {
+  const result = validateMaster84Dataset(value);
+
+  if (result.duplicateIds.length > 0 || result.invalidRecords.length > 0) {
+    throw new Error(
+      [
+        "master84 dataset has an invalid shape.",
+        ...result.duplicateIds.map((id) => `Duplicate id: ${id}`),
+        ...result.invalidRecords
+      ].join("\n")
+    );
   }
 }
 
@@ -114,8 +232,6 @@ export function loadStudyDataset(slug: "master84" = "master84"): StudyDataset {
   throw new Error(`Unsupported study dataset: ${slug}`);
 }
 
-export function loadStudyPages(
-  slug: "master84" = "master84"
-): readonly StudyPageRecord[] {
+export function loadStudyPages(slug: "master84" = "master84"): StudyPageRecord[] {
   return loadStudyDataset(slug).records;
 }
