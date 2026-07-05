@@ -117,6 +117,7 @@ function getCompactDotIndexes(currentIndex: number, totalPages: number) {
 export function StudyCard({ passages }: StudyCardProps) {
   const [pageIndex, setPageIndex] = useState(0);
   const [isRevealed, setIsRevealed] = useState(false);
+  const [isPeeking, setIsPeeking] = useState(false);
   const [viewMode, setViewMode] = useState<StudyViewMode>("study");
   const [sparkleKey, setSparkleKey] = useState(0);
   const [isTurningPage, setIsTurningPage] = useState(false);
@@ -144,8 +145,11 @@ export function StudyCard({ passages }: StudyCardProps) {
     passage.promptKorean
   );
   const maskedTranslation = maskAfterPrompt(fullTranslation, promptTranslation);
+  const visibleAnswer = isRevealed || isPeeking;
 
   function toggleReveal() {
+    setIsPeeking(false);
+
     if (viewMode === "characters") {
       setViewMode("study");
       setIsRevealed(true);
@@ -156,6 +160,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   }
 
   function toggleTranslationMode() {
+    setIsPeeking(false);
     setViewMode((current) =>
       current === "translation" ? "study" : "translation"
     );
@@ -163,6 +168,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   }
 
   function toggleCharactersMode() {
+    setIsPeeking(false);
     setViewMode((current) =>
       current === "characters" ? "study" : "characters"
     );
@@ -174,14 +180,27 @@ export function StudyCard({ passages }: StudyCardProps) {
     setSparkleKey((current) => current + 1);
     setPageIndex((current) => (current + 1) % totalPages);
     setIsRevealed(false);
+    setIsPeeking(false);
     setViewMode("study");
     window.setTimeout(() => setIsTurningPage(false), 260);
+  }
+
+  function beginPeek() {
+    if (isRevealed || viewMode === "characters") {
+      return;
+    }
+
+    setIsPeeking(true);
+  }
+
+  function endPeek() {
+    setIsPeeking(false);
   }
 
   return (
     <article
       className="study-card relative flex max-h-[calc(100svh-32px)] min-h-[calc(100svh-32px)] w-full overflow-hidden rounded-lg border border-[#2A2A2A] bg-[#121212] p-4 text-white shadow-soft"
-      data-state={isRevealed ? "open" : "closed"}
+      data-state={visibleAnswer ? "open" : "closed"}
       data-turning={isTurningPage ? "true" : "false"}
     >
       <div
@@ -228,7 +247,16 @@ export function StudyCard({ passages }: StudyCardProps) {
           )}
         >
           {viewMode === "study" ? (
-            <div className={cn("flex w-full flex-col", classes.sectionGap)}>
+            <div
+              className={cn(
+                "flex w-full touch-manipulation select-none flex-col",
+                classes.sectionGap
+              )}
+              onPointerCancel={endPeek}
+              onPointerDown={beginPeek}
+              onPointerLeave={endPeek}
+              onPointerUp={endPeek}
+            >
               <div className="w-full">
                 <p className="text-white/52 text-xs font-semibold">한자</p>
                 <p
@@ -237,7 +265,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                     classes.hanja
                   )}
                 >
-                  {isRevealed ? passage.fullHanja : maskedHanja}
+                  {visibleAnswer ? passage.fullHanja : maskedHanja}
                 </p>
               </div>
 
@@ -249,25 +277,45 @@ export function StudyCard({ passages }: StudyCardProps) {
                     classes.korean
                   )}
                 >
-                  {isRevealed ? passage.fullKorean : maskedKorean}
+                  {visibleAnswer ? passage.fullKorean : maskedKorean}
                 </p>
               </div>
 
               <p className="text-white/48 text-sm font-semibold">
                 소리내어 말해보세요.
               </p>
+              {!visibleAnswer ? (
+                <p className="text-xs font-semibold leading-none text-white/32">
+                  길게 눌러 슬쩍 보기
+                </p>
+              ) : null}
             </div>
           ) : null}
 
           {viewMode === "translation" ? (
-            <p
+            <div
               className={cn(
-                "text-white/84 w-full max-w-full whitespace-pre-wrap break-keep px-1 font-semibold",
-                classes.translation
+                "flex w-full touch-manipulation select-none flex-col gap-3"
               )}
+              onPointerCancel={endPeek}
+              onPointerDown={beginPeek}
+              onPointerLeave={endPeek}
+              onPointerUp={endPeek}
             >
-              {isRevealed ? fullTranslation : maskedTranslation}
-            </p>
+              <p
+                className={cn(
+                  "text-white/84 w-full max-w-full whitespace-pre-wrap break-keep px-1 font-semibold",
+                  classes.translation
+                )}
+              >
+                {visibleAnswer ? fullTranslation : maskedTranslation}
+              </p>
+              {!visibleAnswer ? (
+                <p className="text-xs font-semibold leading-none text-white/32">
+                  길게 눌러 슬쩍 보기
+                </p>
+              ) : null}
+            </div>
           ) : null}
 
           {viewMode === "characters" ? (
