@@ -1,7 +1,6 @@
 "use client";
 
-import { Sparkle } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
 import type { StudyPageRecord } from "@dataset/types";
 
@@ -9,45 +8,65 @@ type StudyCardProps = {
   passages: readonly StudyPageRecord[];
 };
 
-type StudyViewMode = "study" | "translation" | "characters";
+type StudyViewMode = "phrase" | "meaning";
 type CardDensity = "short" | "medium" | "long" | "extraLong";
+type PhraseCell =
+  | {
+      hanja: string;
+      key: string;
+      meaningSound: string;
+      reading: string;
+      type: "character";
+      visible: boolean;
+    }
+  | {
+      key: string;
+      type: "space";
+    };
+
+const LEARNED_RECORD_IDS_KEY = "bridge.learnedRecordIds";
 
 const densityClasses: Record<
   CardDensity,
   {
+    cell: string;
+    cellGap: string;
     content: string;
     hanja: string;
-    korean: string;
-    sectionGap: string;
+    reading: string;
     translation: string;
   }
 > = {
   short: {
+    cell: "min-w-[2.05rem]",
+    cellGap: "gap-x-1.5 gap-y-3",
     content: "overflow-hidden px-1 py-4",
-    hanja: "text-[clamp(1.9rem,7vw,2.6rem)] leading-[1.35]",
-    korean: "text-[clamp(1.15rem,4.8vw,1.65rem)] leading-[1.55]",
-    sectionGap: "gap-6",
+    hanja: "text-[clamp(1.5rem,6.2vw,2.05rem)] leading-none",
+    reading: "text-[clamp(0.78rem,3vw,0.98rem)] leading-tight",
     translation: "text-[clamp(1.15rem,4.6vw,1.5rem)] leading-[1.65]"
   },
   medium: {
+    cell: "min-w-[1.82rem]",
+    cellGap: "gap-x-1.5 gap-y-2.5",
     content: "overflow-hidden px-1 py-3",
-    hanja: "text-[clamp(1.6rem,6vw,2.2rem)] leading-[1.35]",
-    korean: "text-[clamp(1.05rem,4.2vw,1.45rem)] leading-[1.5]",
-    sectionGap: "gap-5",
+    hanja: "text-[clamp(1.35rem,5.4vw,1.82rem)] leading-none",
+    reading: "text-[clamp(0.72rem,2.8vw,0.9rem)] leading-tight",
     translation: "text-[clamp(1.05rem,4vw,1.35rem)] leading-[1.6]"
   },
   long: {
+    cell: "min-w-[1.55rem]",
+    cellGap: "gap-x-1 gap-y-2",
     content: "overflow-hidden px-1 py-2",
-    hanja: "text-[clamp(1.35rem,5vw,1.8rem)] leading-[1.32]",
-    korean: "text-[clamp(0.95rem,3.8vw,1.25rem)] leading-[1.45]",
-    sectionGap: "gap-4",
+    hanja: "text-[clamp(1.18rem,4.7vw,1.55rem)] leading-none",
+    reading: "text-[clamp(0.68rem,2.55vw,0.8rem)] leading-tight",
     translation: "text-[clamp(0.95rem,3.6vw,1.2rem)] leading-[1.55]"
   },
   extraLong: {
+    cell: "min-w-[1.35rem]",
+    cellGap: "gap-x-1 gap-y-1.5",
     content: "overflow-y-auto overflow-x-hidden px-1 py-2",
-    hanja: "text-[clamp(1.15rem,4.3vw,1.55rem)] leading-[1.3]",
-    korean: "text-[clamp(0.9rem,3.4vw,1.1rem)] leading-[1.42]",
-    sectionGap: "gap-3",
+    hanja: "text-[clamp(1.02rem,4vw,1.35rem)] leading-none",
+    reading: "text-[clamp(0.62rem,2.3vw,0.74rem)] leading-tight",
     translation: "text-[clamp(0.88rem,3.2vw,1.05rem)] leading-[1.5]"
   }
 };
@@ -114,13 +133,127 @@ function getCompactDotIndexes(currentIndex: number, totalPages: number) {
   return Array.from({ length: maxDots }, (_, index) => start + index);
 }
 
+function getCharacterInfo(passage: StudyPageRecord) {
+  return new Map(
+    passage.characters.map((character) => [
+      character.character,
+      `${character.meaning} ${character.sound}`
+    ])
+  );
+}
+
+function getVisibleOffsets(fullText: string, prompt: string) {
+  const promptIndex = prompt.length > 0 ? fullText.indexOf(prompt) : -1;
+
+  if (promptIndex === -1) {
+    return new Set<number>();
+  }
+
+  const visibleOffsets = new Set<number>();
+  let offset = 0;
+
+  for (const character of Array.from(fullText)) {
+    if (
+      offset >= promptIndex &&
+      offset < promptIndex + prompt.length &&
+      !/\s/.test(character)
+    ) {
+      visibleOffsets.add(offset);
+    }
+
+    offset += character.length;
+  }
+
+  return visibleOffsets;
+}
+
+function buildPhraseRows(passage: StudyPageRecord, visibleAnswer: boolean) {
+  const rows: PhraseCell[][] = [[]];
+  const readings = Array.from(passage.fullKorean).filter(
+    (character) => !/\s/.test(character)
+  );
+  const visibleOffsets = visibleAnswer
+    ? null
+    : getVisibleOffsets(passage.fullHanja, passage.promptHanja);
+  const characterInfo = getCharacterInfo(passage);
+  let textOffset = 0;
+  let readingIndex = 0;
+
+  for (const hanja of Array.from(passage.fullHanja)) {
+    if (hanja === "\n") {
+      rows.push([]);
+      textOffset += hanja.length;
+      continue;
+    }
+
+    if (/\s/.test(hanja)) {
+      rows[rows.length - 1].push({
+        key: `space-${textOffset}`,
+        type: "space"
+      });
+      textOffset += hanja.length;
+      continue;
+    }
+
+    const reading = readings[readingIndex] ?? "";
+    const isVisible = visibleAnswer || visibleOffsets?.has(textOffset) === true;
+
+    rows[rows.length - 1].push({
+      hanja,
+      key: `character-${textOffset}-${hanja}`,
+      meaningSound: characterInfo.get(hanja) ?? reading,
+      reading,
+      type: "character",
+      visible: isVisible
+    });
+
+    readingIndex += 1;
+    textOffset += hanja.length;
+  }
+
+  return rows.filter((row) => row.length > 0);
+}
+
+function readLearnedRecordIds() {
+  if (typeof window === "undefined") {
+    return new Set<string>();
+  }
+
+  try {
+    const rawValue = window.localStorage.getItem(LEARNED_RECORD_IDS_KEY);
+    const value = rawValue ? JSON.parse(rawValue) : [];
+
+    return new Set(
+      Array.isArray(value)
+        ? value.filter((recordId): recordId is string => typeof recordId === "string")
+        : []
+    );
+  } catch {
+    return new Set<string>();
+  }
+}
+
+function writeLearnedRecordIds(recordIds: Set<string>) {
+  window.localStorage.setItem(
+    LEARNED_RECORD_IDS_KEY,
+    JSON.stringify(Array.from(recordIds))
+  );
+}
+
 export function StudyCard({ passages }: StudyCardProps) {
   const [pageIndex, setPageIndex] = useState(0);
-  const [isRevealed, setIsRevealed] = useState(false);
   const [isPeeking, setIsPeeking] = useState(false);
-  const [viewMode, setViewMode] = useState<StudyViewMode>("study");
-  const [sparkleKey, setSparkleKey] = useState(0);
+  const [showCharacterMeaning, setShowCharacterMeaning] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+  const [viewMode, setViewMode] = useState<StudyViewMode>("phrase");
+  const [learnedRecordIds, setLearnedRecordIds] = useState<Set<string>>(
+    () => new Set()
+  );
   const [isTurningPage, setIsTurningPage] = useState(false);
+
+  useEffect(() => {
+    setLearnedRecordIds(readLearnedRecordIds());
+  }, []);
 
   const totalPages = passages.length;
 
@@ -137,59 +270,60 @@ export function StudyCard({ passages }: StudyCardProps) {
   const density = getCardDensity(passage);
   const classes = densityClasses[density];
   const progressDotIndexes = getCompactDotIndexes(currentIndex, totalPages);
-  const fullTranslation = passage.translation;
-  const promptTranslation = passage.promptTranslation;
-  const maskedHanja = maskAfterPrompt(passage.fullHanja, passage.promptHanja);
-  const maskedKorean = maskAfterPrompt(
-    passage.fullKorean,
-    passage.promptKorean
+  const visibleAnswer = isPeeking;
+  const maskedTranslation = maskAfterPrompt(
+    passage.translation,
+    passage.promptTranslation
   );
-  const maskedTranslation = maskAfterPrompt(fullTranslation, promptTranslation);
-  const visibleAnswer = isRevealed || isPeeking;
+  const phraseRows = buildPhraseRows(passage, visibleAnswer);
+  const isFirstRecord = currentIndex === 0;
+  const isLastRecord = currentIndex === totalPages - 1;
 
-  function toggleReveal() {
-    setIsPeeking(false);
+  function moveToRecord(nextIndex: number) {
+    const boundedIndex = Math.min(Math.max(nextIndex, 0), totalPages - 1);
 
-    if (viewMode === "characters") {
-      setViewMode("study");
-      setIsRevealed(true);
+    if (boundedIndex === currentIndex) {
       return;
     }
 
-    setIsRevealed((current) => !current);
-  }
-
-  function toggleTranslationMode() {
     setIsPeeking(false);
-    setViewMode((current) =>
-      current === "translation" ? "study" : "translation"
-    );
-    setIsRevealed(false);
-  }
-
-  function toggleCharactersMode() {
-    setIsPeeking(false);
-    setViewMode((current) =>
-      current === "characters" ? "study" : "characters"
-    );
-    setIsRevealed(false);
-  }
-
-  function next() {
+    setPageIndex(boundedIndex);
     setIsTurningPage(true);
-    setSparkleKey((current) => current + 1);
-    setPageIndex((current) => (current + 1) % totalPages);
-    setIsRevealed(false);
+    window.setTimeout(() => setIsTurningPage(false), 220);
+  }
+
+  function switchMode(nextMode: StudyViewMode) {
     setIsPeeking(false);
-    setViewMode("study");
-    window.setTimeout(() => setIsTurningPage(false), 260);
+    setViewMode(nextMode);
+  }
+
+  function markCurrentRecordLearned() {
+    const nextLearnedRecordIds = new Set(learnedRecordIds);
+    nextLearnedRecordIds.add(passage.id);
+    setLearnedRecordIds(nextLearnedRecordIds);
+    writeLearnedRecordIds(nextLearnedRecordIds);
+  }
+
+  function completeCurrentStep() {
+    setIsPeeking(false);
+
+    if (viewMode === "phrase") {
+      setViewMode("meaning");
+      return;
+    }
+
+    markCurrentRecordLearned();
+    setViewMode("phrase");
+    setIsTurningPage(true);
+
+    if (!isLastRecord) {
+      setPageIndex((current) => current + 1);
+    }
+
+    window.setTimeout(() => setIsTurningPage(false), 220);
   }
 
   function beginPeek() {
-    if (isRevealed || viewMode === "characters") {
-      return;
-    }
-
     setIsPeeking(true);
   }
 
@@ -208,20 +342,89 @@ export function StudyCard({ passages }: StudyCardProps) {
         aria-hidden
       />
 
+      {showHelp ? (
+        <div className="absolute inset-0 z-30 flex items-start justify-center bg-black/48 px-4 pt-16">
+          <div className="w-full max-w-xs rounded-lg border border-[#2A2A2A] bg-[#121212] p-4 text-left shadow-soft">
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-sm font-black text-white">도움말</p>
+              <button
+                type="button"
+                className="flex size-9 items-center justify-center rounded-full border border-white/12 bg-white/8 text-base font-black text-white"
+                onClick={() => setShowHelp(false)}
+                aria-label="도움말 닫기"
+              >
+                ×
+              </button>
+            </div>
+            <ul className="space-y-2 text-sm font-semibold leading-6 text-white/76">
+              <li>길게 누르면 답을 잠깐 볼 수 있어요.</li>
+              <li>손을 떼면 다시 가려져요.</li>
+              <li>뜻음을 켜면 한자 아래에 뜻과 음이 보여요.</li>
+            </ul>
+          </div>
+        </div>
+      ) : null}
+
       <div className="relative z-10 flex min-h-0 w-full flex-col">
         <header className="shrink-0">
-          <p className="text-center text-base font-bold text-white">
-            {passage.page}페이지
-          </p>
-          <p className="text-white/58 mt-1 text-center text-sm font-semibold">
-            {currentIndex + 1} / {totalPages}
-          </p>
+          <div className="grid grid-cols-[2.5rem_1fr_auto] items-center gap-2">
+            <button
+              type="button"
+              className="flex size-9 items-center justify-center rounded-full border border-white/12 bg-black/28 text-base font-black text-white"
+              onClick={() => setShowHelp(true)}
+              aria-label="도움말 열기"
+            >
+              ℹ️
+            </button>
+            <p className="text-center text-base font-bold text-white">
+              {passage.page}페이지
+            </p>
+            <button
+              type="button"
+              className={cn(
+                "h-9 rounded-full border px-3 text-sm font-black transition-colors",
+                showCharacterMeaning
+                  ? "border-[rgb(var(--accent))] bg-[rgb(var(--accent))] text-black"
+                  : "border-white/12 bg-black/28 text-white"
+              )}
+              onClick={() => setShowCharacterMeaning((current) => !current)}
+              aria-pressed={showCharacterMeaning}
+            >
+              뜻음
+            </button>
+          </div>
+
+          <div className="mt-2 grid grid-cols-[2.5rem_1fr_2.5rem] items-center gap-2">
+            <button
+              type="button"
+              className="flex size-9 items-center justify-center rounded-full border border-white/12 bg-black/28 text-xl font-black text-white disabled:opacity-28"
+              onClick={() => moveToRecord(currentIndex - 1)}
+              disabled={isFirstRecord}
+              aria-label="이전 카드"
+            >
+              ←
+            </button>
+            <p className="text-center text-sm font-semibold text-white/58">
+              {currentIndex + 1} / {totalPages}
+            </p>
+            <button
+              type="button"
+              className="flex size-9 items-center justify-center rounded-full border border-white/12 bg-black/28 text-xl font-black text-white disabled:opacity-28"
+              onClick={() => moveToRecord(currentIndex + 1)}
+              disabled={isLastRecord}
+              aria-label="다음 카드"
+            >
+              →
+            </button>
+          </div>
+
           <div
-            className="mt-3 flex items-center justify-center gap-2"
+            className="mt-2 flex items-center justify-center gap-2"
             aria-label={`${totalPages}개 중 ${currentIndex + 1}번째 학습 카드`}
           >
             {progressDotIndexes.map((index) => {
               const isCurrent = index === currentIndex;
+              const isLearned = learnedRecordIds.has(passages[index]?.id ?? "");
 
               return (
                 <span
@@ -230,7 +433,9 @@ export function StudyCard({ passages }: StudyCardProps) {
                     "rounded-full transition-all duration-300",
                     isCurrent
                       ? "h-2.5 w-8 bg-[rgb(var(--accent))]"
-                      : "bg-white/22 size-2.5"
+                      : isLearned
+                        ? "size-2.5 bg-white/40"
+                        : "size-2.5 bg-white/18"
                   )}
                   aria-current={isCurrent ? "step" : undefined}
                 />
@@ -246,57 +451,64 @@ export function StudyCard({ passages }: StudyCardProps) {
             classes.content
           )}
         >
-          {viewMode === "study" ? (
+          {viewMode === "phrase" ? (
             <div
-              className={cn(
-                "flex w-full touch-manipulation select-none flex-col",
-                classes.sectionGap
-              )}
+              className="flex w-full touch-manipulation select-none flex-col gap-3"
               onPointerCancel={endPeek}
               onPointerDown={beginPeek}
               onPointerLeave={endPeek}
               onPointerUp={endPeek}
             >
-              <div className="w-full">
-                <p className="text-white/52 text-xs font-semibold">한자</p>
-                <p
+              {phraseRows.map((row, rowIndex) => (
+                <div
                   className={cn(
-                    "mt-2 w-full max-w-full whitespace-pre-wrap break-keep font-black tracking-normal text-white",
-                    classes.hanja
+                    "flex w-full flex-wrap justify-center",
+                    classes.cellGap
                   )}
+                  key={`row-${rowIndex}`}
                 >
-                  {visibleAnswer ? passage.fullHanja : maskedHanja}
-                </p>
-              </div>
-
-              <div className="w-full">
-                <p className="text-white/52 text-xs font-semibold">소리</p>
-                <p
-                  className={cn(
-                    "mt-2 w-full max-w-full whitespace-pre-wrap break-keep font-bold tracking-normal text-white",
-                    classes.korean
+                  {row.map((cell) =>
+                    cell.type === "space" ? (
+                      <span className="w-2" key={cell.key} aria-hidden />
+                    ) : (
+                      <span
+                        className={cn(
+                          "flex flex-col items-center justify-start rounded-md border border-white/8 bg-black/18 px-1 py-1.5",
+                          classes.cell
+                        )}
+                        key={cell.key}
+                      >
+                        <span
+                          className={cn(
+                            "font-black tracking-normal text-white",
+                            classes.hanja
+                          )}
+                        >
+                          {cell.visible ? cell.hanja : "□"}
+                        </span>
+                        <span
+                          className={cn(
+                            "mt-1 min-h-[1em] whitespace-nowrap font-bold text-white/68",
+                            classes.reading
+                          )}
+                        >
+                          {cell.visible
+                            ? showCharacterMeaning
+                              ? cell.meaningSound
+                              : cell.reading
+                            : "□"}
+                        </span>
+                      </span>
+                    )
                   )}
-                >
-                  {visibleAnswer ? passage.fullKorean : maskedKorean}
-                </p>
-              </div>
-
-              <p className="text-white/48 text-sm font-semibold">
-                소리내어 말해보세요.
-              </p>
-              {!visibleAnswer ? (
-                <p className="text-xs font-semibold leading-none text-white/32">
-                  길게 눌러 슬쩍 보기
-                </p>
-              ) : null}
+                </div>
+              ))}
             </div>
           ) : null}
 
-          {viewMode === "translation" ? (
+          {viewMode === "meaning" ? (
             <div
-              className={cn(
-                "flex w-full touch-manipulation select-none flex-col gap-3"
-              )}
+              className="flex w-full touch-manipulation select-none flex-col"
               onPointerCancel={endPeek}
               onPointerDown={beginPeek}
               onPointerLeave={endPeek}
@@ -308,23 +520,8 @@ export function StudyCard({ passages }: StudyCardProps) {
                   classes.translation
                 )}
               >
-                {visibleAnswer ? fullTranslation : maskedTranslation}
+                {visibleAnswer ? passage.translation : maskedTranslation}
               </p>
-              {!visibleAnswer ? (
-                <p className="text-xs font-semibold leading-none text-white/32">
-                  길게 눌러 슬쩍 보기
-                </p>
-              ) : null}
-            </div>
-          ) : null}
-
-          {viewMode === "characters" ? (
-            <div className="text-white/84 flex w-full max-w-full flex-wrap justify-center gap-x-3 gap-y-2 px-1 text-[clamp(0.95rem,4vw,1.1rem)] font-semibold leading-7">
-              {passage.characters.map((character) => (
-                <span key={`${passage.id}-${character.character}`}>
-                  {character.character} {character.meaning} {character.sound}
-                </span>
-              ))}
             </div>
           ) : null}
         </section>
@@ -335,58 +532,40 @@ export function StudyCard({ passages }: StudyCardProps) {
             density === "short" || density === "medium" ? "gap-3" : "gap-2"
           )}
         >
-          <button
-            type="button"
-            className={cn(
-              "study-action-button",
-              isRevealed &&
-                "border-[rgb(var(--accent))] bg-[rgb(var(--accent))] text-black"
-            )}
-            onClick={toggleReveal}
-          >
-            <span aria-hidden>{isRevealed ? "🙈" : "👁"}</span>
-            {isRevealed ? "다시 덮기" : "슬쩍 보기"}
-          </button>
-          <button
-            type="button"
-            className={cn(
-              "study-action-button",
-              viewMode === "translation" && "border-white/24 bg-white/14"
-            )}
-            onClick={toggleTranslationMode}
-          >
-            {viewMode === "translation" ? "한자" : "바로뜻"}
-          </button>
-          <button
-            type="button"
-            className={cn(
-              "study-action-button",
-              viewMode === "characters" && "border-white/24 bg-white/14"
-            )}
-            onClick={toggleCharactersMode}
-          >
-            한자
-          </button>
-          <div className="relative">
-            {sparkleKey > 0 ? (
-              <div
-                key={sparkleKey}
-                className="study-sparkles pointer-events-none absolute -top-5 right-4 text-[rgb(var(--accent))]"
-                aria-hidden
-              >
-                <Sparkle className="study-sparkle study-sparkle-one size-3.5" />
-                <Sparkle className="study-sparkle study-sparkle-two size-3" />
-                <Sparkle className="study-sparkle study-sparkle-three size-2.5" />
-              </div>
-            ) : null}
+          <div className="grid grid-cols-2 rounded-lg border border-[#2A2A2A] bg-black/30 p-1">
             <button
               type="button"
-              className="study-action-button w-full bg-[rgb(var(--accent))] font-black text-black"
-              onClick={next}
+              className={cn(
+                "min-h-11 rounded-md px-2 text-sm font-black transition-colors",
+                viewMode === "phrase"
+                  ? "bg-white text-black"
+                  : "text-white/66 hover:text-white"
+              )}
+              onClick={() => switchMode("phrase")}
             >
-              다음!
+              한자 구절 보기
+            </button>
+            <button
+              type="button"
+              className={cn(
+                "min-h-11 rounded-md px-2 text-sm font-black transition-colors",
+                viewMode === "meaning"
+                  ? "bg-white text-black"
+                  : "text-white/66 hover:text-white"
+              )}
+              onClick={() => switchMode("meaning")}
+            >
+              한글 뜻 보기
             </button>
           </div>
+
+          <button
+            type="button"
+            className="study-action-button w-full bg-[rgb(var(--accent))] font-black text-black"
+            onClick={completeCurrentStep}
+          >
+            외웠어!
+          </button>
         </div>
       </div>
     </article>
