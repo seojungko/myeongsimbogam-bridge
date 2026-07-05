@@ -203,7 +203,7 @@ export function StudyCard({ passages }: StudyCardProps) {
             onClick={toggleReveal}
           >
             <span aria-hidden>{isRevealed ? "🙈" : "👁"}</span>
-            {isRevealed ? "다시 외워보기" : "펼쳐보기"}
+            {isRevealed ? "다시 덮기" : "슬쩍 보기"}
           </button>
           <button
             type="button"
@@ -213,7 +213,7 @@ export function StudyCard({ passages }: StudyCardProps) {
             )}
             onClick={toggleTranslationMode}
           >
-            {viewMode === "translation" ? "한자 보기" : "뜻 보기"}
+            {viewMode === "translation" ? "한자" : "바로뜻"}
           </button>
           <button
             type="button"
@@ -223,7 +223,7 @@ export function StudyCard({ passages }: StudyCardProps) {
             )}
             onClick={toggleCharactersMode}
           >
-            한자 뜻 보기
+            한자
           </button>
           <div className="relative">
             {sparkleKey > 0 ? (
