@@ -349,7 +349,7 @@ export function StudyCard({ passages }: StudyCardProps) {
               <p className="text-sm font-black text-white">도움말</p>
               <button
                 type="button"
-                className="flex size-9 items-center justify-center rounded-full border border-white/12 bg-white/8 text-base font-black text-white"
+                className="flex size-9 items-center justify-center rounded-full bg-white/10 text-base font-black text-white transition-colors active:bg-white/14"
                 onClick={() => setShowHelp(false)}
                 aria-label="도움말 닫기"
               >
@@ -370,7 +370,7 @@ export function StudyCard({ passages }: StudyCardProps) {
           <div className="grid grid-cols-[2.5rem_1fr_auto] items-center gap-2">
             <button
               type="button"
-              className="flex size-9 items-center justify-center rounded-full border border-white/12 bg-black/28 text-base font-black text-white"
+              className="flex size-9 items-center justify-center rounded-full bg-white/8 text-base font-black text-white transition-colors active:bg-white/12"
               onClick={() => setShowHelp(true)}
               aria-label="도움말 열기"
             >
@@ -382,10 +382,10 @@ export function StudyCard({ passages }: StudyCardProps) {
             <button
               type="button"
               className={cn(
-                "h-9 rounded-full border px-3 text-sm font-black transition-colors",
+                "h-9 rounded-full px-3 text-sm font-black transition-colors",
                 showCharacterMeaning
-                  ? "border-[rgb(var(--accent))] bg-[rgb(var(--accent))] text-black"
-                  : "border-white/12 bg-black/28 text-white"
+                  ? "bg-[rgb(var(--accent))] text-black"
+                  : "bg-white/8 text-white/78 active:bg-white/12"
               )}
               onClick={() => setShowCharacterMeaning((current) => !current)}
               aria-pressed={showCharacterMeaning}
@@ -397,7 +397,7 @@ export function StudyCard({ passages }: StudyCardProps) {
           <div className="mt-2 grid grid-cols-[2.5rem_1fr_2.5rem] items-center gap-2">
             <button
               type="button"
-              className="flex size-9 items-center justify-center rounded-full border border-white/12 bg-black/28 text-xl font-black text-white disabled:opacity-28"
+              className="flex size-9 items-center justify-center rounded-full bg-white/8 text-xl font-black text-white transition-colors active:bg-white/12 disabled:pointer-events-none disabled:opacity-30"
               onClick={() => moveToRecord(currentIndex - 1)}
               disabled={isFirstRecord}
               aria-label="이전 카드"
@@ -409,7 +409,7 @@ export function StudyCard({ passages }: StudyCardProps) {
             </p>
             <button
               type="button"
-              className="flex size-9 items-center justify-center rounded-full border border-white/12 bg-black/28 text-xl font-black text-white disabled:opacity-28"
+              className="flex size-9 items-center justify-center rounded-full bg-white/8 text-xl font-black text-white transition-colors active:bg-white/12 disabled:pointer-events-none disabled:opacity-30"
               onClick={() => moveToRecord(currentIndex + 1)}
               disabled={isLastRecord}
               aria-label="다음 카드"
@@ -532,14 +532,14 @@ export function StudyCard({ passages }: StudyCardProps) {
             density === "short" || density === "medium" ? "gap-3" : "gap-2"
           )}
         >
-          <div className="grid grid-cols-2 rounded-lg border border-[#2A2A2A] bg-black/30 p-1">
+          <div className="grid grid-cols-2 gap-1 rounded-lg bg-white/5 p-1">
             <button
               type="button"
               className={cn(
                 "min-h-11 rounded-md px-2 text-sm font-black transition-colors",
                 viewMode === "phrase"
-                  ? "bg-white text-black"
-                  : "text-white/66 hover:text-white"
+                  ? "bg-[rgb(var(--accent))] text-black"
+                  : "bg-white/8 text-white/70 hover:bg-white/10 hover:text-white"
               )}
               onClick={() => switchMode("phrase")}
             >
@@ -550,8 +550,8 @@ export function StudyCard({ passages }: StudyCardProps) {
               className={cn(
                 "min-h-11 rounded-md px-2 text-sm font-black transition-colors",
                 viewMode === "meaning"
-                  ? "bg-white text-black"
-                  : "text-white/66 hover:text-white"
+                  ? "bg-[rgb(var(--accent))] text-black"
+                  : "bg-white/8 text-white/70 hover:bg-white/10 hover:text-white"
               )}
               onClick={() => switchMode("meaning")}
             >
