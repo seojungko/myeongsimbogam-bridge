@@ -11,6 +11,10 @@ export const metadata: Metadata = {
   },
   description: APP_DESCRIPTION,
   manifest: "/manifest.webmanifest",
+  robots: {
+    index: false,
+    follow: false
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
