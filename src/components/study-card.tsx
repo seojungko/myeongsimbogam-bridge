@@ -10,6 +10,7 @@ type StudyCardProps = {
 
 type StudyViewMode = "phrase" | "meaning";
 type CardDensity = "short" | "medium" | "long" | "extraLong";
+type HanjaRowFit = "normal" | "compact" | "tight" | "wrap";
 type MaskedTranslationPart =
   | {
       key: string;
@@ -38,6 +39,11 @@ type PhraseCell =
       key: string;
       type: "space";
     };
+type PhraseRow = {
+  cells: PhraseCell[];
+  fit: HanjaRowFit;
+  key: string;
+};
 
 const LEARNED_RECORD_IDS_KEY = "bridge.learnedRecordIds";
 
@@ -96,6 +102,61 @@ const densityClasses: Record<
   }
 };
 
+const rowFitClasses: Record<
+  HanjaRowFit,
+  {
+    cell: string;
+    cellGap: string;
+    cellFrame: string;
+    hanja: string;
+    padding: string;
+    reading: string;
+    row: string;
+    space: string;
+  }
+> = {
+  normal: {
+    cell: "",
+    cellGap: "",
+    cellFrame: "",
+    hanja: "",
+    padding: "px-1 py-1.5",
+    reading: "",
+    row: "flex-wrap",
+    space: "w-2"
+  },
+  compact: {
+    cell: "w-[1.84rem]",
+    cellGap: "gap-x-1 gap-y-2.5",
+    cellFrame: "h-[3.65rem]",
+    hanja: "text-[clamp(1.3rem,5.2vw,1.74rem)]",
+    padding: "px-0.5 py-1",
+    reading: "text-[clamp(0.72rem,2.8vw,0.9rem)]",
+    row: "flex-nowrap",
+    space: "w-1.5"
+  },
+  tight: {
+    cell: "w-[1.54rem]",
+    cellGap: "gap-x-0.5 gap-y-2",
+    cellFrame: "h-[3.25rem]",
+    hanja: "text-[clamp(1.1rem,4.5vw,1.46rem)]",
+    padding: "px-0.5 py-1",
+    reading: "text-[clamp(0.66rem,2.55vw,0.8rem)]",
+    row: "flex-nowrap",
+    space: "w-1"
+  },
+  wrap: {
+    cell: "",
+    cellGap: "gap-x-1 gap-y-2",
+    cellFrame: "",
+    hanja: "",
+    padding: "px-1 py-1.5",
+    reading: "",
+    row: "flex-wrap",
+    space: "w-1.5"
+  }
+};
+
 function countVisibleCharacters(value: string) {
   return Array.from(value).filter((character) => !/\s/.test(character)).length;
 }
@@ -146,6 +207,24 @@ function getVisibleOffsets(fullText: string, prompt: string) {
   return visibleOffsets;
 }
 
+function getHanjaRowFit(cells: PhraseCell[]): HanjaRowFit {
+  const characterCount = cells.filter((cell) => cell.type === "character").length;
+
+  if (characterCount <= 6) {
+    return "normal";
+  }
+
+  if (characterCount <= 8) {
+    return "compact";
+  }
+
+  if (characterCount <= 10) {
+    return "tight";
+  }
+
+  return "wrap";
+}
+
 function buildPhraseRows(passage: StudyPageRecord, visibleAnswer: boolean) {
   const rows: PhraseCell[][] = [[]];
   const readings = Array.from(passage.fullKorean).filter(
@@ -188,7 +267,15 @@ function buildPhraseRows(passage: StudyPageRecord, visibleAnswer: boolean) {
     textOffset += hanja.length;
   }
 
-  return rows.filter((row) => row.length > 0);
+  return rows
+    .filter((row) => row.length > 0)
+    .map(
+      (row, rowIndex): PhraseRow => ({
+        cells: row,
+        fit: getHanjaRowFit(row),
+        key: `row-${rowIndex}`
+      })
+    );
 }
 
 function getCoverWidthEm(value: string) {
@@ -478,59 +565,74 @@ export function StudyCard({ passages }: StudyCardProps) {
         >
           {viewMode === "phrase" ? (
             <div className="flex w-full flex-col gap-3">
-              {phraseRows.map((row, rowIndex) => (
-                <div
-                  className={cn(
-                    "flex w-full flex-wrap justify-center",
-                    classes.cellGap
-                  )}
-                  key={`row-${rowIndex}`}
-                >
-                  {row.map((cell) =>
-                    cell.type === "space" ? (
-                      <span className="w-2" key={cell.key} aria-hidden />
-                    ) : (
-                      <span
-                        className={cn(
-                          "flex shrink-0 flex-col items-center justify-between overflow-hidden rounded-md border border-transparent px-1 py-1.5",
-                          classes.cell,
-                          classes.cellFrame
-                        )}
-                        key={cell.key}
-                      >
-                        {cell.visible ? (
-                          <>
+              {phraseRows.map((row) => {
+                const fitClasses = rowFitClasses[row.fit];
+                const cellClass = fitClasses.cell || classes.cell;
+                const cellFrameClass = fitClasses.cellFrame || classes.cellFrame;
+                const cellGapClass = fitClasses.cellGap || classes.cellGap;
+                const hanjaClass = fitClasses.hanja || classes.hanja;
+                const readingClass = fitClasses.reading || classes.reading;
+
+                return (
+                  <div
+                    className={cn(
+                      "flex w-full justify-center",
+                      cellGapClass,
+                      fitClasses.row
+                    )}
+                    key={row.key}
+                  >
+                    {row.cells.map((cell) =>
+                      cell.type === "space" ? (
+                        <span
+                          className={fitClasses.space}
+                          key={cell.key}
+                          aria-hidden
+                        />
+                      ) : (
+                        <span
+                          className={cn(
+                            "flex shrink-0 flex-col items-center justify-between overflow-hidden rounded-md border border-transparent",
+                            fitClasses.padding,
+                            cellClass,
+                            cellFrameClass
+                          )}
+                          key={cell.key}
+                        >
+                          {cell.visible ? (
+                            <>
+                              <span
+                                className={cn(
+                                  "flex min-h-0 flex-1 items-center font-black tracking-normal text-white",
+                                  hanjaClass
+                                )}
+                              >
+                                {cell.hanja}
+                              </span>
+                              <span
+                                className={cn(
+                                  "flex h-[1.25em] max-w-full shrink-0 items-center overflow-hidden whitespace-nowrap font-bold text-white/68",
+                                  readingClass
+                                )}
+                              >
+                                {cell.reading}
+                              </span>
+                            </>
+                          ) : (
                             <span
                               className={cn(
-                                "flex min-h-0 flex-1 items-center font-black tracking-normal text-white",
-                                classes.hanja
+                                "block w-full rounded bg-white/10",
+                                classes.placeholder
                               )}
-                            >
-                              {cell.hanja}
-                            </span>
-                            <span
-                              className={cn(
-                                "flex h-[1.25em] max-w-full shrink-0 items-center overflow-hidden whitespace-nowrap font-bold text-white/68",
-                                classes.reading
-                              )}
-                            >
-                              {cell.reading}
-                            </span>
-                          </>
-                        ) : (
-                          <span
-                            className={cn(
-                              "block w-full rounded bg-white/10",
-                              classes.placeholder
-                            )}
-                            aria-hidden
-                          />
-                        )}
-                      </span>
-                    )
-                  )}
-                </div>
-              ))}
+                              aria-hidden
+                            />
+                          )}
+                        </span>
+                      )
+                    )}
+                  </div>
+                );
+              })}
             </div>
           ) : null}
 
