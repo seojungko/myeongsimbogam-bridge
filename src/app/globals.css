@@ -148,6 +148,12 @@ a {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(6.25rem, 1.15fr);
   }
 
+  .study-character-reference {
+    grid-column: 1 / -1;
+    justify-self: center;
+    padding-block: 0;
+  }
+
   .study-mode-switch {
     display: contents;
   }

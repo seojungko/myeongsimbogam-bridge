@@ -238,8 +238,9 @@ function writeLearnedRecordIds(recordIds: Set<string>) {
 
 export function StudyCard({ passages }: StudyCardProps) {
   const [pageIndex, setPageIndex] = useState(0);
+  const [isCharacterMeaningPeeking, setIsCharacterMeaningPeeking] =
+    useState(false);
   const [isPeeking, setIsPeeking] = useState(false);
-  const [showCharacterMeaning, setShowCharacterMeaning] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [viewMode, setViewMode] = useState<StudyViewMode>("phrase");
   const [learnedRecordIds, setLearnedRecordIds] = useState<Set<string>>(
@@ -266,12 +267,16 @@ export function StudyCard({ passages }: StudyCardProps) {
   const density = getCardDensity(passage);
   const classes = densityClasses[density];
   const progressPercent = ((currentIndex + 1) / totalPages) * 100;
-  const visibleAnswer = isPeeking;
+  const isPhraseMode = viewMode === "phrase";
+  const isMeaningMode = viewMode === "meaning";
+  const visibleAnswer = isPeeking || isCharacterMeaningPeeking;
+  const phraseAnswerVisible = isPhraseMode && visibleAnswer;
+  const meaningAnswerVisible = isMeaningMode && isPeeking;
   const maskedTranslation = maskAfterPrompt(
     passage.translation,
     passage.promptTranslation
   );
-  const phraseRows = buildPhraseRows(passage, visibleAnswer);
+  const phraseRows = buildPhraseRows(passage, phraseAnswerVisible);
   const isFirstRecord = currentIndex === 0;
   const isLastRecord = currentIndex === totalPages - 1;
 
@@ -283,6 +288,7 @@ export function StudyCard({ passages }: StudyCardProps) {
     }
 
     setIsPeeking(false);
+    setIsCharacterMeaningPeeking(false);
     setPageIndex(boundedIndex);
     setIsTurningPage(true);
     window.setTimeout(() => setIsTurningPage(false), 220);
@@ -290,6 +296,7 @@ export function StudyCard({ passages }: StudyCardProps) {
 
   function switchMode(nextMode: StudyViewMode) {
     setIsPeeking(false);
+    setIsCharacterMeaningPeeking(false);
     setViewMode(nextMode);
   }
 
@@ -302,6 +309,7 @@ export function StudyCard({ passages }: StudyCardProps) {
 
   function completeCurrentStep() {
     setIsPeeking(false);
+    setIsCharacterMeaningPeeking(false);
 
     if (viewMode === "phrase") {
       setViewMode("meaning");
@@ -325,6 +333,15 @@ export function StudyCard({ passages }: StudyCardProps) {
 
   function endPeek() {
     setIsPeeking(false);
+  }
+
+  function beginCharacterMeaningPeek() {
+    setIsPeeking(false);
+    setIsCharacterMeaningPeeking(true);
+  }
+
+  function endCharacterMeaningPeek() {
+    setIsCharacterMeaningPeeking(false);
   }
 
   return (
@@ -355,7 +372,7 @@ export function StudyCard({ passages }: StudyCardProps) {
             <ul className="space-y-2 text-sm font-semibold leading-6 text-white/76">
               <li>길게 누르면 답을 잠깐 볼 수 있어요.</li>
               <li>손을 떼면 다시 가려져요.</li>
-              <li>한자 뜻 표시를 켜면 한자 아래에 뜻과 음이 보여요.</li>
+              <li>한자 뜻은 아래 문장을 길게 누르면 볼 수 있어요.</li>
             </ul>
           </div>
         </div>
@@ -363,49 +380,39 @@ export function StudyCard({ passages }: StudyCardProps) {
 
       <div className="relative z-10 flex min-h-0 w-full flex-col">
         <header className="study-card-header shrink-0">
-          <div className="grid grid-cols-[2.25rem_2.25rem_1fr_2.25rem_auto] items-center gap-1.5">
+          <div className="grid grid-cols-[2.25rem_1fr_2.25rem] items-center gap-1.5">
             <button
               type="button"
               className="flex size-9 items-center justify-center rounded-full bg-white/8 text-base font-black text-white transition-colors active:bg-white/12"
               onClick={() => setShowHelp(true)}
               aria-label="도움말 열기"
             >
-              ℹ️
+              ⓘ
             </button>
-            <button
-              type="button"
-              className="flex size-9 items-center justify-center rounded-full bg-white/8 text-lg font-black text-white transition-colors active:bg-white/12 disabled:pointer-events-none disabled:opacity-30"
-              onClick={() => moveToRecord(currentIndex - 1)}
-              disabled={isFirstRecord}
-              aria-label="이전 카드"
-            >
-              ←
-            </button>
-            <p className="text-center text-base font-bold text-white">
-              {passage.page}페이지 · {currentIndex + 1}/{totalPages}
-            </p>
-            <button
-              type="button"
-              className="flex size-9 items-center justify-center rounded-full bg-white/8 text-lg font-black text-white transition-colors active:bg-white/12 disabled:pointer-events-none disabled:opacity-30"
-              onClick={() => moveToRecord(currentIndex + 1)}
-              disabled={isLastRecord}
-              aria-label="다음 카드"
-            >
-              →
-            </button>
-            <button
-              type="button"
-              className={cn(
-                "h-9 whitespace-nowrap rounded-full px-2.5 text-[0.72rem] font-black transition-colors",
-                showCharacterMeaning
-                  ? "bg-[rgb(var(--accent))] text-black"
-                  : "bg-white/8 text-white/78 active:bg-white/12"
-              )}
-              onClick={() => setShowCharacterMeaning((current) => !current)}
-              aria-pressed={showCharacterMeaning}
-            >
-              한자 뜻 표시
-            </button>
+            <div className="flex min-w-0 items-center justify-center gap-2">
+              <button
+                type="button"
+                className="flex size-9 items-center justify-center rounded-full bg-white/8 text-base font-black text-white transition-colors active:bg-white/12 disabled:pointer-events-none disabled:opacity-30"
+                onClick={() => moveToRecord(currentIndex - 1)}
+                disabled={isFirstRecord}
+                aria-label="이전 카드"
+              >
+                ⬅️
+              </button>
+              <p className="min-w-0 text-center text-base font-bold text-white">
+                {passage.page}페이지 · {currentIndex + 1}/{totalPages}
+              </p>
+              <button
+                type="button"
+                className="flex size-9 items-center justify-center rounded-full bg-white/8 text-base font-black text-white transition-colors active:bg-white/12 disabled:pointer-events-none disabled:opacity-30"
+                onClick={() => moveToRecord(currentIndex + 1)}
+                disabled={isLastRecord}
+                aria-label="다음 카드"
+              >
+                ➡️
+              </button>
+            </div>
+            <div className="size-9" aria-hidden />
           </div>
 
           <div
@@ -469,7 +476,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                                 classes.reading
                               )}
                             >
-                              {showCharacterMeaning
+                              {isCharacterMeaningPeeking
                                 ? cell.meaningSound
                                 : cell.reading}
                             </span>
@@ -508,13 +515,27 @@ export function StudyCard({ passages }: StudyCardProps) {
                   classes.translation
                 )}
               >
-                {visibleAnswer ? passage.translation : maskedTranslation}
+                {meaningAnswerVisible ? passage.translation : maskedTranslation}
               </p>
             </div>
           ) : null}
         </section>
 
         <div className="study-card-actions shrink-0">
+          {viewMode === "phrase" ? (
+            <button
+              type="button"
+              className="study-character-reference self-center touch-manipulation select-none bg-transparent px-2 py-1 text-xs font-semibold text-white/45 underline underline-offset-4 transition-colors active:text-white/75"
+              aria-label="길게 눌러 한자 뜻 보기"
+              onPointerCancel={endCharacterMeaningPeek}
+              onPointerDown={beginCharacterMeaningPeek}
+              onPointerLeave={endCharacterMeaningPeek}
+              onPointerUp={endCharacterMeaningPeek}
+            >
+              한자 뜻도 알고 싶어요.
+            </button>
+          ) : null}
+
           <div className="study-mode-switch rounded-lg bg-white/5 p-1">
             <button
               type="button"
