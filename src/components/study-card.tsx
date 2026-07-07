@@ -14,7 +14,6 @@ type PhraseCell =
   | {
       hanja: string;
       key: string;
-      meaningSound: string;
       reading: string;
       type: "character";
       visible: boolean;
@@ -129,15 +128,6 @@ function maskAfterPrompt(fullText: string, prompt: string) {
   return `${maskVisibleCharacters(beforePrompt)}${prompt}${maskVisibleCharacters(afterPrompt)}`;
 }
 
-function getCharacterInfo(passage: StudyPageRecord) {
-  return new Map(
-    passage.characters.map((character) => [
-      character.character,
-      `${character.meaning} ${character.sound}`
-    ])
-  );
-}
-
 function getVisibleOffsets(fullText: string, prompt: string) {
   const promptIndex = prompt.length > 0 ? fullText.indexOf(prompt) : -1;
 
@@ -171,7 +161,6 @@ function buildPhraseRows(passage: StudyPageRecord, visibleAnswer: boolean) {
   const visibleOffsets = visibleAnswer
     ? null
     : getVisibleOffsets(passage.fullHanja, passage.promptHanja);
-  const characterInfo = getCharacterInfo(passage);
   let textOffset = 0;
   let readingIndex = 0;
 
@@ -197,7 +186,6 @@ function buildPhraseRows(passage: StudyPageRecord, visibleAnswer: boolean) {
     rows[rows.length - 1].push({
       hanja,
       key: `character-${textOffset}-${hanja}`,
-      meaningSound: characterInfo.get(hanja) ?? reading,
       reading,
       type: "character",
       visible: isVisible
@@ -428,7 +416,7 @@ export function StudyCard({ passages }: StudyCardProps) {
 
         <section
           className={cn(
-            "study-page-content flex min-h-0 flex-1 flex-col items-center text-center",
+            "study-page-content relative flex min-h-0 flex-1 flex-col items-center text-center",
             density === "extraLong" ? "justify-start" : "justify-center",
             "touch-manipulation select-none",
             classes.content
@@ -476,9 +464,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                                 classes.reading
                               )}
                             >
-                              {isCharacterMeaningPeeking
-                                ? cell.meaningSound
-                                : cell.reading}
+                              {cell.reading}
                             </span>
                           </>
                         ) : (
@@ -517,6 +503,24 @@ export function StudyCard({ passages }: StudyCardProps) {
               >
                 {meaningAnswerVisible ? passage.translation : maskedTranslation}
               </p>
+            </div>
+          ) : null}
+
+          {isCharacterMeaningPeeking && viewMode === "phrase" ? (
+            <div className="pointer-events-none absolute inset-x-2 bottom-2 z-20 rounded-lg border border-white/5 bg-black/70 px-3 py-2 text-left shadow-soft backdrop-blur-sm">
+              <div className="flex flex-wrap gap-x-3 gap-y-1.5 text-[0.78rem] font-semibold leading-5 text-white/78">
+                {passage.characters.map((character) => (
+                  <span
+                    className="whitespace-normal break-keep"
+                    key={`${passage.id}-${character.character}-${character.sound}`}
+                  >
+                    <span className="font-black text-white">
+                      {character.character}
+                    </span>{" "}
+                    {character.meaning} {character.sound}
+                  </span>
+                ))}
+              </div>
             </div>
           ) : null}
         </section>
