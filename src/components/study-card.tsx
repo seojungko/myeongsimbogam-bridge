@@ -10,6 +10,22 @@ type StudyCardProps = {
 
 type StudyViewMode = "phrase" | "meaning";
 type CardDensity = "short" | "medium" | "long" | "extraLong";
+type MaskedTranslationPart =
+  | {
+      key: string;
+      type: "cover";
+      widthEm: number;
+    }
+  | {
+      key: string;
+      type: "space";
+      value: string;
+    }
+  | {
+      key: string;
+      type: "visible";
+      value: string;
+    };
 type PhraseCell =
   | {
       hanja: string;
@@ -105,29 +121,6 @@ function getCardDensity(passage: StudyPageRecord): CardDensity {
   return "short";
 }
 
-function maskVisibleCharacters(value: string) {
-  return Array.from(value)
-    .map((character) => (/\s/.test(character) ? character : "□"))
-    .join("");
-}
-
-function maskAfterPrompt(fullText: string, prompt: string) {
-  if (prompt.length === 0) {
-    return maskVisibleCharacters(fullText);
-  }
-
-  const promptIndex = fullText.indexOf(prompt);
-
-  if (promptIndex === -1) {
-    return maskVisibleCharacters(fullText);
-  }
-
-  const beforePrompt = fullText.slice(0, promptIndex);
-  const afterPrompt = fullText.slice(promptIndex + prompt.length);
-
-  return `${maskVisibleCharacters(beforePrompt)}${prompt}${maskVisibleCharacters(afterPrompt)}`;
-}
-
 function getVisibleOffsets(fullText: string, prompt: string) {
   const promptIndex = prompt.length > 0 ? fullText.indexOf(prompt) : -1;
 
@@ -198,6 +191,63 @@ function buildPhraseRows(passage: StudyPageRecord, visibleAnswer: boolean) {
   return rows.filter((row) => row.length > 0);
 }
 
+function getCoverWidthEm(value: string) {
+  const visibleCharacters = Array.from(value).filter(
+    (character) => !/\s/.test(character)
+  ).length;
+
+  return Math.min(Math.max(visibleCharacters * 0.5, 1.2), 6.8);
+}
+
+function buildCoveredTranslationParts(value: string, keyPrefix: string) {
+  const parts: MaskedTranslationPart[] = [];
+  const tokens = value.match(/\s+|\S+/gu) ?? [];
+
+  tokens.forEach((token, index) => {
+    if (/^\s+$/u.test(token)) {
+      parts.push({
+        key: `${keyPrefix}-space-${index}`,
+        type: "space",
+        value: token
+      });
+      return;
+    }
+
+    parts.push({
+      key: `${keyPrefix}-cover-${index}`,
+      type: "cover",
+      widthEm: getCoverWidthEm(token)
+    });
+  });
+
+  return parts;
+}
+
+function buildMaskedTranslationParts(fullText: string, prompt: string) {
+  if (prompt.length === 0) {
+    return buildCoveredTranslationParts(fullText, "full");
+  }
+
+  const promptIndex = fullText.indexOf(prompt);
+
+  if (promptIndex === -1) {
+    return buildCoveredTranslationParts(fullText, "full");
+  }
+
+  const beforePrompt = fullText.slice(0, promptIndex);
+  const afterPrompt = fullText.slice(promptIndex + prompt.length);
+
+  return [
+    ...buildCoveredTranslationParts(beforePrompt, "before"),
+    {
+      key: "prompt",
+      type: "visible" as const,
+      value: prompt
+    },
+    ...buildCoveredTranslationParts(afterPrompt, "after")
+  ];
+}
+
 function readLearnedRecordIds() {
   if (typeof window === "undefined") {
     return new Set<string>();
@@ -260,7 +310,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   const visibleAnswer = isPeeking || isCharacterMeaningPeeking;
   const phraseAnswerVisible = isPhraseMode && visibleAnswer;
   const meaningAnswerVisible = isMeaningMode && isPeeking;
-  const maskedTranslation = maskAfterPrompt(
+  const maskedTranslationParts = buildMaskedTranslationParts(
     passage.translation,
     passage.promptTranslation
   );
@@ -495,14 +545,37 @@ export function StudyCard({ passages }: StudyCardProps) {
               >
                 {passage.translation}
               </p>
-              <p
+              <div
                 className={cn(
                   "absolute inset-x-0 top-0 w-full max-w-full whitespace-pre-wrap break-keep px-1 font-semibold text-white/84",
                   classes.translation
                 )}
               >
-                {meaningAnswerVisible ? passage.translation : maskedTranslation}
-              </p>
+                {meaningAnswerVisible
+                  ? passage.translation
+                  : maskedTranslationParts.map((part) => {
+                      if (part.type === "visible") {
+                        return (
+                          <span className="text-white/88" key={part.key}>
+                            {part.value}
+                          </span>
+                        );
+                      }
+
+                      if (part.type === "space") {
+                        return <span key={part.key}>{part.value}</span>;
+                      }
+
+                      return (
+                        <span
+                          className="inline-block h-[0.72em] rounded bg-white/10 align-middle"
+                          key={part.key}
+                          style={{ width: `${part.widthEm}em` }}
+                          aria-hidden
+                        />
+                      );
+                    })}
+              </div>
             </div>
           ) : null}
 
