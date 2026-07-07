@@ -12,7 +12,7 @@ Bridge is organized around long-lived product boundaries rather than one-off scr
 
 ## PWA Strategy
 
-The first production version uses a small static service worker in `public/sw.js`. It caches the app shell and falls back to `/` when a network request fails. As offline study flows become richer, replace the static cache list with a build-aware strategy or a maintained PWA package.
+Bridge keeps the installable web app manifest, but service worker app-shell caching is disabled during active UI development. `public/sw.js` exists only as a cleanup script for browsers that previously installed the old worker. When offline study flows become stable, reintroduce caching with a build-aware strategy or a maintained PWA package.
 
 ## Theme Strategy
 

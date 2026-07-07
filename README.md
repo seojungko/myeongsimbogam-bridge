@@ -9,7 +9,7 @@ Bridge is a mobile-first Next.js 15 PWA for studying and memorizing selected pas
 - Next.js 15 App Router
 - TypeScript
 - Tailwind CSS
-- Installable PWA with static service worker
+- Installable PWA manifest with service worker caching disabled during active development
 - ESLint and Prettier
 
 ## Getting Started
@@ -29,7 +29,7 @@ src/components Shared UI and feature components
 dataset        Typed study records, JSON source, and loader
 src/lib        Utilities and app constants
 docs           Architecture and product notes
-public         PWA manifest, service worker, icons
+public         PWA manifest, service-worker cleanup script, icons
 ```
 
 ## Production Checks
