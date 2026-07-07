@@ -10,7 +10,7 @@ type StudyCardProps = {
 
 type StudyViewMode = "phrase" | "meaning";
 type CardDensity = "short" | "medium" | "long" | "extraLong";
-type HanjaRowFit = "normal" | "compact" | "tight" | "wrap";
+type HanjaSizeTier = "large" | "mediumLarge" | "medium" | "compact";
 type MaskedTranslationPart =
   | {
       key: string;
@@ -41,8 +41,11 @@ type PhraseCell =
     };
 type PhraseRow = {
   cells: PhraseCell[];
-  fit: HanjaRowFit;
   key: string;
+};
+type PhraseLayout = {
+  rows: PhraseRow[];
+  sizeTier: HanjaSizeTier;
 };
 
 const LEARNED_RECORD_IDS_KEY = "bridge.learnedRecordIds";
@@ -102,8 +105,8 @@ const densityClasses: Record<
   }
 };
 
-const rowFitClasses: Record<
-  HanjaRowFit,
+const hanjaSizeClasses: Record<
+  HanjaSizeTier,
   {
     cell: string;
     cellGap: string;
@@ -112,47 +115,52 @@ const rowFitClasses: Record<
     padding: string;
     reading: string;
     row: string;
+    rowGap: string;
     space: string;
   }
 > = {
-  normal: {
-    cell: "",
-    cellGap: "",
-    cellFrame: "",
-    hanja: "",
+  large: {
+    cell: "w-[2.16rem]",
+    cellGap: "gap-x-1.5",
+    cellFrame: "h-[4.1rem]",
+    hanja: "text-[clamp(1.5rem,6.2vw,2.05rem)] leading-none",
     padding: "px-1 py-1.5",
-    reading: "",
-    row: "flex-wrap",
+    reading: "text-[clamp(0.78rem,3vw,0.98rem)] leading-tight",
+    row: "flex-nowrap",
+    rowGap: "gap-3",
     space: "w-2"
   },
-  compact: {
+  mediumLarge: {
     cell: "w-[1.84rem]",
-    cellGap: "gap-x-1 gap-y-2.5",
+    cellGap: "gap-x-1",
     cellFrame: "h-[3.65rem]",
-    hanja: "text-[clamp(1.3rem,5.2vw,1.74rem)]",
+    hanja: "text-[clamp(1.3rem,5.2vw,1.74rem)] leading-none",
     padding: "px-0.5 py-1",
-    reading: "text-[clamp(0.72rem,2.8vw,0.9rem)]",
+    reading: "text-[clamp(0.72rem,2.8vw,0.9rem)] leading-tight",
     row: "flex-nowrap",
+    rowGap: "gap-2.5",
     space: "w-1.5"
   },
-  tight: {
-    cell: "w-[1.54rem]",
-    cellGap: "gap-x-0.5 gap-y-2",
-    cellFrame: "h-[3.25rem]",
-    hanja: "text-[clamp(1.1rem,4.5vw,1.46rem)]",
+  medium: {
+    cell: "w-[1.62rem]",
+    cellGap: "gap-x-0.5",
+    cellFrame: "h-[3.3rem]",
+    hanja: "text-[clamp(1.16rem,4.8vw,1.54rem)] leading-none",
     padding: "px-0.5 py-1",
-    reading: "text-[clamp(0.66rem,2.55vw,0.8rem)]",
+    reading: "text-[clamp(0.66rem,2.55vw,0.82rem)] leading-tight",
     row: "flex-nowrap",
+    rowGap: "gap-2",
     space: "w-1"
   },
-  wrap: {
-    cell: "",
-    cellGap: "gap-x-1 gap-y-2",
-    cellFrame: "",
-    hanja: "",
-    padding: "px-1 py-1.5",
-    reading: "",
+  compact: {
+    cell: "w-[1.44rem]",
+    cellGap: "gap-x-1 gap-y-1.5",
+    cellFrame: "h-[2.9rem]",
+    hanja: "text-[clamp(1.02rem,4vw,1.35rem)] leading-none",
+    padding: "px-0.5 py-1",
+    reading: "text-[clamp(0.62rem,2.3vw,0.74rem)] leading-tight",
     row: "flex-wrap",
+    rowGap: "gap-1.5",
     space: "w-1.5"
   }
 };
@@ -207,25 +215,102 @@ function getVisibleOffsets(fullText: string, prompt: string) {
   return visibleOffsets;
 }
 
-function getHanjaRowFit(cells: PhraseCell[]): HanjaRowFit {
-  const characterCount = cells.filter((cell) => cell.type === "character").length;
-
-  if (characterCount <= 6) {
-    return "normal";
-  }
-
-  if (characterCount <= 8) {
-    return "compact";
-  }
-
-  if (characterCount <= 10) {
-    return "tight";
-  }
-
-  return "wrap";
+function countHanjaCells(cells: PhraseCell[]) {
+  return cells.filter((cell) => cell.type === "character").length;
 }
 
-function buildPhraseRows(passage: StudyPageRecord, visibleAnswer: boolean) {
+function splitPhraseRow(cells: PhraseCell[]) {
+  if (countHanjaCells(cells) <= 9) {
+    return [cells];
+  }
+
+  const phrases: PhraseCell[][] = [];
+  let currentPhrase: PhraseCell[] = [];
+
+  cells.forEach((cell) => {
+    if (cell.type === "space") {
+      if (currentPhrase.length > 0) {
+        phrases.push(currentPhrase);
+        currentPhrase = [];
+      }
+
+      return;
+    }
+
+    currentPhrase.push(cell);
+  });
+
+  if (currentPhrase.length > 0) {
+    phrases.push(currentPhrase);
+  }
+
+  if (phrases.length <= 1) {
+    return [cells];
+  }
+
+  const visualRows: PhraseCell[][] = [];
+  let currentRow: PhraseCell[] = [];
+  let currentCount = 0;
+
+  phrases.forEach((phrase, phraseIndex) => {
+    const phraseCount = countHanjaCells(phrase);
+    const canJoin = currentCount > 0 && currentCount + phraseCount <= 9;
+
+    if (currentRow.length === 0) {
+      currentRow = [...phrase];
+      currentCount = phraseCount;
+      return;
+    }
+
+    if (canJoin) {
+      currentRow.push(
+        {
+          key: `visual-space-${visualRows.length}-${phraseIndex}`,
+          type: "space"
+        },
+        ...phrase
+      );
+      currentCount += phraseCount;
+      return;
+    }
+
+    visualRows.push(currentRow);
+    currentRow = [...phrase];
+    currentCount = phraseCount;
+  });
+
+  if (currentRow.length > 0) {
+    visualRows.push(currentRow);
+  }
+
+  return visualRows;
+}
+
+function getHanjaSizeTier(rows: PhraseRow[]): HanjaSizeTier {
+  const maxCharacterCount = Math.max(
+    ...rows.map((row) => countHanjaCells(row.cells)),
+    0
+  );
+
+  if (maxCharacterCount <= 7) {
+    return "large";
+  }
+
+  if (maxCharacterCount === 8) {
+    return "mediumLarge";
+  }
+
+  if (maxCharacterCount === 9) {
+    return "medium";
+  }
+
+  return "compact";
+}
+
+function buildPhraseLayout(
+  passage: StudyPageRecord,
+  visibleAnswer: boolean
+): PhraseLayout {
   const rows: PhraseCell[][] = [[]];
   const readings = Array.from(passage.fullKorean).filter(
     (character) => !/\s/.test(character)
@@ -267,15 +352,18 @@ function buildPhraseRows(passage: StudyPageRecord, visibleAnswer: boolean) {
     textOffset += hanja.length;
   }
 
-  return rows
+  const visualRows = rows
     .filter((row) => row.length > 0)
-    .map(
-      (row, rowIndex): PhraseRow => ({
-        cells: row,
-        fit: getHanjaRowFit(row),
-        key: `row-${rowIndex}`
-      })
-    );
+    .flatMap((row) => splitPhraseRow(row))
+    .map((row, rowIndex): PhraseRow => ({
+      cells: row,
+      key: `row-${rowIndex}`
+    }));
+
+  return {
+    rows: visualRows,
+    sizeTier: getHanjaSizeTier(visualRows)
+  };
 }
 
 function getCoverWidthEm(value: string) {
@@ -401,7 +489,8 @@ export function StudyCard({ passages }: StudyCardProps) {
     passage.translation,
     passage.promptTranslation
   );
-  const phraseRows = buildPhraseRows(passage, phraseAnswerVisible);
+  const phraseLayout = buildPhraseLayout(passage, phraseAnswerVisible);
+  const hanjaClasses = hanjaSizeClasses[phraseLayout.sizeTier];
   const isFirstRecord = currentIndex === 0;
   const isLastRecord = currentIndex === totalPages - 1;
 
@@ -564,75 +653,66 @@ export function StudyCard({ passages }: StudyCardProps) {
           onPointerUp={endPeek}
         >
           {viewMode === "phrase" ? (
-            <div className="flex w-full flex-col gap-3">
-              {phraseRows.map((row) => {
-                const fitClasses = rowFitClasses[row.fit];
-                const cellClass = fitClasses.cell || classes.cell;
-                const cellFrameClass = fitClasses.cellFrame || classes.cellFrame;
-                const cellGapClass = fitClasses.cellGap || classes.cellGap;
-                const hanjaClass = fitClasses.hanja || classes.hanja;
-                const readingClass = fitClasses.reading || classes.reading;
-
-                return (
-                  <div
-                    className={cn(
-                      "flex w-full justify-center",
-                      cellGapClass,
-                      fitClasses.row
-                    )}
-                    key={row.key}
-                  >
-                    {row.cells.map((cell) =>
-                      cell.type === "space" ? (
-                        <span
-                          className={fitClasses.space}
-                          key={cell.key}
-                          aria-hidden
-                        />
-                      ) : (
-                        <span
-                          className={cn(
-                            "flex shrink-0 flex-col items-center justify-between overflow-hidden rounded-md border border-transparent",
-                            fitClasses.padding,
-                            cellClass,
-                            cellFrameClass
-                          )}
-                          key={cell.key}
-                        >
-                          {cell.visible ? (
-                            <>
-                              <span
-                                className={cn(
-                                  "flex min-h-0 flex-1 items-center font-black tracking-normal text-white",
-                                  hanjaClass
-                                )}
-                              >
-                                {cell.hanja}
-                              </span>
-                              <span
-                                className={cn(
-                                  "flex h-[1.25em] max-w-full shrink-0 items-center overflow-hidden whitespace-nowrap font-bold text-white/68",
-                                  readingClass
-                                )}
-                              >
-                                {cell.reading}
-                              </span>
-                            </>
-                          ) : (
+            <div className={cn("flex w-full flex-col", hanjaClasses.rowGap)}>
+              {phraseLayout.rows.map((row) => (
+                <div
+                  className={cn(
+                    "flex w-full justify-center",
+                    hanjaClasses.cellGap,
+                    hanjaClasses.row
+                  )}
+                  key={row.key}
+                >
+                  {row.cells.map((cell) =>
+                    cell.type === "space" ? (
+                      <span
+                        className={hanjaClasses.space}
+                        key={cell.key}
+                        aria-hidden
+                      />
+                    ) : (
+                      <span
+                        className={cn(
+                          "flex shrink-0 flex-col items-center justify-between overflow-hidden rounded-md border border-transparent",
+                          hanjaClasses.padding,
+                          hanjaClasses.cell,
+                          hanjaClasses.cellFrame
+                        )}
+                        key={cell.key}
+                      >
+                        {cell.visible ? (
+                          <>
                             <span
                               className={cn(
-                                "block w-full rounded bg-white/10",
-                                classes.placeholder
+                                "flex min-h-0 flex-1 items-center font-black tracking-normal text-white",
+                                hanjaClasses.hanja
                               )}
-                              aria-hidden
-                            />
-                          )}
-                        </span>
-                      )
-                    )}
-                  </div>
-                );
-              })}
+                            >
+                              {cell.hanja}
+                            </span>
+                            <span
+                              className={cn(
+                                "flex h-[1.25em] max-w-full shrink-0 items-center overflow-hidden whitespace-nowrap font-bold text-white/68",
+                                hanjaClasses.reading
+                              )}
+                            >
+                              {cell.reading}
+                            </span>
+                          </>
+                        ) : (
+                          <span
+                            className={cn(
+                              "block w-full rounded bg-white/10",
+                              classes.placeholder
+                            )}
+                            aria-hidden
+                          />
+                        )}
+                      </span>
+                    )
+                  )}
+                </div>
+              ))}
             </div>
           ) : null}
 
