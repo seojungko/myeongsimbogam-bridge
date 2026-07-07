@@ -7,72 +7,811 @@
     {
       "id": "master84-001",
       "page": 8,
-      "title": "착한 일을 가까이하기",
-      "source": "명심보감 계선편",
+      "title": "선한 일과 나쁜 일",
+      "source": "명심보감 계선 편",
       "promptHanja": "爲善者",
       "promptKorean": "위선자",
-      "promptTranslation": "착한 일을",
+      "promptTranslation": "선한 일을",
       "fullHanja": "爲善者 天報之以福\n爲不善者 天報之以禍",
       "fullKorean": "위선자 천보지이복\n위불선자 천보지이화",
-      "translation": "착한 일을 하는 사람에게는 하늘이 복으로 갚고, 착하지 않은 일을 하는 사람에게는 하늘이 재앙으로 갚는다.",
+      "translation": "선한 일을 하는 사람은 하늘이 복을 내리고\n나쁜 일을 하는 사람은 하늘이 화를 내린다.",
       "characters": [
-        { "character": "爲", "meaning": "할", "sound": "위" },
-        { "character": "善", "meaning": "착할", "sound": "선" },
-        { "character": "者", "meaning": "사람", "sound": "자" },
-        { "character": "天", "meaning": "하늘", "sound": "천" },
-        { "character": "報", "meaning": "갚을", "sound": "보" },
-        { "character": "之", "meaning": "갈", "sound": "지" },
-        { "character": "以", "meaning": "써", "sound": "이" },
-        { "character": "福", "meaning": "복", "sound": "복" },
-        { "character": "不", "meaning": "아닐", "sound": "불" },
-        { "character": "禍", "meaning": "재앙", "sound": "화" }
+        {
+          "character": "爲",
+          "meaning": "할",
+          "sound": "위"
+        },
+        {
+          "character": "善",
+          "meaning": "착할",
+          "sound": "선"
+        },
+        {
+          "character": "者",
+          "meaning": "놈",
+          "sound": "자"
+        },
+        {
+          "character": "天",
+          "meaning": "하늘",
+          "sound": "천"
+        },
+        {
+          "character": "報",
+          "meaning": "갚을",
+          "sound": "보"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "以",
+          "meaning": "써",
+          "sound": "이"
+        },
+        {
+          "character": "福",
+          "meaning": "복",
+          "sound": "복"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "禍",
+          "meaning": "재앙",
+          "sound": "화"
+        }
       ],
-      "tags": ["계선", "실천", "기초"]
+      "tags": [
+        "계선",
+        "선악"
+      ]
     },
     {
       "id": "master84-002",
-      "page": 9,
-      "title": "하루를 돌아보기",
-      "source": "명심보감 성심편",
-      "promptHanja": "見善",
-      "promptKorean": "견선",
-      "promptTranslation": "좋은 것은",
-      "fullHanja": "見善如不及\n見不善如探湯",
-      "fullKorean": "견선여불급\n견불선여탐탕",
-      "translation": "좋은 것은 서둘러 배우고, 그른 것은 가까이하지 않는 태도를 익힌다.",
+      "page": 12,
+      "title": "선악을 대하는 태도",
+      "source": "명심보감 계선 편",
+      "promptHanja": "見善如渴",
+      "promptKorean": "견선여갈",
+      "promptTranslation": "선한 일을",
+      "fullHanja": "見善如渴 聞惡如聾\n善事須貪 惡事莫樂",
+      "fullKorean": "견선여갈 문악여롱\n선사수탐 악사막락",
+      "translation": "선한 일을 보거든 목마를 때 물 마시듯 하고\n나쁜 일을 듣거든 귀머거리처럼 하라.\n선한 일은 모름지기 탐내서 하되\n나쁜 일은 즐거워하지 마라.",
       "characters": [
-        { "character": "見", "meaning": "볼", "sound": "견" },
-        { "character": "善", "meaning": "착할", "sound": "선" },
-        { "character": "如", "meaning": "같을", "sound": "여" },
-        { "character": "不", "meaning": "아닐", "sound": "불" },
-        { "character": "及", "meaning": "미칠", "sound": "급" },
-        { "character": "探", "meaning": "찾을", "sound": "탐" },
-        { "character": "湯", "meaning": "끓는 물", "sound": "탕" }
+        {
+          "character": "見",
+          "meaning": "볼",
+          "sound": "견"
+        },
+        {
+          "character": "善",
+          "meaning": "착할",
+          "sound": "선"
+        },
+        {
+          "character": "如",
+          "meaning": "같을",
+          "sound": "여"
+        },
+        {
+          "character": "渴",
+          "meaning": "목마를",
+          "sound": "갈"
+        },
+        {
+          "character": "聞",
+          "meaning": "들을",
+          "sound": "문"
+        },
+        {
+          "character": "惡",
+          "meaning": "악할",
+          "sound": "악"
+        },
+        {
+          "character": "聾",
+          "meaning": "귀먹을",
+          "sound": "롱"
+        },
+        {
+          "character": "事",
+          "meaning": "일",
+          "sound": "사"
+        },
+        {
+          "character": "須",
+          "meaning": "모름지기",
+          "sound": "수"
+        },
+        {
+          "character": "貪",
+          "meaning": "탐할",
+          "sound": "탐"
+        },
+        {
+          "character": "莫",
+          "meaning": "없을",
+          "sound": "막"
+        },
+        {
+          "character": "樂",
+          "meaning": "즐거울",
+          "sound": "락"
+        }
       ],
-      "tags": ["성찰", "습관"]
+      "tags": [
+        "계선",
+        "선악"
+      ]
     },
     {
       "id": "master84-003",
-      "page": 10,
-      "title": "배움의 속도",
-      "source": "명심보감 권학편",
-      "promptHanja": "學如",
-      "promptKorean": "학여",
-      "promptTranslation": "배움은 천천히",
-      "fullHanja": "學如不及\n猶恐失之",
-      "fullKorean": "학여불급\n유공실지",
-      "translation": "배움은 천천히 쌓이지만 놓치지 않으려는 마음이 꾸준함을 만든다.",
+      "page": 13,
+      "title": "하루의 생각",
+      "source": "명심보감 계선 편",
+      "promptHanja": "一日不念善",
+      "promptKorean": "일일불념선",
+      "promptTranslation": "하루라도",
+      "fullHanja": "一日不念善\n諸惡皆自起",
+      "fullKorean": "일일불념선\n제악개자기",
+      "translation": "하루라도 착한 것을 생각하지 않으면\n모든 악한 것이 저절로 일어난다.",
       "characters": [
-        { "character": "學", "meaning": "배울", "sound": "학" },
-        { "character": "如", "meaning": "같을", "sound": "여" },
-        { "character": "不", "meaning": "아닐", "sound": "불" },
-        { "character": "及", "meaning": "미칠", "sound": "급" },
-        { "character": "猶", "meaning": "오히려", "sound": "유" },
-        { "character": "恐", "meaning": "두려울", "sound": "공" },
-        { "character": "失", "meaning": "잃을", "sound": "실" },
-        { "character": "之", "meaning": "갈", "sound": "지" }
+        {
+          "character": "一",
+          "meaning": "한",
+          "sound": "일"
+        },
+        {
+          "character": "日",
+          "meaning": "날",
+          "sound": "일"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "念",
+          "meaning": "생각할",
+          "sound": "념"
+        },
+        {
+          "character": "善",
+          "meaning": "착할",
+          "sound": "선"
+        },
+        {
+          "character": "諸",
+          "meaning": "모든",
+          "sound": "제"
+        },
+        {
+          "character": "惡",
+          "meaning": "악할",
+          "sound": "악"
+        },
+        {
+          "character": "皆",
+          "meaning": "모두",
+          "sound": "개"
+        },
+        {
+          "character": "自",
+          "meaning": "스스로",
+          "sound": "자"
+        },
+        {
+          "character": "起",
+          "meaning": "일어날",
+          "sound": "기"
+        }
       ],
-      "tags": ["권학", "반복"]
+      "tags": [
+        "계선",
+        "성찰"
+      ]
+    },
+    {
+      "id": "master84-004",
+      "page": 14,
+      "title": "은혜와 원한",
+      "source": "명심보감 계선 편",
+      "promptHanja": "恩義廣施",
+      "promptKorean": "은의광시",
+      "promptTranslation": "은혜와 의리를",
+      "fullHanja": "恩義廣施 人生何處不相逢\n讐怨莫結 路逢狹處難回避",
+      "fullKorean": "은의광시 인생하처불상봉\n수원막결 노봉협처난회피",
+      "translation": "은혜와 의리를 널리 베풀라.\n인생은 어디서든 다시 만난다.\n원수와 원한을 맺지 말거라.\n좁은 데서 만나면 피하기 어렵다.",
+      "characters": [
+        {
+          "character": "恩",
+          "meaning": "은혜",
+          "sound": "은"
+        },
+        {
+          "character": "義",
+          "meaning": "옳을",
+          "sound": "의"
+        },
+        {
+          "character": "廣",
+          "meaning": "넓을",
+          "sound": "광"
+        },
+        {
+          "character": "施",
+          "meaning": "베풀",
+          "sound": "시"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "生",
+          "meaning": "날",
+          "sound": "생"
+        },
+        {
+          "character": "何",
+          "meaning": "어찌",
+          "sound": "하"
+        },
+        {
+          "character": "處",
+          "meaning": "살",
+          "sound": "처"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "相",
+          "meaning": "서로",
+          "sound": "상"
+        },
+        {
+          "character": "逢",
+          "meaning": "만날",
+          "sound": "봉"
+        },
+        {
+          "character": "讐",
+          "meaning": "원수",
+          "sound": "수"
+        },
+        {
+          "character": "怨",
+          "meaning": "원망할",
+          "sound": "원"
+        },
+        {
+          "character": "莫",
+          "meaning": "없을",
+          "sound": "막"
+        },
+        {
+          "character": "結",
+          "meaning": "맺을",
+          "sound": "결"
+        },
+        {
+          "character": "路",
+          "meaning": "길",
+          "sound": "노"
+        },
+        {
+          "character": "狹",
+          "meaning": "좁을",
+          "sound": "협"
+        },
+        {
+          "character": "難",
+          "meaning": "어려울",
+          "sound": "난"
+        },
+        {
+          "character": "回",
+          "meaning": "돌",
+          "sound": "회"
+        },
+        {
+          "character": "避",
+          "meaning": "피할",
+          "sound": "피"
+        }
+      ],
+      "tags": [
+        "계선",
+        "인간관계"
+      ]
+    },
+    {
+      "id": "master84-005",
+      "page": 18,
+      "title": "하늘에 순응함",
+      "source": "명심보감 천명 편",
+      "promptHanja": "順天者",
+      "promptKorean": "순천자",
+      "promptTranslation": "하늘에",
+      "fullHanja": "順天者 存\n逆天者 亡",
+      "fullKorean": "순천자 존\n역천자 망",
+      "translation": "하늘에 순응하는 자는 살고\n하늘의 뜻을 거역하는 자는 죽는다.",
+      "characters": [
+        {
+          "character": "順",
+          "meaning": "순할",
+          "sound": "순"
+        },
+        {
+          "character": "天",
+          "meaning": "하늘",
+          "sound": "천"
+        },
+        {
+          "character": "者",
+          "meaning": "놈",
+          "sound": "자"
+        },
+        {
+          "character": "存",
+          "meaning": "있을",
+          "sound": "존"
+        },
+        {
+          "character": "逆",
+          "meaning": "거스릴",
+          "sound": "역"
+        },
+        {
+          "character": "亡",
+          "meaning": "망할",
+          "sound": "망"
+        }
+      ],
+      "tags": [
+        "천명"
+      ]
+    },
+    {
+      "id": "master84-006",
+      "page": 22,
+      "title": "심은 대로 거둠",
+      "source": "명심보감 천명 편",
+      "promptHanja": "種瓜得瓜",
+      "promptKorean": "종과득과",
+      "promptTranslation": "오이를",
+      "fullHanja": "種瓜得瓜 種豆得豆\n天網恢恢 疏而不漏",
+      "fullKorean": "종과득과 종두득두\n천망회회 소이불루",
+      "translation": "오이를 심으면 오이를 얻고\n콩을 심으면 콩을 얻는다.\n하늘의 그물은 넓고 넓어\n성글지만 새지 않는다.",
+      "characters": [
+        {
+          "character": "種",
+          "meaning": "씨",
+          "sound": "종"
+        },
+        {
+          "character": "瓜",
+          "meaning": "오이",
+          "sound": "과"
+        },
+        {
+          "character": "得",
+          "meaning": "얻을",
+          "sound": "득"
+        },
+        {
+          "character": "豆",
+          "meaning": "콩",
+          "sound": "두"
+        },
+        {
+          "character": "天",
+          "meaning": "하늘",
+          "sound": "천"
+        },
+        {
+          "character": "網",
+          "meaning": "그물",
+          "sound": "망"
+        },
+        {
+          "character": "恢",
+          "meaning": "넓을",
+          "sound": "회"
+        },
+        {
+          "character": "疏",
+          "meaning": "트일",
+          "sound": "소"
+        },
+        {
+          "character": "而",
+          "meaning": "말 이을",
+          "sound": "이"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "漏",
+          "meaning": "샐",
+          "sound": "루"
+        }
+      ],
+      "tags": [
+        "천명",
+        "인과"
+      ]
+    },
+    {
+      "id": "master84-007",
+      "page": 23,
+      "title": "부모의 은혜",
+      "source": "명심보감 효행 편",
+      "promptHanja": "父兮生我",
+      "promptKorean": "부혜생아",
+      "promptTranslation": "아버님",
+      "fullHanja": "父兮生我 母兮鞠我\n哀哀父母 生我劬勞\n欲報之德 昊天罔極",
+      "fullKorean": "부혜생아 모혜국아\n애애부모 생아구로\n욕보지덕 호천망극",
+      "translation": "아버님 나를 낳으시고 어머니 나를 기르셨네.\n슬프고 또 슬프구나.\n부모님 날 낳아 기르시느라 고생하셨네.\n그 은혜를 갚으려 해도 하늘처럼 넓어 끝이 없다.",
+      "characters": [
+        {
+          "character": "父",
+          "meaning": "아비",
+          "sound": "부"
+        },
+        {
+          "character": "兮",
+          "meaning": "어조사",
+          "sound": "혜"
+        },
+        {
+          "character": "生",
+          "meaning": "날",
+          "sound": "생"
+        },
+        {
+          "character": "我",
+          "meaning": "나",
+          "sound": "아"
+        },
+        {
+          "character": "母",
+          "meaning": "어미",
+          "sound": "모"
+        },
+        {
+          "character": "鞠",
+          "meaning": "기를",
+          "sound": "국"
+        },
+        {
+          "character": "哀",
+          "meaning": "슬플",
+          "sound": "애"
+        },
+        {
+          "character": "劬",
+          "meaning": "수고로울",
+          "sound": "구"
+        },
+        {
+          "character": "勞",
+          "meaning": "일할",
+          "sound": "로"
+        },
+        {
+          "character": "欲",
+          "meaning": "하고자 할",
+          "sound": "욕"
+        },
+        {
+          "character": "報",
+          "meaning": "갚을",
+          "sound": "보"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "德",
+          "meaning": "덕",
+          "sound": "덕"
+        },
+        {
+          "character": "昊",
+          "meaning": "하늘",
+          "sound": "호"
+        },
+        {
+          "character": "天",
+          "meaning": "하늘",
+          "sound": "천"
+        },
+        {
+          "character": "罔",
+          "meaning": "그물",
+          "sound": "망"
+        },
+        {
+          "character": "極",
+          "meaning": "다할",
+          "sound": "극"
+        }
+      ],
+      "tags": [
+        "효행",
+        "부모"
+      ]
+    },
+    {
+      "id": "master84-008",
+      "page": 24,
+      "title": "효도의 거울",
+      "source": "명심보감 효행 편",
+      "promptHanja": "孝於親",
+      "promptKorean": "효어친",
+      "promptTranslation": "내가 부모에게",
+      "fullHanja": "孝於親 子亦孝之\n身既不孝 子何孝焉",
+      "fullKorean": "효어친 자역효지\n신기불효 자하효언",
+      "translation": "내가 부모에게 효도하면\n자식 또한 내게 효도할 것이다.\n내가 부모에게 효도하지 않으면\n자식이 어찌 내게 효도할 것인가.",
+      "characters": [
+        {
+          "character": "孝",
+          "meaning": "효도",
+          "sound": "효"
+        },
+        {
+          "character": "於",
+          "meaning": "어조사",
+          "sound": "어"
+        },
+        {
+          "character": "親",
+          "meaning": "친할",
+          "sound": "친"
+        },
+        {
+          "character": "子",
+          "meaning": "아들",
+          "sound": "자"
+        },
+        {
+          "character": "亦",
+          "meaning": "또",
+          "sound": "역"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "身",
+          "meaning": "몸",
+          "sound": "신"
+        },
+        {
+          "character": "既",
+          "meaning": "이미",
+          "sound": "기"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "何",
+          "meaning": "어찌",
+          "sound": "하"
+        },
+        {
+          "character": "焉",
+          "meaning": "어찌",
+          "sound": "언"
+        }
+      ],
+      "tags": [
+        "효행",
+        "부모"
+      ]
+    },
+    {
+      "id": "master84-009",
+      "page": 28,
+      "title": "남을 보고 나를 살핌",
+      "source": "명심보감 정기 편",
+      "promptHanja": "見人之善",
+      "promptKorean": "견인지선",
+      "promptTranslation": "남의 선한 것을",
+      "fullHanja": "見人之善 而尋其之善\n見人之惡 而尋其之惡\n如此 方是有益",
+      "fullKorean": "견인지선 이심기지선\n견인지악 이심기지악\n여차 방시유익",
+      "translation": "남의 선한 것을 보면 나의 선한 것을 살펴보고\n남의 악한 것을 보면 나의 악한 것을 살펴보라.\n그것이 유익함을 줄 것이다.",
+      "characters": [
+        {
+          "character": "見",
+          "meaning": "볼",
+          "sound": "견"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "善",
+          "meaning": "착할",
+          "sound": "선"
+        },
+        {
+          "character": "而",
+          "meaning": "말 이을",
+          "sound": "이"
+        },
+        {
+          "character": "尋",
+          "meaning": "찾을",
+          "sound": "심"
+        },
+        {
+          "character": "其",
+          "meaning": "그",
+          "sound": "기"
+        },
+        {
+          "character": "惡",
+          "meaning": "악할",
+          "sound": "악"
+        },
+        {
+          "character": "如",
+          "meaning": "같은",
+          "sound": "여"
+        },
+        {
+          "character": "此",
+          "meaning": "이",
+          "sound": "차"
+        },
+        {
+          "character": "方",
+          "meaning": "모",
+          "sound": "방"
+        },
+        {
+          "character": "是",
+          "meaning": "옳을",
+          "sound": "시"
+        },
+        {
+          "character": "有",
+          "meaning": "있을",
+          "sound": "유"
+        },
+        {
+          "character": "益",
+          "meaning": "더할",
+          "sound": "익"
+        }
+      ],
+      "tags": [
+        "정기",
+        "성찰"
+      ]
+    },
+    {
+      "id": "master84-010",
+      "page": 29,
+      "title": "자기와 남을 대하는 태도",
+      "source": "명심보감 정기 편",
+      "promptHanja": "勿以貴己",
+      "promptKorean": "물이귀기",
+      "promptTranslation": "자기를",
+      "fullHanja": "勿以貴己而賤人\n勿以自大而蔑小\n勿以恃勇而輕敵",
+      "fullKorean": "물이귀기이천인\n물이자대이멸소\n물이시용이경적",
+      "translation": "자기를 귀하게 여기듯 남을 천하게 여기지 말고\n자기가 크다고 작은 사람을 업신여기지 말며\n자기 용맹을 믿고 적을 가볍게 여기지 말라.",
+      "characters": [
+        {
+          "character": "勿",
+          "meaning": "말",
+          "sound": "물"
+        },
+        {
+          "character": "以",
+          "meaning": "써",
+          "sound": "이"
+        },
+        {
+          "character": "貴",
+          "meaning": "귀할",
+          "sound": "귀"
+        },
+        {
+          "character": "己",
+          "meaning": "자기",
+          "sound": "기"
+        },
+        {
+          "character": "而",
+          "meaning": "말 이을",
+          "sound": "이"
+        },
+        {
+          "character": "賤",
+          "meaning": "천할",
+          "sound": "천"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "自",
+          "meaning": "스스로",
+          "sound": "자"
+        },
+        {
+          "character": "大",
+          "meaning": "클",
+          "sound": "대"
+        },
+        {
+          "character": "蔑",
+          "meaning": "업신여길",
+          "sound": "멸"
+        },
+        {
+          "character": "小",
+          "meaning": "작을",
+          "sound": "소"
+        },
+        {
+          "character": "恃",
+          "meaning": "믿을",
+          "sound": "시"
+        },
+        {
+          "character": "勇",
+          "meaning": "날쌜",
+          "sound": "용"
+        },
+        {
+          "character": "輕",
+          "meaning": "가벼울",
+          "sound": "경"
+        },
+        {
+          "character": "敵",
+          "meaning": "원수",
+          "sound": "적"
+        }
+      ],
+      "tags": [
+        "정기",
+        "겸손"
+      ]
     }
   ]
 }
