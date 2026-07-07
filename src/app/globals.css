@@ -89,14 +89,11 @@ a {
 }
 
 .study-page-content {
-  transition:
-    opacity 220ms ease,
-    transform 220ms ease;
+  transition: opacity 220ms ease;
 }
 
 .study-card[data-turning="true"] .study-page-content {
   opacity: 0.88;
-  transform: translateY(2px);
 }
 
 .study-card-actions {
@@ -133,12 +130,7 @@ a {
   text-align: center;
   transition:
     background-color 160ms ease,
-    color 160ms ease,
-    transform 120ms ease;
-}
-
-.study-action-button:active {
-  transform: scale(0.99);
+    color 160ms ease;
 }
 
 @media (max-height: 520px), (orientation: landscape) and (max-height: 640px) {

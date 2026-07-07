@@ -31,6 +31,7 @@ const densityClasses: Record<
   {
     cell: string;
     cellGap: string;
+    cellFrame: string;
     content: string;
     hanja: string;
     placeholder: string;
@@ -39,38 +40,42 @@ const densityClasses: Record<
   }
 > = {
   short: {
-    cell: "min-w-[2.05rem]",
+    cell: "w-[2.16rem]",
     cellGap: "gap-x-1.5 gap-y-3",
+    cellFrame: "h-[4.1rem]",
     content: "overflow-hidden px-1 py-4",
     hanja: "text-[clamp(1.5rem,6.2vw,2.05rem)] leading-none",
-    placeholder: "h-[2.85rem]",
+    placeholder: "h-full",
     reading: "text-[clamp(0.78rem,3vw,0.98rem)] leading-tight",
     translation: "text-[clamp(1.15rem,4.6vw,1.5rem)] leading-[1.65]"
   },
   medium: {
-    cell: "min-w-[1.82rem]",
+    cell: "w-[1.92rem]",
     cellGap: "gap-x-1.5 gap-y-2.5",
+    cellFrame: "h-[3.7rem]",
     content: "overflow-hidden px-1 py-3",
     hanja: "text-[clamp(1.35rem,5.4vw,1.82rem)] leading-none",
-    placeholder: "h-[2.55rem]",
+    placeholder: "h-full",
     reading: "text-[clamp(0.72rem,2.8vw,0.9rem)] leading-tight",
     translation: "text-[clamp(1.05rem,4vw,1.35rem)] leading-[1.6]"
   },
   long: {
-    cell: "min-w-[1.55rem]",
+    cell: "w-[1.65rem]",
     cellGap: "gap-x-1 gap-y-2",
+    cellFrame: "h-[3.25rem]",
     content: "overflow-hidden px-1 py-2",
     hanja: "text-[clamp(1.18rem,4.7vw,1.55rem)] leading-none",
-    placeholder: "h-[2.25rem]",
+    placeholder: "h-full",
     reading: "text-[clamp(0.68rem,2.55vw,0.8rem)] leading-tight",
     translation: "text-[clamp(0.95rem,3.6vw,1.2rem)] leading-[1.55]"
   },
   extraLong: {
-    cell: "min-w-[1.35rem]",
+    cell: "w-[1.44rem]",
     cellGap: "gap-x-1 gap-y-1.5",
+    cellFrame: "h-[2.9rem]",
     content: "overflow-y-auto overflow-x-hidden px-1 py-2",
     hanja: "text-[clamp(1.02rem,4vw,1.35rem)] leading-none",
-    placeholder: "h-[2rem]",
+    placeholder: "h-full",
     reading: "text-[clamp(0.62rem,2.3vw,0.74rem)] leading-tight",
     translation: "text-[clamp(0.88rem,3.2vw,1.05rem)] leading-[1.5]"
   }
@@ -442,9 +447,9 @@ export function StudyCard({ passages }: StudyCardProps) {
                     ) : (
                       <span
                         className={cn(
-                          "flex flex-col items-center justify-start rounded-md border border-transparent px-1 py-1.5",
-                          cell.visible ? "bg-transparent" : "bg-white/8",
-                          classes.cell
+                          "flex shrink-0 flex-col items-center justify-between overflow-hidden rounded-md border border-transparent px-1 py-1.5",
+                          classes.cell,
+                          classes.cellFrame
                         )}
                         key={cell.key}
                       >
@@ -452,7 +457,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                           <>
                             <span
                               className={cn(
-                                "font-black tracking-normal text-white",
+                                "flex min-h-0 flex-1 items-center font-black tracking-normal text-white",
                                 classes.hanja
                               )}
                             >
@@ -460,7 +465,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                             </span>
                             <span
                               className={cn(
-                                "mt-1 min-h-[1em] whitespace-nowrap font-bold text-white/68",
+                                "flex h-[1.25em] max-w-full shrink-0 items-center overflow-hidden whitespace-nowrap font-bold text-white/68",
                                 classes.reading
                               )}
                             >
@@ -487,10 +492,19 @@ export function StudyCard({ passages }: StudyCardProps) {
           ) : null}
 
           {viewMode === "meaning" ? (
-            <div className="flex w-full flex-col">
+            <div className="relative flex w-full flex-col">
               <p
                 className={cn(
-                  "text-white/84 w-full max-w-full whitespace-pre-wrap break-keep px-1 font-semibold",
+                  "invisible w-full max-w-full whitespace-pre-wrap break-keep px-1 font-semibold",
+                  classes.translation
+                )}
+                aria-hidden
+              >
+                {passage.translation}
+              </p>
+              <p
+                className={cn(
+                  "absolute inset-x-0 top-0 w-full max-w-full whitespace-pre-wrap break-keep px-1 font-semibold text-white/84",
                   classes.translation
                 )}
               >
