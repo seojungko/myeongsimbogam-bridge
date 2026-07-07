@@ -33,6 +33,7 @@ const densityClasses: Record<
     cellGap: string;
     content: string;
     hanja: string;
+    placeholder: string;
     reading: string;
     translation: string;
   }
@@ -42,6 +43,7 @@ const densityClasses: Record<
     cellGap: "gap-x-1.5 gap-y-3",
     content: "overflow-hidden px-1 py-4",
     hanja: "text-[clamp(1.5rem,6.2vw,2.05rem)] leading-none",
+    placeholder: "h-[2.85rem]",
     reading: "text-[clamp(0.78rem,3vw,0.98rem)] leading-tight",
     translation: "text-[clamp(1.15rem,4.6vw,1.5rem)] leading-[1.65]"
   },
@@ -50,6 +52,7 @@ const densityClasses: Record<
     cellGap: "gap-x-1.5 gap-y-2.5",
     content: "overflow-hidden px-1 py-3",
     hanja: "text-[clamp(1.35rem,5.4vw,1.82rem)] leading-none",
+    placeholder: "h-[2.55rem]",
     reading: "text-[clamp(0.72rem,2.8vw,0.9rem)] leading-tight",
     translation: "text-[clamp(1.05rem,4vw,1.35rem)] leading-[1.6]"
   },
@@ -58,6 +61,7 @@ const densityClasses: Record<
     cellGap: "gap-x-1 gap-y-2",
     content: "overflow-hidden px-1 py-2",
     hanja: "text-[clamp(1.18rem,4.7vw,1.55rem)] leading-none",
+    placeholder: "h-[2.25rem]",
     reading: "text-[clamp(0.68rem,2.55vw,0.8rem)] leading-tight",
     translation: "text-[clamp(0.95rem,3.6vw,1.2rem)] leading-[1.55]"
   },
@@ -66,6 +70,7 @@ const densityClasses: Record<
     cellGap: "gap-x-1 gap-y-1.5",
     content: "overflow-y-auto overflow-x-hidden px-1 py-2",
     hanja: "text-[clamp(1.02rem,4vw,1.35rem)] leading-none",
+    placeholder: "h-[2rem]",
     reading: "text-[clamp(0.62rem,2.3vw,0.74rem)] leading-tight",
     translation: "text-[clamp(0.88rem,3.2vw,1.05rem)] leading-[1.5]"
   }
@@ -117,20 +122,6 @@ function maskAfterPrompt(fullText: string, prompt: string) {
   const afterPrompt = fullText.slice(promptIndex + prompt.length);
 
   return `${maskVisibleCharacters(beforePrompt)}${prompt}${maskVisibleCharacters(afterPrompt)}`;
-}
-
-function getCompactDotIndexes(currentIndex: number, totalPages: number) {
-  const maxDots = 7;
-
-  if (totalPages <= maxDots) {
-    return Array.from({ length: totalPages }, (_, index) => index);
-  }
-
-  const halfWindow = Math.floor(maxDots / 2);
-  const maxStart = totalPages - maxDots;
-  const start = Math.min(Math.max(currentIndex - halfWindow, 0), maxStart);
-
-  return Array.from({ length: maxDots }, (_, index) => start + index);
 }
 
 function getCharacterInfo(passage: StudyPageRecord) {
@@ -269,7 +260,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   const passage = passages[currentIndex];
   const density = getCardDensity(passage);
   const classes = densityClasses[density];
-  const progressDotIndexes = getCompactDotIndexes(currentIndex, totalPages);
+  const progressPercent = ((currentIndex + 1) / totalPages) * 100;
   const visibleAnswer = isPeeking;
   const maskedTranslation = maskAfterPrompt(
     passage.translation,
@@ -359,15 +350,15 @@ export function StudyCard({ passages }: StudyCardProps) {
             <ul className="space-y-2 text-sm font-semibold leading-6 text-white/76">
               <li>길게 누르면 답을 잠깐 볼 수 있어요.</li>
               <li>손을 떼면 다시 가려져요.</li>
-              <li>뜻음을 켜면 한자 아래에 뜻과 음이 보여요.</li>
+              <li>한자 뜻 표시를 켜면 한자 아래에 뜻과 음이 보여요.</li>
             </ul>
           </div>
         </div>
       ) : null}
 
       <div className="relative z-10 flex min-h-0 w-full flex-col">
-        <header className="shrink-0">
-          <div className="grid grid-cols-[2.5rem_1fr_auto] items-center gap-2">
+        <header className="study-card-header shrink-0">
+          <div className="grid grid-cols-[2.25rem_2.25rem_1fr_2.25rem_auto] items-center gap-1.5">
             <button
               type="button"
               className="flex size-9 items-center justify-center rounded-full bg-white/8 text-base font-black text-white transition-colors active:bg-white/12"
@@ -376,13 +367,31 @@ export function StudyCard({ passages }: StudyCardProps) {
             >
               ℹ️
             </button>
+            <button
+              type="button"
+              className="flex size-9 items-center justify-center rounded-full bg-white/8 text-lg font-black text-white transition-colors active:bg-white/12 disabled:pointer-events-none disabled:opacity-30"
+              onClick={() => moveToRecord(currentIndex - 1)}
+              disabled={isFirstRecord}
+              aria-label="이전 카드"
+            >
+              ←
+            </button>
             <p className="text-center text-base font-bold text-white">
-              {passage.page}페이지
+              {passage.page}페이지 · {currentIndex + 1}/{totalPages}
             </p>
             <button
               type="button"
+              className="flex size-9 items-center justify-center rounded-full bg-white/8 text-lg font-black text-white transition-colors active:bg-white/12 disabled:pointer-events-none disabled:opacity-30"
+              onClick={() => moveToRecord(currentIndex + 1)}
+              disabled={isLastRecord}
+              aria-label="다음 카드"
+            >
+              →
+            </button>
+            <button
+              type="button"
               className={cn(
-                "h-9 rounded-full px-3 text-sm font-black transition-colors",
+                "h-9 whitespace-nowrap rounded-full px-2.5 text-[0.72rem] font-black transition-colors",
                 showCharacterMeaning
                   ? "bg-[rgb(var(--accent))] text-black"
                   : "bg-white/8 text-white/78 active:bg-white/12"
@@ -390,57 +399,18 @@ export function StudyCard({ passages }: StudyCardProps) {
               onClick={() => setShowCharacterMeaning((current) => !current)}
               aria-pressed={showCharacterMeaning}
             >
-              뜻음
-            </button>
-          </div>
-
-          <div className="mt-2 grid grid-cols-[2.5rem_1fr_2.5rem] items-center gap-2">
-            <button
-              type="button"
-              className="flex size-9 items-center justify-center rounded-full bg-white/8 text-xl font-black text-white transition-colors active:bg-white/12 disabled:pointer-events-none disabled:opacity-30"
-              onClick={() => moveToRecord(currentIndex - 1)}
-              disabled={isFirstRecord}
-              aria-label="이전 카드"
-            >
-              ←
-            </button>
-            <p className="text-center text-sm font-semibold text-white/58">
-              {currentIndex + 1} / {totalPages}
-            </p>
-            <button
-              type="button"
-              className="flex size-9 items-center justify-center rounded-full bg-white/8 text-xl font-black text-white transition-colors active:bg-white/12 disabled:pointer-events-none disabled:opacity-30"
-              onClick={() => moveToRecord(currentIndex + 1)}
-              disabled={isLastRecord}
-              aria-label="다음 카드"
-            >
-              →
+              한자 뜻 표시
             </button>
           </div>
 
           <div
-            className="mt-2 flex items-center justify-center gap-2"
+            className="study-card-progress mt-2 h-0.5 w-full overflow-hidden rounded-full bg-white/8"
             aria-label={`${totalPages}개 중 ${currentIndex + 1}번째 학습 카드`}
           >
-            {progressDotIndexes.map((index) => {
-              const isCurrent = index === currentIndex;
-              const isLearned = learnedRecordIds.has(passages[index]?.id ?? "");
-
-              return (
-                <span
-                  key={index}
-                  className={cn(
-                    "rounded-full transition-all duration-300",
-                    isCurrent
-                      ? "h-2.5 w-8 bg-[rgb(var(--accent))]"
-                      : isLearned
-                        ? "size-2.5 bg-white/40"
-                        : "size-2.5 bg-white/18"
-                  )}
-                  aria-current={isCurrent ? "step" : undefined}
-                />
-              );
-            })}
+            <div
+              className="h-full rounded-full bg-[rgb(var(--accent))] transition-all duration-300"
+              style={{ width: `${progressPercent}%` }}
+            />
           </div>
         </header>
 
@@ -448,17 +418,16 @@ export function StudyCard({ passages }: StudyCardProps) {
           className={cn(
             "study-page-content flex min-h-0 flex-1 flex-col items-center text-center",
             density === "extraLong" ? "justify-start" : "justify-center",
+            "touch-manipulation select-none",
             classes.content
           )}
+          onPointerCancel={endPeek}
+          onPointerDown={beginPeek}
+          onPointerLeave={endPeek}
+          onPointerUp={endPeek}
         >
           {viewMode === "phrase" ? (
-            <div
-              className="flex w-full touch-manipulation select-none flex-col gap-3"
-              onPointerCancel={endPeek}
-              onPointerDown={beginPeek}
-              onPointerLeave={endPeek}
-              onPointerUp={endPeek}
-            >
+            <div className="flex w-full flex-col gap-3">
               {phraseRows.map((row, rowIndex) => (
                 <div
                   className={cn(
@@ -473,31 +442,42 @@ export function StudyCard({ passages }: StudyCardProps) {
                     ) : (
                       <span
                         className={cn(
-                          "flex flex-col items-center justify-start rounded-md border border-white/8 bg-black/18 px-1 py-1.5",
+                          "flex flex-col items-center justify-start rounded-md border border-transparent px-1 py-1.5",
+                          cell.visible ? "bg-transparent" : "bg-white/8",
                           classes.cell
                         )}
                         key={cell.key}
                       >
-                        <span
-                          className={cn(
-                            "font-black tracking-normal text-white",
-                            classes.hanja
-                          )}
-                        >
-                          {cell.visible ? cell.hanja : "□"}
-                        </span>
-                        <span
-                          className={cn(
-                            "mt-1 min-h-[1em] whitespace-nowrap font-bold text-white/68",
-                            classes.reading
-                          )}
-                        >
-                          {cell.visible
-                            ? showCharacterMeaning
-                              ? cell.meaningSound
-                              : cell.reading
-                            : "□"}
-                        </span>
+                        {cell.visible ? (
+                          <>
+                            <span
+                              className={cn(
+                                "font-black tracking-normal text-white",
+                                classes.hanja
+                              )}
+                            >
+                              {cell.hanja}
+                            </span>
+                            <span
+                              className={cn(
+                                "mt-1 min-h-[1em] whitespace-nowrap font-bold text-white/68",
+                                classes.reading
+                              )}
+                            >
+                              {showCharacterMeaning
+                                ? cell.meaningSound
+                                : cell.reading}
+                            </span>
+                          </>
+                        ) : (
+                          <span
+                            className={cn(
+                              "block w-full rounded bg-white/10",
+                              classes.placeholder
+                            )}
+                            aria-hidden
+                          />
+                        )}
                       </span>
                     )
                   )}
@@ -507,13 +487,7 @@ export function StudyCard({ passages }: StudyCardProps) {
           ) : null}
 
           {viewMode === "meaning" ? (
-            <div
-              className="flex w-full touch-manipulation select-none flex-col"
-              onPointerCancel={endPeek}
-              onPointerDown={beginPeek}
-              onPointerLeave={endPeek}
-              onPointerUp={endPeek}
-            >
+            <div className="flex w-full flex-col">
               <p
                 className={cn(
                   "text-white/84 w-full max-w-full whitespace-pre-wrap break-keep px-1 font-semibold",
@@ -526,36 +500,33 @@ export function StudyCard({ passages }: StudyCardProps) {
           ) : null}
         </section>
 
-        <div
-          className={cn(
-            "flex shrink-0 flex-col",
-            density === "short" || density === "medium" ? "gap-3" : "gap-2"
-          )}
-        >
-          <div className="grid grid-cols-2 gap-1 rounded-lg bg-white/5 p-1">
+        <div className="study-card-actions shrink-0">
+          <div className="study-mode-switch rounded-lg bg-white/5 p-1">
             <button
               type="button"
               className={cn(
-                "min-h-11 rounded-md px-2 text-sm font-black transition-colors",
+                "study-mode-button min-h-11 rounded-md px-2 text-sm font-black transition-colors",
                 viewMode === "phrase"
                   ? "bg-[rgb(var(--accent))] text-black"
                   : "bg-white/8 text-white/70 hover:bg-white/10 hover:text-white"
               )}
               onClick={() => switchMode("phrase")}
             >
-              한자 구절 보기
+              <span className="study-label-full">한자 구절</span>
+              <span className="study-label-short">구절</span>
             </button>
             <button
               type="button"
               className={cn(
-                "min-h-11 rounded-md px-2 text-sm font-black transition-colors",
+                "study-mode-button min-h-11 rounded-md px-2 text-sm font-black transition-colors",
                 viewMode === "meaning"
                   ? "bg-[rgb(var(--accent))] text-black"
                   : "bg-white/8 text-white/70 hover:bg-white/10 hover:text-white"
               )}
               onClick={() => switchMode("meaning")}
             >
-              한글 뜻 보기
+              <span className="study-label-full">한글 바로 뜻</span>
+              <span className="study-label-short">바로뜻</span>
             </button>
           </div>
 

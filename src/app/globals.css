@@ -99,6 +99,22 @@ a {
   transform: translateY(2px);
 }
 
+.study-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.study-mode-switch {
+  display: grid;
+  gap: 0.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.study-label-short {
+  display: none;
+}
+
 .study-action-button {
   align-items: center;
   background: rgb(255 255 255 / 0.1);
@@ -123,6 +139,41 @@ a {
 
 .study-action-button:active {
   transform: scale(0.99);
+}
+
+@media (max-height: 520px), (orientation: landscape) and (max-height: 640px) {
+  .study-card-header button {
+    min-height: 2rem;
+  }
+
+  .study-card-progress {
+    margin-top: 0.375rem;
+  }
+
+  .study-card-actions {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(6.25rem, 1.15fr);
+  }
+
+  .study-mode-switch {
+    display: contents;
+  }
+
+  .study-mode-button,
+  .study-action-button {
+    font-size: 0.88rem;
+    min-height: 2.75rem;
+    padding-block: 0.42rem;
+  }
+
+  .study-label-full {
+    display: none;
+  }
+
+  .study-label-short {
+    display: inline;
+  }
 }
 
 .study-sparkles {
