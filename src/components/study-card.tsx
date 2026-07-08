@@ -729,11 +729,6 @@ export function StudyCard({ passages }: StudyCardProps) {
                     <span className="text-right text-white/64">
                       {range.count}구문
                     </span>
-                    {isCurrentRange ? (
-                      <span className="col-span-3 pt-0.5 text-xs text-[rgb(var(--accent))]">
-                        현재
-                      </span>
-                    ) : null}
                   </button>
                 );
               })}
@@ -756,7 +751,7 @@ export function StudyCard({ passages }: StudyCardProps) {
             <div className="absolute left-1/2 top-0 flex -translate-x-1/2 items-center justify-center gap-1.5 whitespace-nowrap">
               <button
                 type="button"
-                className="flex size-9 items-center justify-center rounded-full bg-white/8 text-base font-black text-white transition-colors active:bg-white/12 disabled:pointer-events-none disabled:opacity-30"
+                className="flex size-9 items-center justify-center rounded-full border border-white/5 bg-white/10 text-base font-black text-white/92 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-colors active:bg-white/16 disabled:pointer-events-none disabled:opacity-30"
                 onClick={() => moveToRecord(currentIndex - 1)}
                 disabled={isFirstRecord}
                 aria-label="이전 카드"
@@ -768,7 +763,7 @@ export function StudyCard({ passages }: StudyCardProps) {
               </p>
               <button
                 type="button"
-                className="flex size-9 items-center justify-center rounded-full bg-white/8 text-base font-black text-white transition-colors active:bg-white/12 disabled:pointer-events-none disabled:opacity-30"
+                className="flex size-9 items-center justify-center rounded-full border border-white/5 bg-white/10 text-base font-black text-white/92 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-colors active:bg-white/16 disabled:pointer-events-none disabled:opacity-30"
                 onClick={() => moveToRecord(currentIndex + 1)}
                 disabled={isLastRecord}
                 aria-label="다음 카드"
@@ -778,7 +773,7 @@ export function StudyCard({ passages }: StudyCardProps) {
             </div>
             <button
               type="button"
-              className="absolute right-0 top-0 flex h-9 items-center rounded-full bg-white/8 px-3 text-xs font-black text-white/78 transition-colors active:bg-white/12 active:text-white"
+              className="absolute right-0 top-0 flex h-9 items-center rounded-full border border-white/5 bg-white/10 px-3.5 text-xs font-black text-white/92 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-colors active:bg-white/16 active:text-white"
               onClick={() => setShowRangeSheet(true)}
               aria-label={`${currentRangeLabel} 범위 선택`}
             >
@@ -809,7 +804,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                         isCurrent
                           ? "size-2.5 bg-[rgb(var(--accent))]"
                           : "size-1.5",
-                        !isCurrent && (isBefore ? "bg-white/76" : "bg-white/22")
+                        !isCurrent && (isBefore ? "bg-white/50" : "bg-white/24")
                       )}
                     />
                     {isSparkling ? (
