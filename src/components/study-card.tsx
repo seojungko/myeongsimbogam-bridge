@@ -47,6 +47,13 @@ type PhraseLayout = {
   rows: PhraseRow[];
   sizeTier: HanjaSizeTier;
 };
+type PageRangeSummary = {
+  count: number;
+  end: number;
+  firstIndex: number;
+  label: string;
+  start: number;
+};
 
 const LEARNED_RECORD_IDS_KEY = "bridge.learnedRecordIds";
 
@@ -167,6 +174,42 @@ const hanjaSizeClasses: Record<
 
 function countVisibleCharacters(value: string) {
   return Array.from(value).filter((character) => !/\s/.test(character)).length;
+}
+
+function getPageRangeEnd(page: number) {
+  return Math.max(20, Math.ceil(page / 20) * 20);
+}
+
+function getPageRangeLabel(rangeEnd: number) {
+  return `~${rangeEnd}쪽`;
+}
+
+function getPageRangeStart(rangeEnd: number) {
+  return rangeEnd - 19;
+}
+
+function buildPageRangeSummaries(passages: readonly StudyPageRecord[]) {
+  const ranges = new Map<number, PageRangeSummary>();
+
+  passages.forEach((passage, index) => {
+    const rangeEnd = getPageRangeEnd(passage.page);
+    const existingRange = ranges.get(rangeEnd);
+
+    if (existingRange) {
+      existingRange.count += 1;
+      return;
+    }
+
+    ranges.set(rangeEnd, {
+      count: 1,
+      end: rangeEnd,
+      firstIndex: index,
+      label: getPageRangeLabel(rangeEnd),
+      start: getPageRangeStart(rangeEnd)
+    });
+  });
+
+  return Array.from(ranges.values()).sort((a, b) => a.end - b.end);
 }
 
 function getCardDensity(passage: StudyPageRecord): CardDensity {
@@ -455,6 +498,7 @@ export function StudyCard({ passages }: StudyCardProps) {
     useState(false);
   const [isPeeking, setIsPeeking] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [showRangeSheet, setShowRangeSheet] = useState(false);
   const [viewMode, setViewMode] = useState<StudyViewMode>("phrase");
   const [learnedRecordIds, setLearnedRecordIds] = useState<Set<string>>(
     () => new Set()
@@ -479,7 +523,17 @@ export function StudyCard({ passages }: StudyCardProps) {
   const passage = passages[currentIndex];
   const density = getCardDensity(passage);
   const classes = densityClasses[density];
-  const progressPercent = ((currentIndex + 1) / totalPages) * 100;
+  const pageRanges = buildPageRangeSummaries(passages);
+  const currentRangeEnd = getPageRangeEnd(passage.page);
+  const currentRangeStart = getPageRangeStart(currentRangeEnd);
+  const currentRangeLabel = getPageRangeLabel(currentRangeEnd);
+  const currentRangeRecords = passages.filter(
+    (record) => record.page >= currentRangeStart && record.page <= currentRangeEnd
+  );
+  const currentRangePosition = Math.max(
+    currentRangeRecords.findIndex((record) => record.id === passage.id),
+    0
+  );
   const isPhraseMode = viewMode === "phrase";
   const isMeaningMode = viewMode === "meaning";
   const visibleAnswer = isPeeking || isCharacterMeaningPeeking;
@@ -503,9 +557,15 @@ export function StudyCard({ passages }: StudyCardProps) {
 
     setIsPeeking(false);
     setIsCharacterMeaningPeeking(false);
+    setShowRangeSheet(false);
     setPageIndex(boundedIndex);
     setIsTurningPage(true);
     window.setTimeout(() => setIsTurningPage(false), 220);
+  }
+
+  function moveToRange(range: PageRangeSummary) {
+    moveToRecord(range.firstIndex);
+    setShowRangeSheet(false);
   }
 
   function switchMode(nextMode: StudyViewMode) {
@@ -592,18 +652,74 @@ export function StudyCard({ passages }: StudyCardProps) {
         </div>
       ) : null}
 
+      {showRangeSheet ? (
+        <div className="absolute inset-0 z-30 flex items-end bg-black/50">
+          <button
+            type="button"
+            className="absolute inset-0 cursor-default"
+            onClick={() => setShowRangeSheet(false)}
+            aria-label="쪽 범위 선택 닫기"
+          />
+          <div className="relative w-full rounded-t-2xl border border-white/5 bg-[#121212]/95 p-4 pb-5 text-white shadow-soft backdrop-blur-sm">
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-base font-black">어디까지 볼까요?</p>
+              <button
+                type="button"
+                className="flex size-9 items-center justify-center rounded-full bg-white/8 text-base font-black text-white transition-colors active:bg-white/12"
+                onClick={() => setShowRangeSheet(false)}
+                aria-label="쪽 범위 선택 닫기"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-1">
+              {pageRanges.map((range) => {
+                const isCurrentRange = range.end === currentRangeEnd;
+
+                return (
+                  <button
+                    type="button"
+                    className={cn(
+                      "grid min-h-11 w-full grid-cols-[4.25rem_1fr_4rem] items-center rounded-lg px-3 text-left text-sm font-bold transition-colors",
+                      isCurrentRange
+                        ? "bg-[rgb(var(--accent)/0.16)] text-white"
+                        : "bg-white/5 text-white/72 active:bg-white/10"
+                    )}
+                    key={range.end}
+                    onClick={() => moveToRange(range)}
+                  >
+                    <span className="font-black">{range.label}</span>
+                    <span className="text-white/58">
+                      {range.start}~{range.end}쪽
+                    </span>
+                    <span className="text-right text-white/64">
+                      {range.count}구문
+                    </span>
+                    {isCurrentRange ? (
+                      <span className="col-span-3 pt-0.5 text-xs text-[rgb(var(--accent))]">
+                        현재
+                      </span>
+                    ) : null}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       <div className="relative z-10 flex min-h-0 w-full flex-col">
         <header className="study-card-header shrink-0">
-          <div className="grid grid-cols-[2.25rem_1fr_2.25rem] items-center gap-1.5">
+          <div className="relative min-h-9">
             <button
               type="button"
-              className="flex size-9 items-center justify-center rounded-full bg-white/8 text-base font-black text-white transition-colors active:bg-white/12"
+              className="absolute left-0 top-0 flex size-9 items-center justify-center rounded-full bg-white/8 text-base font-black text-white transition-colors active:bg-white/12"
               onClick={() => setShowHelp(true)}
               aria-label="도움말 열기"
             >
               ⓘ
             </button>
-            <div className="flex min-w-0 items-center justify-center gap-2">
+            <div className="absolute left-1/2 top-0 flex -translate-x-1/2 items-center justify-center gap-1.5 whitespace-nowrap">
               <button
                 type="button"
                 className="flex size-9 items-center justify-center rounded-full bg-white/8 text-base font-black text-white transition-colors active:bg-white/12 disabled:pointer-events-none disabled:opacity-30"
@@ -611,10 +727,10 @@ export function StudyCard({ passages }: StudyCardProps) {
                 disabled={isFirstRecord}
                 aria-label="이전 카드"
               >
-                ⬅️
+                ←
               </button>
-              <p className="min-w-0 text-center text-base font-bold text-white">
-                {passage.page}페이지 · {currentIndex + 1}/{totalPages}
+              <p className="text-center text-[0.95rem] font-bold text-white">
+                {passage.page}쪽 · {currentIndex + 1}번째
               </p>
               <button
                 type="button"
@@ -623,20 +739,47 @@ export function StudyCard({ passages }: StudyCardProps) {
                 disabled={isLastRecord}
                 aria-label="다음 카드"
               >
-                ➡️
+                →
               </button>
             </div>
-            <div className="size-9" aria-hidden />
+            <button
+              type="button"
+              className="absolute right-0 top-0 flex h-9 items-center rounded-full bg-white/8 px-3 text-xs font-black text-white/78 transition-colors active:bg-white/12 active:text-white"
+              onClick={() => setShowRangeSheet(true)}
+              aria-label={`${currentRangeLabel} 범위 선택`}
+            >
+              {currentRangeLabel}
+            </button>
           </div>
 
           <div
-            className="study-card-progress mt-2 h-0.5 w-full overflow-hidden rounded-full bg-white/8"
-            aria-label={`${totalPages}개 중 ${currentIndex + 1}번째 학습 카드`}
+            className="mt-1.5 flex justify-center"
+            aria-label={`${currentRangeLabel} 범위 안 ${currentRangeRecords.length}개 구문 중 ${currentRangePosition + 1}번째`}
           >
-            <div
-              className="h-full rounded-full bg-[rgb(var(--accent))] transition-all duration-300"
-              style={{ width: `${progressPercent}%` }}
-            />
+            <div className="flex items-center justify-center gap-0.5">
+              {currentRangeRecords.map((record, rangeIndex) => {
+                const isCurrent = rangeIndex === currentRangePosition;
+                const isBefore = rangeIndex < currentRangePosition;
+
+                return (
+                  <span
+                    className="flex size-3.5 items-center justify-center"
+                    key={record.id}
+                    aria-hidden
+                  >
+                    <span
+                      className={cn(
+                        "block rounded-full transition-colors",
+                        isCurrent
+                          ? "size-2.5 bg-[rgb(var(--accent))]"
+                          : "size-1.5",
+                        !isCurrent && (isBefore ? "bg-white/76" : "bg-white/22")
+                      )}
+                    />
+                  </span>
+                );
+              })}
+            </div>
           </div>
         </header>
 
