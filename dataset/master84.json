@@ -1,20 +1,98 @@
 {
   "schemaVersion": 1,
   "slug": "master84",
-  "title": "명심보감 첫 암기 84",
+  "title": "처음 만나는 명심보감 암기 도우미 통합 데이터셋",
   "locale": "ko-KR",
+  "sourceSchemaVersion": "mgb.final-draft.v1",
+  "sourceCreatedAt": "2026-07-08",
+  "sourceRecordCount": 48,
+  "sourcePages": [
+    8,
+    12,
+    13,
+    14,
+    18,
+    22,
+    23,
+    24,
+    28,
+    29,
+    30,
+    34,
+    35,
+    36,
+    40,
+    44,
+    45,
+    46,
+    50,
+    54,
+    55,
+    56,
+    57,
+    58,
+    62,
+    63,
+    64,
+    68,
+    69,
+    70,
+    74,
+    75,
+    76,
+    77,
+    78,
+    82,
+    83,
+    84,
+    88,
+    89,
+    90,
+    94,
+    95,
+    96,
+    100,
+    101,
+    102,
+    103
+  ],
+  "notes": [
+    "directMeaning은 책의 바로뜻 원문 기준 전사값입니다.",
+    "translation 필드는 앱 기존 호환을 위해 directMeaning과 같은 값을 중복 제공했습니다.",
+    "promptHanja/promptKorean/promptTranslation은 암기 cue 후보이며 사용자가 최종 지정 예정입니다.",
+    "deepMeaning은 확보된 배치에만 포함되어 있으며, 없는 초기 기록은 빈 문자열입니다.",
+    "중복 페이지는 뒤 배치를 우선했습니다. page 56은 source_records_pages_55_74_draft.json 기준입니다."
+  ],
+  "verificationSummary": {
+    "pageUniquePass": true,
+    "lineHanjaKoreanCountPass": true,
+    "characterCoveragePass": true,
+    "directMeaningPresentPass": true,
+    "errorCount": 0,
+    "warningCount": 0
+  },
   "records": [
     {
-      "id": "master84-001",
+      "id": "MGB-001",
+      "quoteNo": 1,
       "page": 8,
-      "title": "선한 일과 나쁜 일",
-      "source": "명심보감 계선 편",
+      "section": "계선 편",
       "promptHanja": "爲善者",
       "promptKorean": "위선자",
       "promptTranslation": "선한 일을",
       "fullHanja": "爲善者 天報之以福\n爲不善者 天報之以禍",
       "fullKorean": "위선자 천보지이복\n위불선자 천보지이화",
+      "directMeaning": "선한 일을 하는 사람은 하늘이 복을 내리고\n나쁜 일을 하는 사람은 하늘이 화를 내린다.",
       "translation": "선한 일을 하는 사람은 하늘이 복을 내리고\n나쁜 일을 하는 사람은 하늘이 화를 내린다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "爲善者 天報之以福",
+        "爲不善者 天報之以禍"
+      ],
+      "koreanLines": [
+        "위선자 천보지이복",
+        "위불선자 천보지이화"
+      ],
       "characters": [
         {
           "character": "爲",
@@ -67,22 +145,31 @@
           "sound": "화"
         }
       ],
-      "tags": [
-        "계선",
-        "선악"
-      ]
+      "sourceFile": "verified_records_pages_8_29.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다. 바로뜻/원문은 추가 육안 검수 권장."
     },
     {
-      "id": "master84-002",
+      "id": "MGB-002",
+      "quoteNo": 2,
       "page": 12,
-      "title": "선악을 대하는 태도",
-      "source": "명심보감 계선 편",
+      "section": "계선 편",
       "promptHanja": "見善如渴",
       "promptKorean": "견선여갈",
       "promptTranslation": "선한 일을",
       "fullHanja": "見善如渴 聞惡如聾\n善事須貪 惡事莫樂",
       "fullKorean": "견선여갈 문악여롱\n선사수탐 악사막락",
+      "directMeaning": "선한 일을 보거든 목마를 때 물 마시듯 하고\n나쁜 일을 듣거든 귀머거리처럼 하라.\n선한 일은 모름지기 탐내서 하되\n나쁜 일은 즐거워하지 마라.",
       "translation": "선한 일을 보거든 목마를 때 물 마시듯 하고\n나쁜 일을 듣거든 귀머거리처럼 하라.\n선한 일은 모름지기 탐내서 하되\n나쁜 일은 즐거워하지 마라.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "見善如渴 聞惡如聾",
+        "善事須貪 惡事莫樂"
+      ],
+      "koreanLines": [
+        "견선여갈 문악여롱",
+        "선사수탐 악사막락"
+      ],
       "characters": [
         {
           "character": "見",
@@ -145,22 +232,31 @@
           "sound": "락"
         }
       ],
-      "tags": [
-        "계선",
-        "선악"
-      ]
+      "sourceFile": "verified_records_pages_8_29.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다. 바로뜻/원문은 추가 육안 검수 권장."
     },
     {
-      "id": "master84-003",
+      "id": "MGB-003",
+      "quoteNo": 3,
       "page": 13,
-      "title": "하루의 생각",
-      "source": "명심보감 계선 편",
+      "section": "계선 편",
       "promptHanja": "一日不念善",
       "promptKorean": "일일불념선",
       "promptTranslation": "하루라도",
       "fullHanja": "一日不念善\n諸惡皆自起",
       "fullKorean": "일일불념선\n제악개자기",
+      "directMeaning": "하루라도 착한 것을 생각하지 않으면\n모든 악한 것이 저절로 일어난다.",
       "translation": "하루라도 착한 것을 생각하지 않으면\n모든 악한 것이 저절로 일어난다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "一日不念善",
+        "諸惡皆自起"
+      ],
+      "koreanLines": [
+        "일일불념선",
+        "제악개자기"
+      ],
       "characters": [
         {
           "character": "一",
@@ -213,22 +309,31 @@
           "sound": "기"
         }
       ],
-      "tags": [
-        "계선",
-        "성찰"
-      ]
+      "sourceFile": "verified_records_pages_8_29.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다. 바로뜻/원문은 추가 육안 검수 권장."
     },
     {
-      "id": "master84-004",
+      "id": "MGB-004",
+      "quoteNo": 4,
       "page": 14,
-      "title": "은혜와 원한",
-      "source": "명심보감 계선 편",
+      "section": "계선 편",
       "promptHanja": "恩義廣施",
       "promptKorean": "은의광시",
       "promptTranslation": "은혜와 의리를",
       "fullHanja": "恩義廣施 人生何處不相逢\n讐怨莫結 路逢狹處難回避",
       "fullKorean": "은의광시 인생하처불상봉\n수원막결 노봉협처난회피",
+      "directMeaning": "은혜와 의리를 널리 베풀라.\n인생은 어디서든 다시 만난다.\n원수와 원한을 맺지 말거라.\n좁은 데서 만나면 피하기 어렵다.",
       "translation": "은혜와 의리를 널리 베풀라.\n인생은 어디서든 다시 만난다.\n원수와 원한을 맺지 말거라.\n좁은 데서 만나면 피하기 어렵다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "恩義廣施 人生何處不相逢",
+        "讐怨莫結 路逢狹處難回避"
+      ],
+      "koreanLines": [
+        "은의광시 인생하처불상봉",
+        "수원막결 노봉협처난회피"
+      ],
       "characters": [
         {
           "character": "恩",
@@ -331,22 +436,31 @@
           "sound": "피"
         }
       ],
-      "tags": [
-        "계선",
-        "인간관계"
-      ]
+      "sourceFile": "verified_records_pages_8_29.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다. 바로뜻/원문은 추가 육안 검수 권장."
     },
     {
-      "id": "master84-005",
+      "id": "MGB-005",
+      "quoteNo": 5,
       "page": 18,
-      "title": "하늘에 순응함",
-      "source": "명심보감 천명 편",
+      "section": "천명 편",
       "promptHanja": "順天者",
       "promptKorean": "순천자",
       "promptTranslation": "하늘에",
       "fullHanja": "順天者 存\n逆天者 亡",
       "fullKorean": "순천자 존\n역천자 망",
+      "directMeaning": "하늘에 순응하는 자는 살고\n하늘의 뜻을 거역하는 자는 죽는다.",
       "translation": "하늘에 순응하는 자는 살고\n하늘의 뜻을 거역하는 자는 죽는다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "順天者 存",
+        "逆天者 亡"
+      ],
+      "koreanLines": [
+        "순천자 존",
+        "역천자 망"
+      ],
       "characters": [
         {
           "character": "順",
@@ -379,21 +493,31 @@
           "sound": "망"
         }
       ],
-      "tags": [
-        "천명"
-      ]
+      "sourceFile": "verified_records_pages_8_29.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다. 바로뜻/원문은 추가 육안 검수 권장."
     },
     {
-      "id": "master84-006",
+      "id": "MGB-006",
+      "quoteNo": 6,
       "page": 22,
-      "title": "심은 대로 거둠",
-      "source": "명심보감 천명 편",
+      "section": "천명 편",
       "promptHanja": "種瓜得瓜",
       "promptKorean": "종과득과",
       "promptTranslation": "오이를",
       "fullHanja": "種瓜得瓜 種豆得豆\n天網恢恢 疏而不漏",
       "fullKorean": "종과득과 종두득두\n천망회회 소이불루",
+      "directMeaning": "오이를 심으면 오이를 얻고\n콩을 심으면 콩을 얻는다.\n하늘의 그물은 넓고 넓어\n성글지만 새지 않는다.",
       "translation": "오이를 심으면 오이를 얻고\n콩을 심으면 콩을 얻는다.\n하늘의 그물은 넓고 넓어\n성글지만 새지 않는다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "種瓜得瓜 種豆得豆",
+        "天網恢恢 疏而不漏"
+      ],
+      "koreanLines": [
+        "종과득과 종두득두",
+        "천망회회 소이불루"
+      ],
       "characters": [
         {
           "character": "種",
@@ -451,22 +575,33 @@
           "sound": "루"
         }
       ],
-      "tags": [
-        "천명",
-        "인과"
-      ]
+      "sourceFile": "verified_records_pages_8_29.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다. 바로뜻/원문은 추가 육안 검수 권장."
     },
     {
-      "id": "master84-007",
+      "id": "MGB-007",
+      "quoteNo": 7,
       "page": 23,
-      "title": "부모의 은혜",
-      "source": "명심보감 효행 편",
+      "section": "효행 편",
       "promptHanja": "父兮生我",
       "promptKorean": "부혜생아",
       "promptTranslation": "아버님",
       "fullHanja": "父兮生我 母兮鞠我\n哀哀父母 生我劬勞\n欲報之德 昊天罔極",
       "fullKorean": "부혜생아 모혜국아\n애애부모 생아구로\n욕보지덕 호천망극",
+      "directMeaning": "아버님 나를 낳으시고 어머니 나를 기르셨네.\n슬프고 또 슬프구나.\n부모님 날 낳아 기르시느라 고생하셨네.\n그 은혜를 갚으려 해도 하늘처럼 넓어 끝이 없다.",
       "translation": "아버님 나를 낳으시고 어머니 나를 기르셨네.\n슬프고 또 슬프구나.\n부모님 날 낳아 기르시느라 고생하셨네.\n그 은혜를 갚으려 해도 하늘처럼 넓어 끝이 없다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "父兮生我 母兮鞠我",
+        "哀哀父母 生我劬勞",
+        "欲報之德 昊天罔極"
+      ],
+      "koreanLines": [
+        "부혜생아 모혜국아",
+        "애애부모 생아구로",
+        "욕보지덕 호천망극"
+      ],
       "characters": [
         {
           "character": "父",
@@ -554,22 +689,31 @@
           "sound": "극"
         }
       ],
-      "tags": [
-        "효행",
-        "부모"
-      ]
+      "sourceFile": "verified_records_pages_8_29.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다. 바로뜻/원문은 추가 육안 검수 권장."
     },
     {
-      "id": "master84-008",
+      "id": "MGB-008",
+      "quoteNo": 8,
       "page": 24,
-      "title": "효도의 거울",
-      "source": "명심보감 효행 편",
+      "section": "효행 편",
       "promptHanja": "孝於親",
       "promptKorean": "효어친",
       "promptTranslation": "내가 부모에게",
       "fullHanja": "孝於親 子亦孝之\n身既不孝 子何孝焉",
       "fullKorean": "효어친 자역효지\n신기불효 자하효언",
+      "directMeaning": "내가 부모에게 효도하면\n자식 또한 내게 효도할 것이다.\n내가 부모에게 효도하지 않으면\n자식이 어찌 내게 효도할 것인가.",
       "translation": "내가 부모에게 효도하면\n자식 또한 내게 효도할 것이다.\n내가 부모에게 효도하지 않으면\n자식이 어찌 내게 효도할 것인가.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "孝於親 子亦孝之",
+        "身既不孝 子何孝焉"
+      ],
+      "koreanLines": [
+        "효어친 자역효지",
+        "신기불효 자하효언"
+      ],
       "characters": [
         {
           "character": "孝",
@@ -627,22 +771,33 @@
           "sound": "언"
         }
       ],
-      "tags": [
-        "효행",
-        "부모"
-      ]
+      "sourceFile": "verified_records_pages_8_29.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다. 바로뜻/원문은 추가 육안 검수 권장."
     },
     {
-      "id": "master84-009",
+      "id": "MGB-009",
+      "quoteNo": 9,
       "page": 28,
-      "title": "남을 보고 나를 살핌",
-      "source": "명심보감 정기 편",
+      "section": "정기 편",
       "promptHanja": "見人之善",
       "promptKorean": "견인지선",
       "promptTranslation": "남의 선한 것을",
       "fullHanja": "見人之善 而尋其之善\n見人之惡 而尋其之惡\n如此 方是有益",
       "fullKorean": "견인지선 이심기지선\n견인지악 이심기지악\n여차 방시유익",
+      "directMeaning": "남의 선한 것을 보면 나의 선한 것을 살펴보고\n남의 악한 것을 보면 나의 악한 것을 살펴보라.\n그것이 유익함을 줄 것이다.",
       "translation": "남의 선한 것을 보면 나의 선한 것을 살펴보고\n남의 악한 것을 보면 나의 악한 것을 살펴보라.\n그것이 유익함을 줄 것이다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "見人之善 而尋其之善",
+        "見人之惡 而尋其之惡",
+        "如此 方是有益"
+      ],
+      "koreanLines": [
+        "견인지선 이심기지선",
+        "견인지악 이심기지악",
+        "여차 방시유익"
+      ],
       "characters": [
         {
           "character": "見",
@@ -715,22 +870,33 @@
           "sound": "익"
         }
       ],
-      "tags": [
-        "정기",
-        "성찰"
-      ]
+      "sourceFile": "verified_records_pages_8_29.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다. 바로뜻/원문은 추가 육안 검수 권장."
     },
     {
-      "id": "master84-010",
+      "id": "MGB-010",
+      "quoteNo": 10,
       "page": 29,
-      "title": "자기와 남을 대하는 태도",
-      "source": "명심보감 정기 편",
+      "section": "정기 편",
       "promptHanja": "勿以貴己",
       "promptKorean": "물이귀기",
       "promptTranslation": "자기를",
       "fullHanja": "勿以貴己而賤人\n勿以自大而蔑小\n勿以恃勇而輕敵",
       "fullKorean": "물이귀기이천인\n물이자대이멸소\n물이시용이경적",
+      "directMeaning": "자기를 귀하게 여기듯 남을 천하게 여기지 말고\n자기가 크다고 작은 사람을 업신여기지 말며\n자기 용맹을 믿고 적을 가볍게 여기지 말라.",
       "translation": "자기를 귀하게 여기듯 남을 천하게 여기지 말고\n자기가 크다고 작은 사람을 업신여기지 말며\n자기 용맹을 믿고 적을 가볍게 여기지 말라.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "勿以貴己而賤人",
+        "勿以自大而蔑小",
+        "勿以恃勇而輕敵"
+      ],
+      "koreanLines": [
+        "물이귀기이천인",
+        "물이자대이멸소",
+        "물이시용이경적"
+      ],
       "characters": [
         {
           "character": "勿",
@@ -808,10 +974,2996 @@
           "sound": "적"
         }
       ],
-      "tags": [
-        "정기",
-        "겸손"
-      ]
+      "sourceFile": "verified_records_pages_8_29.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다. 바로뜻/원문은 추가 육안 검수 권장."
+    },
+    {
+      "id": "MGB-011",
+      "quoteNo": 11,
+      "page": 30,
+      "section": "정기 편",
+      "promptHanja": "道吾善者",
+      "promptKorean": "도오선자",
+      "promptTranslation": "나를",
+      "fullHanja": "道吾善者 是吾賊\n道吾惡者 是吾師",
+      "fullKorean": "도오선자 시오적\n도오악자 시오사",
+      "directMeaning": "나를 잘한다 하면서 부추기는 사람은\n내게 해로운 사람이요\n나의 나쁜 점을 지적해 바로잡아 주는 사람은\n곧 스승과 같다.",
+      "translation": "나를 잘한다 하면서 부추기는 사람은\n내게 해로운 사람이요\n나의 나쁜 점을 지적해 바로잡아 주는 사람은\n곧 스승과 같다.",
+      "deepMeaning": "‘쓴 약은 입에 쓰지만 병에는 이롭다.’는 말과도 같은 뜻이에요. 나를 진정으로 아끼고 사랑하는 사람은 내게 바른말을 해 주는 사람이에요. 충고는 들을 때는 기분이 나쁠 수도 있지만 나중에는 덕이 된답니다. 바른길로 인도하기 때문이지요. 나에게 듣기 좋은 말만 하는 사람이 있다면 주의해서 사귀어야 해요.",
+      "hanjaLines": [
+        "道吾善者 是吾賊",
+        "道吾惡者 是吾師"
+      ],
+      "koreanLines": [
+        "도오선자 시오적",
+        "도오악자 시오사"
+      ],
+      "characters": [
+        {
+          "character": "道",
+          "meaning": "길",
+          "sound": "도"
+        },
+        {
+          "character": "吾",
+          "meaning": "나",
+          "sound": "오"
+        },
+        {
+          "character": "善",
+          "meaning": "착할",
+          "sound": "선"
+        },
+        {
+          "character": "者",
+          "meaning": "놈",
+          "sound": "자"
+        },
+        {
+          "character": "是",
+          "meaning": "옳을",
+          "sound": "시"
+        },
+        {
+          "character": "賊",
+          "meaning": "도둑",
+          "sound": "적"
+        },
+        {
+          "character": "惡",
+          "meaning": "악할",
+          "sound": "악"
+        },
+        {
+          "character": "師",
+          "meaning": "스승",
+          "sound": "사"
+        }
+      ],
+      "sourceFile": "source_records_pages_30_56_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-012",
+      "quoteNo": 12,
+      "page": 34,
+      "section": "정기 편",
+      "promptHanja": "萬事從寬",
+      "promptKorean": "만사종관",
+      "promptTranslation": "모든 일을",
+      "fullHanja": "萬事從寬\n其福自厚",
+      "fullKorean": "만사종관\n기복자후",
+      "directMeaning": "모든 일을 너그럽게 하라.\n그러면 복이 저절로 두터워질 것이다.",
+      "translation": "모든 일을 너그럽게 하라.\n그러면 복이 저절로 두터워질 것이다.",
+      "deepMeaning": "넓은 마음을 가지려고 노력해 보세요. 모든 일에 관용을 베풀며 이해하고 용서하면 그 복이 결국 자기 자신에게로 돌아오게 되어 있어요.\n너무 조급해하거나 화내지 마세요. 그 화가 결국 자기 자신에게로 향하게 돼요. 상대를 배려하고 너그럽게 대하는 것이 결국 내 복을 쌓는 길이랍니다.",
+      "hanjaLines": [
+        "萬事從寬",
+        "其福自厚"
+      ],
+      "koreanLines": [
+        "만사종관",
+        "기복자후"
+      ],
+      "characters": [
+        {
+          "character": "萬",
+          "meaning": "일만",
+          "sound": "만"
+        },
+        {
+          "character": "事",
+          "meaning": "일",
+          "sound": "사"
+        },
+        {
+          "character": "從",
+          "meaning": "좇을",
+          "sound": "종"
+        },
+        {
+          "character": "寬",
+          "meaning": "너그러울",
+          "sound": "관"
+        },
+        {
+          "character": "其",
+          "meaning": "그",
+          "sound": "기"
+        },
+        {
+          "character": "福",
+          "meaning": "복",
+          "sound": "복"
+        },
+        {
+          "character": "自",
+          "meaning": "스스로",
+          "sound": "자"
+        },
+        {
+          "character": "厚",
+          "meaning": "두터울",
+          "sound": "후"
+        }
+      ],
+      "sourceFile": "source_records_pages_30_56_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-013",
+      "quoteNo": 13,
+      "page": 35,
+      "section": "정기 편",
+      "promptHanja": "勤爲無價",
+      "promptKorean": "근위무가",
+      "promptTranslation": "부지런함은",
+      "fullHanja": "勤爲無價之寶\n愼是護身之符",
+      "fullKorean": "근위무가지보\n신시호신지부",
+      "directMeaning": "부지런함은 값을 매길 수 없는 보배요\n조심하는 것은 몸을 보호하는 부적이다.",
+      "translation": "부지런함은 값을 매길 수 없는 보배요\n조심하는 것은 몸을 보호하는 부적이다.",
+      "deepMeaning": "‘일찍 일어나는 새가 벌레를 잡는다.’는 속담이 있어요. 부지런한 사람에게 좋은 일이 생긴다는 이야기예요. 성공한 사람은 대부분 부지런한 사람들이에요. 또한 게으르고 약속을 안 지키는 사람이 성공하는 일은 드물지요.\n건강한 신체에 건전한 정신이 깃든다는 말을 들어본 적 있나요? 몸을 잘 보호하지 않으면 안 된다는 말이에요. 길을 걸을 때도 조심, 차를 타고 내릴 때도 조심, 모든 일에 항상 조심하세요.",
+      "hanjaLines": [
+        "勤爲無價之寶",
+        "愼是護身之符"
+      ],
+      "koreanLines": [
+        "근위무가지보",
+        "신시호신지부"
+      ],
+      "characters": [
+        {
+          "character": "勤",
+          "meaning": "부지런할",
+          "sound": "근"
+        },
+        {
+          "character": "爲",
+          "meaning": "할",
+          "sound": "위"
+        },
+        {
+          "character": "無",
+          "meaning": "없을",
+          "sound": "무"
+        },
+        {
+          "character": "價",
+          "meaning": "값",
+          "sound": "가"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "寶",
+          "meaning": "보배",
+          "sound": "보"
+        },
+        {
+          "character": "愼",
+          "meaning": "삼갈",
+          "sound": "신"
+        },
+        {
+          "character": "是",
+          "meaning": "옳을",
+          "sound": "시"
+        },
+        {
+          "character": "護",
+          "meaning": "보호할",
+          "sound": "호"
+        },
+        {
+          "character": "身",
+          "meaning": "몸",
+          "sound": "신"
+        },
+        {
+          "character": "符",
+          "meaning": "부적",
+          "sound": "부"
+        }
+      ],
+      "sourceFile": "source_records_pages_30_56_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-014",
+      "quoteNo": 14,
+      "page": 36,
+      "section": "정기 편",
+      "promptHanja": "定心應物",
+      "promptKorean": "정심응물",
+      "promptTranslation": "마음을",
+      "fullHanja": "定心應物\n雖不讀書\n可以爲有德君子",
+      "fullKorean": "정심응물\n수부독서\n가이위유덕군자",
+      "directMeaning": "마음을 안정시키고 일을 대한다면\n비록 배우지 않았더라도\n덕이 있는 군자라고 할 수 있다.",
+      "translation": "마음을 안정시키고 일을 대한다면\n비록 배우지 않았더라도\n덕이 있는 군자라고 할 수 있다.",
+      "deepMeaning": "어떤 일이든 마음먹기에 달렸어요. 바른 마음으로 어떤 일을 바라보면 모든 것이 정상적으로 보이지만, 편견이라는 삐뚤어진 마음으로 보면 모든 것이 비정상적으로 보여요. 정직한 마음으로 바라보고 행동하세요.\n학식이 높은 사람을 군자라고 하지요. 공부를 하지 않았더라도 바르고 정직하게 생각하고 행동하면 군자나 다름 바 없답니다.",
+      "hanjaLines": [
+        "定心應物",
+        "雖不讀書",
+        "可以爲有德君子"
+      ],
+      "koreanLines": [
+        "정심응물",
+        "수부독서",
+        "가이위유덕군자"
+      ],
+      "characters": [
+        {
+          "character": "定",
+          "meaning": "정할",
+          "sound": "정"
+        },
+        {
+          "character": "心",
+          "meaning": "마음",
+          "sound": "심"
+        },
+        {
+          "character": "應",
+          "meaning": "응할",
+          "sound": "응"
+        },
+        {
+          "character": "物",
+          "meaning": "물건",
+          "sound": "물"
+        },
+        {
+          "character": "雖",
+          "meaning": "비록",
+          "sound": "수"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "부"
+        },
+        {
+          "character": "讀",
+          "meaning": "읽을",
+          "sound": "독"
+        },
+        {
+          "character": "書",
+          "meaning": "쓸",
+          "sound": "서"
+        },
+        {
+          "character": "可",
+          "meaning": "옳을",
+          "sound": "가"
+        },
+        {
+          "character": "以",
+          "meaning": "써",
+          "sound": "이"
+        },
+        {
+          "character": "爲",
+          "meaning": "할",
+          "sound": "위"
+        },
+        {
+          "character": "有",
+          "meaning": "있을",
+          "sound": "유"
+        },
+        {
+          "character": "德",
+          "meaning": "덕",
+          "sound": "덕"
+        },
+        {
+          "character": "君",
+          "meaning": "임금",
+          "sound": "군"
+        },
+        {
+          "character": "子",
+          "meaning": "아들",
+          "sound": "자"
+        }
+      ],
+      "sourceFile": "source_records_pages_30_56_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-015",
+      "quoteNo": 15,
+      "page": 40,
+      "section": "정기 편",
+      "promptHanja": "瓜田不納",
+      "promptKorean": "과전불납",
+      "promptTranslation": "남의 오이",
+      "fullHanja": "瓜田不納履\n李下不正冠",
+      "fullKorean": "과전불납리\n이하부정관",
+      "directMeaning": "남의 오이 밭에서 신을 고쳐 신지 말고\n남의 오얏나무 밑에서는 갓을 고쳐 쓰지 말라.",
+      "translation": "남의 오이 밭에서 신을 고쳐 신지 말고\n남의 오얏나무 밑에서는 갓을 고쳐 쓰지 말라.",
+      "deepMeaning": "괜한 일로 남에게 오해를 살 행동을 하지 말라는 뜻이에요.\n남의 오이 밭에서 허리를 구부려 신발을 고쳐 신어 보세요. 주인이 나와서 ‘야, 이놈! 누가 남의 오이를 따려 하느냐?’ 하고 호통을 치겠지요. 또 남의 자두나무 밑에서 갓끈을 고쳐 써 보세요. 자두나무 밑으로 손이 올라가니까 자두를 딴다고 오해를 받을 수 있지요. 오얏나무는 자두나무를 뜻한답니다.",
+      "hanjaLines": [
+        "瓜田不納履",
+        "李下不正冠"
+      ],
+      "koreanLines": [
+        "과전불납리",
+        "이하부정관"
+      ],
+      "characters": [
+        {
+          "character": "瓜",
+          "meaning": "오이",
+          "sound": "과"
+        },
+        {
+          "character": "田",
+          "meaning": "밭",
+          "sound": "전"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불/부"
+        },
+        {
+          "character": "納",
+          "meaning": "바칠",
+          "sound": "납"
+        },
+        {
+          "character": "履",
+          "meaning": "신",
+          "sound": "리"
+        },
+        {
+          "character": "李",
+          "meaning": "오얏",
+          "sound": "이"
+        },
+        {
+          "character": "下",
+          "meaning": "아래",
+          "sound": "하"
+        },
+        {
+          "character": "正",
+          "meaning": "바를",
+          "sound": "정"
+        },
+        {
+          "character": "冠",
+          "meaning": "갓",
+          "sound": "관"
+        }
+      ],
+      "sourceFile": "source_records_pages_30_56_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "不은 문맥상 '불/부' 두 음이 모두 나옵니다. prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-016",
+      "quoteNo": 16,
+      "page": 44,
+      "section": "정기 편",
+      "promptHanja": "耳不聞人",
+      "promptKorean": "이불문인",
+      "promptTranslation": "귀로는",
+      "fullHanja": "耳不聞人之非 目不視人之短\n口不言人之過 庶幾君子",
+      "fullKorean": "이불문인지비 목불시인지단\n구불언인지과 서기군자",
+      "directMeaning": "귀로는 남의 그릇됨을 듣지 않고\n눈으로는 남의 단점을 보지 않고\n입으로는 남의 허물을 말하지 않아야\n군자라고 말할 수 있다.",
+      "translation": "귀로는 남의 그릇됨을 듣지 않고\n눈으로는 남의 단점을 보지 않고\n입으로는 남의 허물을 말하지 않아야\n군자라고 말할 수 있다.",
+      "deepMeaning": "‘남의 흉 한 가지면 제 흉은 열 가지’라는 말이 있어요. 자신의 많은 결점은 보지 못하고 다른 사람의 한 가지 허물을 지적한다는 뜻이에요. 사람을 대할 때 그 사람의 좋은 점을 먼저 봐야 해요.\n군자가 되고 싶다면, 다른 사람의 단점을 지적하기 전에 자기 자신에게 부족함이 없는지 먼저 찾아보세요.",
+      "hanjaLines": [
+        "耳不聞人之非 目不視人之短",
+        "口不言人之過 庶幾君子"
+      ],
+      "koreanLines": [
+        "이불문인지비 목불시인지단",
+        "구불언인지과 서기군자"
+      ],
+      "characters": [
+        {
+          "character": "耳",
+          "meaning": "귀",
+          "sound": "이"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "聞",
+          "meaning": "들을",
+          "sound": "문"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "非",
+          "meaning": "아닐",
+          "sound": "비"
+        },
+        {
+          "character": "目",
+          "meaning": "눈",
+          "sound": "목"
+        },
+        {
+          "character": "視",
+          "meaning": "볼",
+          "sound": "시"
+        },
+        {
+          "character": "短",
+          "meaning": "짧을",
+          "sound": "단"
+        },
+        {
+          "character": "口",
+          "meaning": "입",
+          "sound": "구"
+        },
+        {
+          "character": "言",
+          "meaning": "말씀",
+          "sound": "언"
+        },
+        {
+          "character": "過",
+          "meaning": "지날",
+          "sound": "과"
+        },
+        {
+          "character": "庶",
+          "meaning": "여러",
+          "sound": "서"
+        },
+        {
+          "character": "幾",
+          "meaning": "기미",
+          "sound": "기"
+        },
+        {
+          "character": "君",
+          "meaning": "임금",
+          "sound": "군"
+        },
+        {
+          "character": "子",
+          "meaning": "아들",
+          "sound": "자"
+        }
+      ],
+      "sourceFile": "source_records_pages_30_56_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-017",
+      "quoteNo": 17,
+      "page": 45,
+      "section": "안분 편",
+      "promptHanja": "知足者",
+      "promptKorean": "지족자",
+      "promptTranslation": "만족할 줄",
+      "fullHanja": "知足者 貧賤亦樂\n不知足者 富貴亦憂",
+      "fullKorean": "지족자 빈천역락\n부지족자 부귀역우",
+      "directMeaning": "만족할 줄 아는 사람은\n가난하고 천해도 즐거울 것이요\n만족을 모르는 사람은\n부하고 귀해도 근심 걱정 뿐이다.",
+      "translation": "만족할 줄 아는 사람은\n가난하고 천해도 즐거울 것이요\n만족을 모르는 사람은\n부하고 귀해도 근심 걱정 뿐이다.",
+      "deepMeaning": "채근담에 보면, ‘내 집 담이 남과 같이 높지 못하고 내 곳간의 쌀이 남과 같이 많지 않다고 애달파할 것 없다. 남의 것을 부러워하지 않는다면 생활의 괴로움의 절반은 덜 수 있다.’라는 글이 있어요. 욕심 부리지 않고 자기 삶에 만족한다면 걱정과 근심 없는 행복한 삶을 살 수 있답니다.",
+      "hanjaLines": [
+        "知足者 貧賤亦樂",
+        "不知足者 富貴亦憂"
+      ],
+      "koreanLines": [
+        "지족자 빈천역락",
+        "부지족자 부귀역우"
+      ],
+      "characters": [
+        {
+          "character": "知",
+          "meaning": "알",
+          "sound": "지"
+        },
+        {
+          "character": "足",
+          "meaning": "발",
+          "sound": "족"
+        },
+        {
+          "character": "者",
+          "meaning": "놈",
+          "sound": "자"
+        },
+        {
+          "character": "貧",
+          "meaning": "가난할",
+          "sound": "빈"
+        },
+        {
+          "character": "賤",
+          "meaning": "천할",
+          "sound": "천"
+        },
+        {
+          "character": "亦",
+          "meaning": "또",
+          "sound": "역"
+        },
+        {
+          "character": "樂",
+          "meaning": "즐길",
+          "sound": "락"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "부"
+        },
+        {
+          "character": "富",
+          "meaning": "풍성할",
+          "sound": "부"
+        },
+        {
+          "character": "貴",
+          "meaning": "귀할",
+          "sound": "귀"
+        },
+        {
+          "character": "憂",
+          "meaning": "근심할",
+          "sound": "우"
+        }
+      ],
+      "sourceFile": "source_records_pages_30_56_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-018",
+      "quoteNo": 18,
+      "page": 46,
+      "section": "안분 편",
+      "promptHanja": "知足可樂",
+      "promptKorean": "지족가락",
+      "promptTranslation": "만족할 줄",
+      "fullHanja": "知足可樂\n務貪則憂",
+      "fullKorean": "지족가락\n무탐즉우",
+      "directMeaning": "만족할 줄 알면 즐겁고\n탐욕을 부리면 그것이 곧 근심이다.",
+      "translation": "만족할 줄 알면 즐겁고\n탐욕을 부리면 그것이 곧 근심이다.",
+      "deepMeaning": "자신의 삶에 만족할 줄 알면 사는 게 즐겁고 욕심을 부리면 세상살이가 힘들어요. 사람은 누구나 욕심을 가지고 있어요. 하지만 지나친 욕심은 금물이에요.\n개구리가 배에 바람을 잔뜩 넣어 배를 부풀리다가 배가 터져 죽었다는 우화를 기억하나요? 사람의 욕심은 끝이 없어요. 자기 분수에 알맞게 만족하며 사는 사람이 현명한 사람이랍니다.",
+      "hanjaLines": [
+        "知足可樂",
+        "務貪則憂"
+      ],
+      "koreanLines": [
+        "지족가락",
+        "무탐즉우"
+      ],
+      "characters": [
+        {
+          "character": "知",
+          "meaning": "알",
+          "sound": "지"
+        },
+        {
+          "character": "足",
+          "meaning": "발",
+          "sound": "족"
+        },
+        {
+          "character": "可",
+          "meaning": "옳을",
+          "sound": "가"
+        },
+        {
+          "character": "樂",
+          "meaning": "즐길",
+          "sound": "락"
+        },
+        {
+          "character": "務",
+          "meaning": "일",
+          "sound": "무"
+        },
+        {
+          "character": "貪",
+          "meaning": "탐할",
+          "sound": "탐"
+        },
+        {
+          "character": "則",
+          "meaning": "곧",
+          "sound": "즉"
+        },
+        {
+          "character": "憂",
+          "meaning": "근심",
+          "sound": "우"
+        }
+      ],
+      "sourceFile": "source_records_pages_30_56_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-019",
+      "quoteNo": 19,
+      "page": 50,
+      "section": "안분 편",
+      "promptHanja": "滿招損",
+      "promptKorean": "만초손",
+      "promptTranslation": "가득 차면",
+      "fullHanja": "滿招損\n謙受益",
+      "fullKorean": "만초손\n겸수익",
+      "directMeaning": "가득 차면 줄어 들고\n겸손하면 이익을 얻는다.",
+      "translation": "가득 차면 줄어 들고\n겸손하면 이익을 얻는다.",
+      "deepMeaning": "‘얼굴 붉은 꽃 없고, 달도 차면 기운다.’는 말이 있어요. 꽃이 아무리 예뻐도 시간이 지나면 시들기 마련이에요. 달도 가득 차면 다시 줄어들지요. 부와 명예도 마찬가지예요.\n지금 당장 내 손에 부와 명예를 쥐고 있다고 해서 그것이 오래갈 거라고 생각하지 마세요. 시간이 지나면 부와 명예도 사라질 수 있답니다. 그러니 언제나 겸손한 마음을 가지고 살아야 해요.",
+      "hanjaLines": [
+        "滿招損",
+        "謙受益"
+      ],
+      "koreanLines": [
+        "만초손",
+        "겸수익"
+      ],
+      "characters": [
+        {
+          "character": "滿",
+          "meaning": "찰",
+          "sound": "만"
+        },
+        {
+          "character": "招",
+          "meaning": "부를",
+          "sound": "초"
+        },
+        {
+          "character": "損",
+          "meaning": "덜",
+          "sound": "손"
+        },
+        {
+          "character": "謙",
+          "meaning": "겸손할",
+          "sound": "겸"
+        },
+        {
+          "character": "受",
+          "meaning": "받을",
+          "sound": "수"
+        },
+        {
+          "character": "益",
+          "meaning": "더할",
+          "sound": "익"
+        }
+      ],
+      "sourceFile": "source_records_pages_30_56_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "directMeaning의 '줄어 들고' 띄어쓰기는 이미지 기준 1차 전사입니다. prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-020",
+      "quoteNo": 20,
+      "page": 54,
+      "section": "존심 편",
+      "promptHanja": "懼法朝朝樂",
+      "promptKorean": "구법조조락",
+      "promptTranslation": "법을 두려워하면",
+      "fullHanja": "懼法朝朝樂\n欺公日日憂",
+      "fullKorean": "구법조조락\n기공일일우",
+      "directMeaning": "법을 두려워하면\n아침마다 즐거울 것이요\n공정함을 속이면\n날마다 근심할 것이다.",
+      "translation": "법을 두려워하면\n아침마다 즐거울 것이요\n공정함을 속이면\n날마다 근심할 것이다.",
+      "deepMeaning": "법은 사람과 사람 사이에 지켜야 할 약속이에요. 법을 지키지 않으면 사회 질서가 무너져요. 그리스의 철학자 소크라테스는 ‘악법도 법이다.’라고 했어요. 아무리 마음에 들지 않는 법이라도 법은 법이에요. 그러니 꼭 지켜야 합니다. 또한 공정함을 속이면 자신의 양심을 속이는 일이기 때문에 두고두고 마음도 편치 않습니다.",
+      "hanjaLines": [
+        "懼法朝朝樂",
+        "欺公日日憂"
+      ],
+      "koreanLines": [
+        "구법조조락",
+        "기공일일우"
+      ],
+      "characters": [
+        {
+          "character": "懼",
+          "meaning": "두려워할",
+          "sound": "구"
+        },
+        {
+          "character": "法",
+          "meaning": "법",
+          "sound": "법"
+        },
+        {
+          "character": "朝",
+          "meaning": "아침",
+          "sound": "조"
+        },
+        {
+          "character": "朝",
+          "meaning": "아침",
+          "sound": "조"
+        },
+        {
+          "character": "樂",
+          "meaning": "즐길",
+          "sound": "락"
+        },
+        {
+          "character": "欺",
+          "meaning": "속일",
+          "sound": "기"
+        },
+        {
+          "character": "公",
+          "meaning": "공평할",
+          "sound": "공"
+        },
+        {
+          "character": "日",
+          "meaning": "날",
+          "sound": "일"
+        },
+        {
+          "character": "日",
+          "meaning": "날",
+          "sound": "일"
+        },
+        {
+          "character": "憂",
+          "meaning": "근심할",
+          "sound": "우"
+        }
+      ],
+      "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-021",
+      "quoteNo": 21,
+      "page": 55,
+      "section": "존심 편",
+      "promptHanja": "聰明思睿",
+      "promptKorean": "총명사예",
+      "promptTranslation": "총명하고",
+      "fullHanja": "聰明思睿 守之以愚\n功被天下 守之以讓",
+      "fullKorean": "총명사예 수지이우\n공피천하 수지이양",
+      "directMeaning": "총명하고 생각이 뛰어나도\n어리석음을 지녀야 하고\n공적이 천하를 덮는다 해도\n겸양을 알아야 한다.",
+      "translation": "총명하고 생각이 뛰어나도\n어리석음을 지녀야 하고\n공적이 천하를 덮는다 해도\n겸양을 알아야 한다.",
+      "deepMeaning": "‘벼는 익을수록 고개를 숙인다.’는 말이 있지요? 교양 있고 자기 수양을 한 사람일수록 다른 사람 앞에서 자기를 내세우려고 하지 않는다는 뜻이에요. 단단히 여문 벼 이삭처럼 속이 꽉 찬 사람이 겸양과 겸손의 미덕까지 지니고 있다면 주변 사람들이 더욱 높이 평가한답니다.",
+      "hanjaLines": [
+        "聰明思睿 守之以愚",
+        "功被天下 守之以讓"
+      ],
+      "koreanLines": [
+        "총명사예 수지이우",
+        "공피천하 수지이양"
+      ],
+      "characters": [
+        {
+          "character": "聰",
+          "meaning": "귀 밝을",
+          "sound": "총"
+        },
+        {
+          "character": "明",
+          "meaning": "밝을",
+          "sound": "명"
+        },
+        {
+          "character": "思",
+          "meaning": "생각할",
+          "sound": "사"
+        },
+        {
+          "character": "睿",
+          "meaning": "슬기로울",
+          "sound": "예"
+        },
+        {
+          "character": "守",
+          "meaning": "지킬",
+          "sound": "수"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "以",
+          "meaning": "써",
+          "sound": "이"
+        },
+        {
+          "character": "愚",
+          "meaning": "어리석을",
+          "sound": "우"
+        },
+        {
+          "character": "功",
+          "meaning": "공",
+          "sound": "공"
+        },
+        {
+          "character": "被",
+          "meaning": "입을",
+          "sound": "피"
+        },
+        {
+          "character": "天",
+          "meaning": "하늘",
+          "sound": "천"
+        },
+        {
+          "character": "下",
+          "meaning": "아래",
+          "sound": "하"
+        },
+        {
+          "character": "讓",
+          "meaning": "양보할",
+          "sound": "양"
+        }
+      ],
+      "sourceFile": "source_records_pages_55_74_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-022",
+      "quoteNo": 22,
+      "page": 56,
+      "section": "존심 편",
+      "promptHanja": "薄施厚望者",
+      "promptKorean": "박시후망자",
+      "promptTranslation": "적게 베풀고",
+      "fullHanja": "薄施厚望者 不報\n貴而忘賤者 不久",
+      "fullKorean": "박시후망자 불보\n귀이망천자 불구",
+      "directMeaning": "적게 베풀고 많은 것을 바라는 사람에게는\n보답이 없고, 몸이 귀하게 되고 나서\n천했던 시절을 잊는 자는 오래가지 못한다.",
+      "translation": "적게 베풀고 많은 것을 바라는 사람에게는\n보답이 없고, 몸이 귀하게 되고 나서\n천했던 시절을 잊는 자는 오래가지 못한다.",
+      "deepMeaning": "선행을 베풀 때에는 보답을 바라고 해서는 안 돼요. 보답을 바라고 베푸는 친절은 친절이 아니기 때문이에요. 그러니 순수한 마음으로 다른 사람을 도와야 한답니다. ‘개구리 올챙이 적 생각 못 한다.’라는 속담이 있어요. 과거 어려웠던 때를 돌이켜 보면서 항상 겸손하게 살아야 한다는 뜻입니다.",
+      "hanjaLines": [
+        "薄施厚望者 不報",
+        "貴而忘賤者 不久"
+      ],
+      "koreanLines": [
+        "박시후망자 불보",
+        "귀이망천자 불구"
+      ],
+      "characters": [
+        {
+          "character": "薄",
+          "meaning": "엷을",
+          "sound": "박"
+        },
+        {
+          "character": "施",
+          "meaning": "베풀",
+          "sound": "시"
+        },
+        {
+          "character": "厚",
+          "meaning": "두터울",
+          "sound": "후"
+        },
+        {
+          "character": "望",
+          "meaning": "바랄",
+          "sound": "망"
+        },
+        {
+          "character": "者",
+          "meaning": "놈",
+          "sound": "자"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "報",
+          "meaning": "갚을",
+          "sound": "보"
+        },
+        {
+          "character": "貴",
+          "meaning": "귀할",
+          "sound": "귀"
+        },
+        {
+          "character": "而",
+          "meaning": "말 이을",
+          "sound": "이"
+        },
+        {
+          "character": "忘",
+          "meaning": "잊을",
+          "sound": "망"
+        },
+        {
+          "character": "賤",
+          "meaning": "천할",
+          "sound": "천"
+        },
+        {
+          "character": "久",
+          "meaning": "오랠",
+          "sound": "구"
+        }
+      ],
+      "sourceFile": "source_records_pages_55_74_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "page 56은 이전 배치에도 포함되었고, 이번 이미지 기준으로 다시 전사했습니다."
+    },
+    {
+      "id": "MGB-023",
+      "quoteNo": 23,
+      "page": 57,
+      "section": "존심 편",
+      "promptHanja": "守口如甁",
+      "promptKorean": "수구여병",
+      "promptTranslation": "입을 지키는 것은",
+      "fullHanja": "守口如甁\n防意如城",
+      "fullKorean": "수구여병\n방의여성",
+      "directMeaning": "입을 지키는 것은 병마개를 막듯 하고\n욕심을 막는 것은 성을 지키듯 하라.",
+      "translation": "입을 지키는 것은 병마개를 막듯 하고\n욕심을 막는 것은 성을 지키듯 하라.",
+      "deepMeaning": "사람이 귀 두 개와 입 하나를 가진 것은 남의 말을 좀 더 듣고 필요 이상의 말은 하지 못하게 하기 위해서라고 해요. 그러니 말을 할 때는 신중해야 한답니다.\n욕심도 마찬가지예요. 욕심은 욕심을 낳는다고 했어요. 헛된 욕심 때문에 자신이 가지고 있는 것을 잃을 수도 있으니 조심하고 또 조심해야 한답니다.",
+      "hanjaLines": [
+        "守口如甁",
+        "防意如城"
+      ],
+      "koreanLines": [
+        "수구여병",
+        "방의여성"
+      ],
+      "characters": [
+        {
+          "character": "守",
+          "meaning": "지킬",
+          "sound": "수"
+        },
+        {
+          "character": "口",
+          "meaning": "입",
+          "sound": "구"
+        },
+        {
+          "character": "如",
+          "meaning": "같을",
+          "sound": "여"
+        },
+        {
+          "character": "甁",
+          "meaning": "병",
+          "sound": "병"
+        },
+        {
+          "character": "防",
+          "meaning": "막을",
+          "sound": "방"
+        },
+        {
+          "character": "意",
+          "meaning": "뜻",
+          "sound": "의"
+        },
+        {
+          "character": "城",
+          "meaning": "성",
+          "sound": "성"
+        }
+      ],
+      "sourceFile": "source_records_pages_55_74_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-024",
+      "quoteNo": 24,
+      "page": 58,
+      "section": "존심 편",
+      "promptHanja": "施恩勿求報",
+      "promptKorean": "시은물구보",
+      "promptTranslation": "은혜를 베풀되",
+      "fullHanja": "施恩勿求報\n與人勿追悔",
+      "fullKorean": "시은물구보\n여인물추회",
+      "directMeaning": "은혜를 베풀되 보답을 바라지 말고\n남에게 주었거든 그 뒤에 후회하지 말라.",
+      "translation": "은혜를 베풀되 보답을 바라지 말고\n남에게 주었거든 그 뒤에 후회하지 말라.",
+      "deepMeaning": "‘고운 일을 하면 고운 밥 먹는다.’라고 했어요. 다른 사람을 위하여 좋은 일을 하면 그에 따른 좋은 대가와 대접을 받게 되고, 다른 사람의 마음에 상처를 주는 모진 일을 하면 나쁜 대가를 받게 된다는 말이에요.\n은혜를 베풀었으면 베푼 것으로 만족해야 해요. 어떤 대가를 바라고 베푸는 건 옳지 않잖아요? 다른 사람에게 베풀고 나서 보상을 바라고 후회를 하는 것 또한 어리석은 일이에요.",
+      "hanjaLines": [
+        "施恩勿求報",
+        "與人勿追悔"
+      ],
+      "koreanLines": [
+        "시은물구보",
+        "여인물추회"
+      ],
+      "characters": [
+        {
+          "character": "施",
+          "meaning": "베풀",
+          "sound": "시"
+        },
+        {
+          "character": "恩",
+          "meaning": "은혜",
+          "sound": "은"
+        },
+        {
+          "character": "勿",
+          "meaning": "말",
+          "sound": "물"
+        },
+        {
+          "character": "求",
+          "meaning": "구할",
+          "sound": "구"
+        },
+        {
+          "character": "報",
+          "meaning": "갚을",
+          "sound": "보"
+        },
+        {
+          "character": "與",
+          "meaning": "줄",
+          "sound": "여"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "追",
+          "meaning": "쫓을",
+          "sound": "추"
+        },
+        {
+          "character": "悔",
+          "meaning": "뉘우칠",
+          "sound": "회"
+        }
+      ],
+      "sourceFile": "source_records_pages_55_74_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-025",
+      "quoteNo": 25,
+      "page": 62,
+      "section": "존심 편",
+      "promptHanja": "心不負人",
+      "promptKorean": "심불부인",
+      "promptTranslation": "마음속으로",
+      "fullHanja": "心不負人\n面無赧色",
+      "fullKorean": "심불부인\n면무참색",
+      "directMeaning": "마음속으로 남에게 잘못한 일이 없으면\n얼굴에 부끄러운 빛이 드러나지 않는다.",
+      "translation": "마음속으로 남에게 잘못한 일이 없으면\n얼굴에 부끄러운 빛이 드러나지 않는다.",
+      "deepMeaning": "미국 대통령을 지낸 링컨은 ‘나이 40이 되면 자기 얼굴에 책임을 져야 한다.’고 했어요. 사람의 얼굴은 마음의 거울과도 같아요. 사람이 마음속으로 생각하는 것들이 얼굴에 그대로 드러나니까요.\n다른 사람에게 잘못한 일이 없는 사람은 얼굴이 밝고 환해요. 하지만 다른 사람에게 잘못을 저지른 사람의 얼굴에는 불안과 그늘이 드리운답니다. 어떤 얼굴을 갖느냐는 자신이 하기 나름이에요.",
+      "hanjaLines": [
+        "心不負人",
+        "面無赧色"
+      ],
+      "koreanLines": [
+        "심불부인",
+        "면무참색"
+      ],
+      "characters": [
+        {
+          "character": "心",
+          "meaning": "마음",
+          "sound": "심"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "負",
+          "meaning": "질",
+          "sound": "부"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "面",
+          "meaning": "얼굴",
+          "sound": "면"
+        },
+        {
+          "character": "無",
+          "meaning": "없을",
+          "sound": "무"
+        },
+        {
+          "character": "赧",
+          "meaning": "부끄러울",
+          "sound": "참"
+        },
+        {
+          "character": "色",
+          "meaning": "빛",
+          "sound": "색"
+        }
+      ],
+      "sourceFile": "source_records_pages_55_74_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-026",
+      "quoteNo": 26,
+      "page": 63,
+      "section": "존심 편",
+      "promptHanja": "心安茅屋穩",
+      "promptKorean": "심안모옥온",
+      "promptTranslation": "마음이 편안하면",
+      "fullHanja": "心安茅屋穩\n性定菜羹香",
+      "fullKorean": "심안모옥온\n성정채갱향",
+      "directMeaning": "마음이 편안하면 초가집도 평안하고\n성품이 안정되면 나물국도 향기롭다.",
+      "translation": "마음이 편안하면 초가집도 평안하고\n성품이 안정되면 나물국도 향기롭다.",
+      "deepMeaning": "안빈낙도(安貧樂道)라는 사자성어가 있어요. 가난에 구애받지 않고 도를 즐긴다는 뜻이에요. 공자는 ‘안회’라는 제자를 몹시 아꼈어요. 안회는 성실하고 학문도 뛰어났지만 너무 가난해 끼니도 제대로 챙겨 먹지 못했어요. 공자는 가난을 예사로 여기면서 학문에 몰두하는 안회를 장하다고 칭찬했답니다. 마음이 편안하면 초가집도 평안하고 성품이 안정되면 나물국도 향기롭게 느껴지는 법이에요.",
+      "hanjaLines": [
+        "心安茅屋穩",
+        "性定菜羹香"
+      ],
+      "koreanLines": [
+        "심안모옥온",
+        "성정채갱향"
+      ],
+      "characters": [
+        {
+          "character": "心",
+          "meaning": "마음",
+          "sound": "심"
+        },
+        {
+          "character": "安",
+          "meaning": "편안할",
+          "sound": "안"
+        },
+        {
+          "character": "茅",
+          "meaning": "띠",
+          "sound": "모"
+        },
+        {
+          "character": "屋",
+          "meaning": "집",
+          "sound": "옥"
+        },
+        {
+          "character": "穩",
+          "meaning": "평안할",
+          "sound": "온"
+        },
+        {
+          "character": "性",
+          "meaning": "성품",
+          "sound": "성"
+        },
+        {
+          "character": "定",
+          "meaning": "정할",
+          "sound": "정"
+        },
+        {
+          "character": "菜",
+          "meaning": "나물",
+          "sound": "채"
+        },
+        {
+          "character": "羹",
+          "meaning": "국",
+          "sound": "갱"
+        },
+        {
+          "character": "香",
+          "meaning": "향기",
+          "sound": "향"
+        }
+      ],
+      "sourceFile": "source_records_pages_55_74_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-027",
+      "quoteNo": 27,
+      "page": 64,
+      "section": "존심 편",
+      "promptHanja": "責人者不全交",
+      "promptKorean": "책인자부전교",
+      "promptTranslation": "남을 꾸짖는 사람은",
+      "fullHanja": "責人者不全交\n自恕者不改過",
+      "fullKorean": "책인자부전교\n자서자불개과",
+      "directMeaning": "남을 꾸짖는 사람은 온전히 사귀지 못하고\n자기를 용서하는 사람은 잘못을 고치지 못한다.",
+      "translation": "남을 꾸짖는 사람은 온전히 사귀지 못하고\n자기를 용서하는 사람은 잘못을 고치지 못한다.",
+      "deepMeaning": "다른 사람의 잘못을 지적하고 다른 사람의 탓만 하는 사람은 친구를 사귀기가 힘들어요. 무슨 일을 하든지 옆에 있는 사람만 탓할 테니까요. 자기 자신에게 너무 관대한 사람도 마찬가지예요. 잘못을 저질렀으면 잘못을 인정하고 다시는 똑같은 잘못을 되풀이하지 않도록 노력해야 해요. 그런데 잘못을 하고도 반성하지 않으면 아무 소용이 없지요. 자기 자신에게는 엄격하고 다른 사람에게는 관용을 베풀 줄 아는 사람이 되도록 노력하세요.",
+      "hanjaLines": [
+        "責人者不全交",
+        "自恕者不改過"
+      ],
+      "koreanLines": [
+        "책인자부전교",
+        "자서자불개과"
+      ],
+      "characters": [
+        {
+          "character": "責",
+          "meaning": "꾸짖을",
+          "sound": "책"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "者",
+          "meaning": "놈",
+          "sound": "자"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "부"
+        },
+        {
+          "character": "全",
+          "meaning": "온전할",
+          "sound": "전"
+        },
+        {
+          "character": "交",
+          "meaning": "사귈",
+          "sound": "교"
+        },
+        {
+          "character": "自",
+          "meaning": "스스로",
+          "sound": "자"
+        },
+        {
+          "character": "恕",
+          "meaning": "용서할",
+          "sound": "서"
+        },
+        {
+          "character": "改",
+          "meaning": "고칠",
+          "sound": "개"
+        },
+        {
+          "character": "過",
+          "meaning": "지날",
+          "sound": "과"
+        }
+      ],
+      "sourceFile": "source_records_pages_55_74_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "첫 번째 不의 음은 문맥상 부(부전교), 두 번째 不의 음은 불(불개과)로 읽습니다."
+    },
+    {
+      "id": "MGB-028",
+      "quoteNo": 28,
+      "page": 68,
+      "section": "존심 편",
+      "promptHanja": "生事事生",
+      "promptKorean": "생사사생",
+      "promptTranslation": "일을 만들면",
+      "fullHanja": "生事事生\n省事事省",
+      "fullKorean": "생사사생\n성사사성",
+      "directMeaning": "일을 만들면 일이 생기고\n일을 덜면 일이 줄어든다.",
+      "translation": "일을 만들면 일이 생기고\n일을 덜면 일이 줄어든다.",
+      "deepMeaning": "일을 만들려고 계획하면 할 일이 많아지고, 쓸데없는 일을 줄이려고 하면 얼마든지 줄일 수 있다는 말이에요. 즉 쓸데없는 일에 빠져 시간만 보내지 말고 항상 모든 일을 충실히 해 나가라는 가르침이 담겨 있어요. 미리 계획하고 준비해서 시간 낭비를 하지 않고 꼭 필요한 일만 하도록 노력해 보세요.",
+      "hanjaLines": [
+        "生事事生",
+        "省事事省"
+      ],
+      "koreanLines": [
+        "생사사생",
+        "성사사성"
+      ],
+      "characters": [
+        {
+          "character": "生",
+          "meaning": "날",
+          "sound": "생"
+        },
+        {
+          "character": "事",
+          "meaning": "일",
+          "sound": "사"
+        },
+        {
+          "character": "省",
+          "meaning": "덜",
+          "sound": "성"
+        }
+      ],
+      "sourceFile": "source_records_pages_55_74_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-029",
+      "quoteNo": 29,
+      "page": 69,
+      "section": "계성 편",
+      "promptHanja": "忍一時之忿",
+      "promptKorean": "인일시지분",
+      "promptTranslation": "한때의 분한 것을 참으면",
+      "fullHanja": "忍一時之忿\n免百日之憂",
+      "fullKorean": "인일시지분\n면백일지우",
+      "directMeaning": "한때의 분한 것을 참으면\n백 일의 근심을 면할 수 있다.",
+      "translation": "한때의 분한 것을 참으면\n백 일의 근심을 면할 수 있다.",
+      "deepMeaning": "‘참을 인(忍)자 셋이면 살인도 피한다.’라고 했어요. 억울하고 분한 일이 있더라도 꼭 눌러 참으면 이루지 못할 일이 없다는 뜻의 속담이에요. 다른 사람이 나에게 한 어떤 말과 행동 때문에 순간 화를 참지 못한다면 평생 후회할 일이 생길 수도 있어요. 조금만 참았으면 될 일을 더 크게 만들지 말고, 화가 나더라도 인내심을 가지고 참아 봐요. 실수는 그 순간을 참지 못해서 일어난답니다.",
+      "hanjaLines": [
+        "忍一時之忿",
+        "免百日之憂"
+      ],
+      "koreanLines": [
+        "인일시지분",
+        "면백일지우"
+      ],
+      "characters": [
+        {
+          "character": "忍",
+          "meaning": "참을",
+          "sound": "인"
+        },
+        {
+          "character": "一",
+          "meaning": "한",
+          "sound": "일"
+        },
+        {
+          "character": "時",
+          "meaning": "때",
+          "sound": "시"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "忿",
+          "meaning": "성낼",
+          "sound": "분"
+        },
+        {
+          "character": "免",
+          "meaning": "면할",
+          "sound": "면"
+        },
+        {
+          "character": "百",
+          "meaning": "일백",
+          "sound": "백"
+        },
+        {
+          "character": "日",
+          "meaning": "날",
+          "sound": "일"
+        },
+        {
+          "character": "憂",
+          "meaning": "근심할",
+          "sound": "우"
+        }
+      ],
+      "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-030",
+      "quoteNo": 30,
+      "page": 70,
+      "section": "계성 편",
+      "promptHanja": "屈己者能處衆",
+      "promptKorean": "굴기자능처중",
+      "promptTranslation": "자기를 굽힐 줄 아는 사람은",
+      "fullHanja": "屈己者能處衆\n好勝者必遇敵",
+      "fullKorean": "굴기자능처중\n호승자필우적",
+      "directMeaning": "자기를 굽힐 줄 아는 사람은\n중요한 자리를 차지할 것이요\n이기기를 좋아하는 사람은\n반드시 적을 만난다.",
+      "translation": "자기를 굽힐 줄 아는 사람은\n중요한 자리를 차지할 것이요\n이기기를 좋아하는 사람은\n반드시 적을 만난다.",
+      "deepMeaning": "다른 사람을 배려할 줄 아는 사람은 애쓰지 않아도 중요한 자리를 차지할 수 있어요. 주변 사람들이 진심으로 그 사람을 믿고 따르니까요.\n다른 사람과 경쟁하는 것을 좋아하는 사람은 경쟁을 하지 않아도 될 일도 견주려고 해요. 그러다 보면 적이 생기기 쉽답니다.",
+      "hanjaLines": [
+        "屈己者能處衆",
+        "好勝者必遇敵"
+      ],
+      "koreanLines": [
+        "굴기자능처중",
+        "호승자필우적"
+      ],
+      "characters": [
+        {
+          "character": "屈",
+          "meaning": "굽힐",
+          "sound": "굴"
+        },
+        {
+          "character": "己",
+          "meaning": "자기",
+          "sound": "기"
+        },
+        {
+          "character": "者",
+          "meaning": "놈",
+          "sound": "자"
+        },
+        {
+          "character": "能",
+          "meaning": "능할",
+          "sound": "능"
+        },
+        {
+          "character": "處",
+          "meaning": "처할",
+          "sound": "처"
+        },
+        {
+          "character": "衆",
+          "meaning": "무리",
+          "sound": "중"
+        },
+        {
+          "character": "好",
+          "meaning": "좋을",
+          "sound": "호"
+        },
+        {
+          "character": "勝",
+          "meaning": "이길",
+          "sound": "승"
+        },
+        {
+          "character": "必",
+          "meaning": "반드시",
+          "sound": "필"
+        },
+        {
+          "character": "遇",
+          "meaning": "만날",
+          "sound": "우"
+        },
+        {
+          "character": "敵",
+          "meaning": "원수",
+          "sound": "적"
+        }
+      ],
+      "sourceFile": "source_records_pages_55_74_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-031",
+      "quoteNo": 31,
+      "page": 74,
+      "section": "계성 편",
+      "promptHanja": "得忍且忍",
+      "promptKorean": "득인차인",
+      "promptTranslation": "참고 또 참아라",
+      "fullHanja": "得忍且忍 得戒且戒\n不忍不戒 小事成大",
+      "fullKorean": "득인차인 득계차계\n불인불계 소사성대",
+      "directMeaning": "참고 또 참아라. 경계하고 또 경계하라.\n참지 않고 경계하지 않으면 작은 일이 크게 된다.",
+      "translation": "참고 또 참아라. 경계하고 또 경계하라.\n참지 않고 경계하지 않으면 작은 일이 크게 된다.",
+      "deepMeaning": "어리석은 사람은 당장에 노여움을 드러내지만 어진 사람은 모욕을 받아도 덮어 둔다는 이야기가 있어요. 함부로 화를 내지 말고 참고 또 참아보세요. 참을 인(忍)이라는 한자는 칼 도(刃)자 옆에 점(·)을 하나 찍어 마음(心)을 다스리라는 뜻에서 만들어진 글자라고 해요. 화나는 마음을 참고 나면 모든 일이 편안해져요. 참을성을 가지고 조심하지 않으면, 사소한 일도 큰일이 될 수 있답니다.",
+      "hanjaLines": [
+        "得忍且忍 得戒且戒",
+        "不忍不戒 小事成大"
+      ],
+      "koreanLines": [
+        "득인차인 득계차계",
+        "불인불계 소사성대"
+      ],
+      "characters": [
+        {
+          "character": "得",
+          "meaning": "얻을",
+          "sound": "득"
+        },
+        {
+          "character": "忍",
+          "meaning": "참을",
+          "sound": "인"
+        },
+        {
+          "character": "且",
+          "meaning": "또",
+          "sound": "차"
+        },
+        {
+          "character": "戒",
+          "meaning": "경계할",
+          "sound": "계"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "小",
+          "meaning": "작은",
+          "sound": "소"
+        },
+        {
+          "character": "事",
+          "meaning": "일",
+          "sound": "사"
+        },
+        {
+          "character": "成",
+          "meaning": "이룰",
+          "sound": "성"
+        },
+        {
+          "character": "大",
+          "meaning": "큰",
+          "sound": "대"
+        }
+      ],
+      "sourceFile": "source_records_pages_55_74_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-032",
+      "quoteNo": 32,
+      "page": 75,
+      "section": "계성 편",
+      "promptHanja": "凡事留人情",
+      "promptKorean": "범사유인정",
+      "promptTranslation": "모든 일에 인정을 남겨 두면",
+      "fullHanja": "凡事留人情\n後來好相見",
+      "fullKorean": "범사유인정\n후래호상견",
+      "directMeaning": "모든 일에 인정을 남겨 두면\n나중에 좋은 얼굴로 다시 만나게 된다.",
+      "translation": "모든 일에 인정을 남겨 두면\n나중에 좋은 얼굴로 다시 만나게 된다.",
+      "deepMeaning": "회자정리(會者定離)라는 말이 있어요. 만남이 있으면 언젠가는 헤어짐도 있다는 말이에요. 헤어질 때는 좋은 얼굴로 헤어져야 해요. 다시는 안 만날 것 같아서 모진 말을 하고 헤어졌다가 다시 만나게 된다면 어떻겠어요? ‘물이 아니면 건너지 말고 인정이 아니면 사귀지 말라.’는 속담이 있듯이 사람을 사귈 때에는 따뜻한 마음으로 사귀세요. 어떤 목적을 가지고 사람을 사귀면 안 돼요.",
+      "hanjaLines": [
+        "凡事留人情",
+        "後來好相見"
+      ],
+      "koreanLines": [
+        "범사유인정",
+        "후래호상견"
+      ],
+      "characters": [
+        {
+          "character": "凡",
+          "meaning": "무릇",
+          "sound": "범"
+        },
+        {
+          "character": "事",
+          "meaning": "일",
+          "sound": "사"
+        },
+        {
+          "character": "留",
+          "meaning": "머무를",
+          "sound": "유"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "情",
+          "meaning": "뜻",
+          "sound": "정"
+        },
+        {
+          "character": "後",
+          "meaning": "뒤",
+          "sound": "후"
+        },
+        {
+          "character": "來",
+          "meaning": "올",
+          "sound": "래"
+        },
+        {
+          "character": "好",
+          "meaning": "좋을",
+          "sound": "호"
+        },
+        {
+          "character": "相",
+          "meaning": "서로",
+          "sound": "상"
+        },
+        {
+          "character": "見",
+          "meaning": "볼",
+          "sound": "견"
+        }
+      ],
+      "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-033",
+      "quoteNo": 33,
+      "page": 76,
+      "section": "근학 편",
+      "promptHanja": "博學而篤志",
+      "promptKorean": "박학이독지",
+      "promptTranslation": "널리 배워 뜻을 돈독하게 하고",
+      "fullHanja": "博學而篤志\n切問而近思\n仁在其中矣",
+      "fullKorean": "박학이독지\n절문이근사\n인재기중의",
+      "directMeaning": "널리 배워 뜻을 돈독하게 하고\n간절하게 묻고 가까운 것부터 잘 생각하면\n옳은 것은 그 가운데 있다.",
+      "translation": "널리 배워 뜻을 돈독하게 하고\n간절하게 묻고 가까운 것부터 잘 생각하면\n옳은 것은 그 가운데 있다.",
+      "deepMeaning": "‘배우고 생각하지 아니하면 어두우며, 생각하고 배우지 아니하면 위태롭다.’라는 말이 있어요. 공부를 열심히 하는 것도 중요하지만, 책을 통해 배운 지식을 실천으로 옮기는 것이 더 중요하지요. 아무리 지식이 많아도 실천으로 옮기지 못한다면 그것은 죽은 지식이에요. 그러니 공부를 두루두루 해서 확고한 신념을 세운 뒤에는 옳고 그름을 깨닫고 실천으로 옮겨야 합니다.",
+      "hanjaLines": [
+        "博學而篤志",
+        "切問而近思",
+        "仁在其中矣"
+      ],
+      "koreanLines": [
+        "박학이독지",
+        "절문이근사",
+        "인재기중의"
+      ],
+      "characters": [
+        {
+          "character": "博",
+          "meaning": "넓을",
+          "sound": "박"
+        },
+        {
+          "character": "學",
+          "meaning": "배울",
+          "sound": "학"
+        },
+        {
+          "character": "而",
+          "meaning": "말이을",
+          "sound": "이"
+        },
+        {
+          "character": "篤",
+          "meaning": "도타울",
+          "sound": "독"
+        },
+        {
+          "character": "志",
+          "meaning": "뜻",
+          "sound": "지"
+        },
+        {
+          "character": "切",
+          "meaning": "끊을",
+          "sound": "절"
+        },
+        {
+          "character": "問",
+          "meaning": "물을",
+          "sound": "문"
+        },
+        {
+          "character": "近",
+          "meaning": "가까울",
+          "sound": "근"
+        },
+        {
+          "character": "思",
+          "meaning": "생각할",
+          "sound": "사"
+        },
+        {
+          "character": "仁",
+          "meaning": "어질",
+          "sound": "인"
+        },
+        {
+          "character": "在",
+          "meaning": "있을",
+          "sound": "재"
+        },
+        {
+          "character": "其",
+          "meaning": "그",
+          "sound": "기"
+        },
+        {
+          "character": "中",
+          "meaning": "가운데",
+          "sound": "중"
+        },
+        {
+          "character": "矣",
+          "meaning": "어조사",
+          "sound": "의"
+        }
+      ],
+      "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-034",
+      "quoteNo": 34,
+      "page": 77,
+      "section": "근학 편",
+      "promptHanja": "學而智遠",
+      "promptKorean": "학이지원",
+      "promptTranslation": "사람이 배워서 아는 것이 많아지면",
+      "fullHanja": "學而智遠\n如披祥雲而觀靑天\n登高山而望四海",
+      "fullKorean": "학이지원\n여피상운이관청천\n등고산이망사해",
+      "directMeaning": "사람이 배워서 아는 것이 많아지면\n구름을 헤치고 하늘을 보는 것과 같으며\n산에 올라 사방을 내려다보는 것과 같다.",
+      "translation": "사람이 배워서 아는 것이 많아지면\n구름을 헤치고 하늘을 보는 것과 같으며\n산에 올라 사방을 내려다보는 것과 같다.",
+      "deepMeaning": "단순히 안다는 것만으로 참된 지식이라고 할 수 없어요. 억지로 배우는 것이 아니라 배우는 것에 애착을 가져야 해요. 그보다 더 높은 단계는 배우고 깨치는 것에 무한한 즐거움을 느낀다는 것이지요. 공부를 열심히 하고 즐기다 보면 산에 올라 사방을 내려다보는 것과 같이 세상을 바라보는 시야가 넓어져요.",
+      "hanjaLines": [
+        "學而智遠",
+        "如披祥雲而觀靑天",
+        "登高山而望四海"
+      ],
+      "koreanLines": [
+        "학이지원",
+        "여피상운이관청천",
+        "등고산이망사해"
+      ],
+      "characters": [
+        {
+          "character": "學",
+          "meaning": "배울",
+          "sound": "학"
+        },
+        {
+          "character": "而",
+          "meaning": "말이을",
+          "sound": "이"
+        },
+        {
+          "character": "智",
+          "meaning": "슬기",
+          "sound": "지"
+        },
+        {
+          "character": "遠",
+          "meaning": "멀",
+          "sound": "원"
+        },
+        {
+          "character": "如",
+          "meaning": "같을",
+          "sound": "여"
+        },
+        {
+          "character": "披",
+          "meaning": "헤칠",
+          "sound": "피"
+        },
+        {
+          "character": "祥",
+          "meaning": "상서로울",
+          "sound": "상"
+        },
+        {
+          "character": "雲",
+          "meaning": "구름",
+          "sound": "운"
+        },
+        {
+          "character": "觀",
+          "meaning": "볼",
+          "sound": "관"
+        },
+        {
+          "character": "靑",
+          "meaning": "푸를",
+          "sound": "청"
+        },
+        {
+          "character": "天",
+          "meaning": "하늘",
+          "sound": "천"
+        },
+        {
+          "character": "登",
+          "meaning": "오를",
+          "sound": "등"
+        },
+        {
+          "character": "高",
+          "meaning": "높을",
+          "sound": "고"
+        },
+        {
+          "character": "山",
+          "meaning": "메",
+          "sound": "산"
+        },
+        {
+          "character": "望",
+          "meaning": "바랄",
+          "sound": "망"
+        },
+        {
+          "character": "四",
+          "meaning": "넉",
+          "sound": "사"
+        },
+        {
+          "character": "海",
+          "meaning": "바다",
+          "sound": "해"
+        }
+      ],
+      "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-035",
+      "quoteNo": 35,
+      "page": 78,
+      "section": "근학 편",
+      "promptHanja": "人生不學",
+      "promptKorean": "인생불학",
+      "promptTranslation": "사람이 배우지 않으면",
+      "fullHanja": "人生不學\n如冥冥夜行",
+      "fullKorean": "인생불학\n여명명야행",
+      "directMeaning": "사람이 배우지 않으면\n어둡고 어두운 밤길을 가는 것과 같다.",
+      "translation": "사람이 배우지 않으면\n어둡고 어두운 밤길을 가는 것과 같다.",
+      "deepMeaning": "‘사람이 태어나서 배우지 않으면 어둡고 어두운 밤길을 가는 것과 같다.’라고 했어요. 어두운 밤길을 걸어본 적이 있나요? 한치 앞도 보이지 않는 밤에는 한 걸음 내딛기가 두렵답니다. 교육은 사람이 사람답게 사는 법을 배우는 것을 말해요. 교육을 통해 사람답게 사는 법을 배우고, 세상의 이치를 알게 되면 두려움이 점점 사라져요. 배우는 것은 환한 등불을 얻는 것과 마찬가지랍니다.",
+      "hanjaLines": [
+        "人生不學",
+        "如冥冥夜行"
+      ],
+      "koreanLines": [
+        "인생불학",
+        "여명명야행"
+      ],
+      "characters": [
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "生",
+          "meaning": "날",
+          "sound": "생"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "學",
+          "meaning": "배울",
+          "sound": "학"
+        },
+        {
+          "character": "如",
+          "meaning": "같을",
+          "sound": "여"
+        },
+        {
+          "character": "冥",
+          "meaning": "어두울",
+          "sound": "명"
+        },
+        {
+          "character": "冥",
+          "meaning": "어두울",
+          "sound": "명"
+        },
+        {
+          "character": "夜",
+          "meaning": "밤",
+          "sound": "야"
+        },
+        {
+          "character": "行",
+          "meaning": "갈",
+          "sound": "행"
+        }
+      ],
+      "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-036",
+      "quoteNo": 36,
+      "page": 82,
+      "section": "근학 편",
+      "promptHanja": "玉不琢",
+      "promptKorean": "옥불탁",
+      "promptTranslation": "옥은 다듬지 않으면",
+      "fullHanja": "玉不琢 不成器\n人不學 不知道",
+      "fullKorean": "옥불탁 불성기\n인불학 부지도",
+      "directMeaning": "옥은 다듬지 않으면 그릇이 되지 못하고\n사람은 배우지 않으면 도리를 알지 못한다.",
+      "translation": "옥은 다듬지 않으면 그릇이 되지 못하고\n사람은 배우지 않으면 도리를 알지 못한다.",
+      "deepMeaning": "아무리 귀한 옥돌이라도 갈고 다듬지 않으면 좋은 그릇이 될 수 없다는 뜻이에요. 그러니 열심히 연마를 해야 하지요. 사람도 이와 마찬가지로 공부를 하지 않으면 안 돼요. 아무리 머리가 좋고 재주가 있어도 배우지 않으면 깨달을 수 없어요. 그렇기 때문에 교육을 통해 사람된 도리를 깨닫고 이를 실천으로 옮겨 사람답게 살아야 해요.",
+      "hanjaLines": [
+        "玉不琢 不成器",
+        "人不學 不知道"
+      ],
+      "koreanLines": [
+        "옥불탁 불성기",
+        "인불학 부지도"
+      ],
+      "characters": [
+        {
+          "character": "玉",
+          "meaning": "구슬",
+          "sound": "옥"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "琢",
+          "meaning": "쫄",
+          "sound": "탁"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "成",
+          "meaning": "이룰",
+          "sound": "성"
+        },
+        {
+          "character": "器",
+          "meaning": "그릇",
+          "sound": "기"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "學",
+          "meaning": "배울",
+          "sound": "학"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "부"
+        },
+        {
+          "character": "知",
+          "meaning": "알",
+          "sound": "지"
+        },
+        {
+          "character": "道",
+          "meaning": "도리",
+          "sound": "도"
+        }
+      ],
+      "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-037",
+      "quoteNo": 37,
+      "page": 83,
+      "section": "근학 편",
+      "promptHanja": "學如不及",
+      "promptKorean": "학여불급",
+      "promptTranslation": "배우기를 항상 다하지 못한 것처럼 하고",
+      "fullHanja": "學如不及\n惟恐失之",
+      "fullKorean": "학여불급\n유공실지",
+      "directMeaning": "배우기를 항상 다하지 못한 것처럼 하고\n배운 것을 잃을까 두려워하라.",
+      "translation": "배우기를 항상 다하지 못한 것처럼 하고\n배운 것을 잃을까 두려워하라.",
+      "deepMeaning": "논어에서 이르기를 ‘배움에는 다함이 없다.’라고 했어요. 배운 것이 많다고 자랑하지 말고 항상 배우는 자세로 교만해지지 말 것을 당부하는 말이에요. 사람은 매일 무엇인가를 새로 배워요. 이렇게 배우는 것도 중요하지만 배운 것을 잊지 않도록 노력하고 복습하는 자세가 훨씬 중요해요. 끊임없이 배우고 익혀서 사회에 보탬이 될 수 있는 사람이 되어야 한답니다.",
+      "hanjaLines": [
+        "學如不及",
+        "惟恐失之"
+      ],
+      "koreanLines": [
+        "학여불급",
+        "유공실지"
+      ],
+      "characters": [
+        {
+          "character": "學",
+          "meaning": "배울",
+          "sound": "학"
+        },
+        {
+          "character": "如",
+          "meaning": "같을",
+          "sound": "여"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "及",
+          "meaning": "미칠",
+          "sound": "급"
+        },
+        {
+          "character": "惟",
+          "meaning": "생각할",
+          "sound": "유"
+        },
+        {
+          "character": "恐",
+          "meaning": "두려울",
+          "sound": "공"
+        },
+        {
+          "character": "失",
+          "meaning": "잃을",
+          "sound": "실"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        }
+      ],
+      "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-038",
+      "quoteNo": 38,
+      "page": 84,
+      "section": "훈자 편",
+      "promptHanja": "憐兒多與棒",
+      "promptKorean": "련아다여봉",
+      "promptTranslation": "아이를 사랑하거든",
+      "fullHanja": "憐兒多與棒\n憎兒多與食",
+      "fullKorean": "련아다여봉\n증아다여식",
+      "directMeaning": "아이를 사랑하거든 매를 많이 때리고\n아이를 미워하거든 먹을 것을 많이 줘라.",
+      "translation": "아이를 사랑하거든 매를 많이 때리고\n아이를 미워하거든 먹을 것을 많이 줘라.",
+      "deepMeaning": "우리나라 속담 중에 ‘귀여운 자식에게는 매를 들고, 미운 자식에게는 떡을 준다.’라는 말이 있어요. 자식을 잘 기르고 싶거든, 먹을 것이나 주고 자식의 비위를 맞추는 것보다 엄하게 가르쳐 길러야 한다는 뜻이에요. 부모님은 우리가 잘못을 했을 때 잘못을 꾸짖어 주세요. 무조건 감싸거나 잘못된 행동을 보고서도 그냥 넘어가면 못된 버릇만 기르게 되기 때문입니다.",
+      "hanjaLines": [
+        "憐兒多與棒",
+        "憎兒多與食"
+      ],
+      "koreanLines": [
+        "련아다여봉",
+        "증아다여식"
+      ],
+      "characters": [
+        {
+          "character": "憐",
+          "meaning": "어여삐 여길",
+          "sound": "련"
+        },
+        {
+          "character": "兒",
+          "meaning": "아이",
+          "sound": "아"
+        },
+        {
+          "character": "多",
+          "meaning": "많을",
+          "sound": "다"
+        },
+        {
+          "character": "與",
+          "meaning": "줄",
+          "sound": "여"
+        },
+        {
+          "character": "棒",
+          "meaning": "몽둥이",
+          "sound": "봉"
+        },
+        {
+          "character": "憎",
+          "meaning": "미워할",
+          "sound": "증"
+        },
+        {
+          "character": "兒",
+          "meaning": "아이",
+          "sound": "아"
+        },
+        {
+          "character": "多",
+          "meaning": "많을",
+          "sound": "다"
+        },
+        {
+          "character": "與",
+          "meaning": "줄",
+          "sound": "여"
+        },
+        {
+          "character": "食",
+          "meaning": "밥",
+          "sound": "식"
+        }
+      ],
+      "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-039",
+      "quoteNo": 39,
+      "page": 88,
+      "section": "성심 편",
+      "promptHanja": "明鏡",
+      "promptKorean": "명경",
+      "promptTranslation": "맑은 거울은",
+      "fullHanja": "明鏡 所以察形\n往者 所以知今",
+      "fullKorean": "명경 소이찰형\n왕자 소이지금",
+      "directMeaning": "맑은 거울은 모습을 살피는 수단이고\n지나간 일은 현재를 알 수 있는 수단이다.",
+      "translation": "맑은 거울은 모습을 살피는 수단이고\n지나간 일은 현재를 알 수 있는 수단이다.",
+      "deepMeaning": "공자는 ‘수시로 자기를 되돌아보라.’고 말했어요. 거울을 가만히 들여다보고 있노라면 평소 보지 못하던 자기 자신의 결점을 발견할 수 있어요. 공자는 밝은 거울을 통해 자기 자신을 비추어 보듯 매일 자신에 대해 생각하고 돌아보라고 했어요.\n과거 역시 마찬가지예요. 과거는 현재가 되고 현재는 또 미래가 돼요. 오늘을 어떻게 사느냐에 따라 미래가 결정된답니다. 그러니 과거의 잘못을 되풀이하는 일은 없어야 해요.",
+      "hanjaLines": [
+        "明鏡 所以察形",
+        "往者 所以知今"
+      ],
+      "koreanLines": [
+        "명경 소이찰형",
+        "왕자 소이지금"
+      ],
+      "characters": [
+        {
+          "character": "明",
+          "meaning": "밝을",
+          "sound": "명"
+        },
+        {
+          "character": "鏡",
+          "meaning": "거울",
+          "sound": "경"
+        },
+        {
+          "character": "所",
+          "meaning": "바",
+          "sound": "소"
+        },
+        {
+          "character": "以",
+          "meaning": "써",
+          "sound": "이"
+        },
+        {
+          "character": "察",
+          "meaning": "살필",
+          "sound": "찰"
+        },
+        {
+          "character": "形",
+          "meaning": "모양",
+          "sound": "형"
+        },
+        {
+          "character": "往",
+          "meaning": "갈",
+          "sound": "왕"
+        },
+        {
+          "character": "者",
+          "meaning": "놈",
+          "sound": "자"
+        },
+        {
+          "character": "知",
+          "meaning": "알",
+          "sound": "지"
+        },
+        {
+          "character": "今",
+          "meaning": "이제",
+          "sound": "금"
+        }
+      ],
+      "sourceFile": "source_records_pages_88_103_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-040",
+      "quoteNo": 40,
+      "page": 89,
+      "section": "성심 편",
+      "promptHanja": "天有不測風雨",
+      "promptKorean": "천유불측풍우",
+      "promptTranslation": "하늘에는",
+      "fullHanja": "天有不測風雨\n人有朝夕禍福",
+      "fullKorean": "천유불측풍우\n인유조석화복",
+      "directMeaning": "하늘에는 예측할 수 없는 비바람이 있고\n사람에게는 아침저녁으로 달라지는\n화와 복이 있다.",
+      "translation": "하늘에는 예측할 수 없는 비바람이 있고\n사람에게는 아침저녁으로 달라지는\n화와 복이 있다.",
+      "deepMeaning": "언제 비바람이 불고 천둥 번개가 내려칠지 모르는 것처럼 사람의 앞날은 아무도 예측할 수 없다는 뜻이에요.\n화와 복은 모두 자기가 하기 나름 아닐까요? 착한 일을 하는 사람은 대개 복을 받고, 악한 일을 행하는 사람에게는 대개 화가 미치니까요. 그러니 항상 마음가짐을 바르게 해야 한답니다.",
+      "hanjaLines": [
+        "天有不測風雨",
+        "人有朝夕禍福"
+      ],
+      "koreanLines": [
+        "천유불측풍우",
+        "인유조석화복"
+      ],
+      "characters": [
+        {
+          "character": "天",
+          "meaning": "하늘",
+          "sound": "천"
+        },
+        {
+          "character": "有",
+          "meaning": "있을",
+          "sound": "유"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "測",
+          "meaning": "잴",
+          "sound": "측"
+        },
+        {
+          "character": "風",
+          "meaning": "바람",
+          "sound": "풍"
+        },
+        {
+          "character": "雨",
+          "meaning": "비",
+          "sound": "우"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "朝",
+          "meaning": "아침",
+          "sound": "조"
+        },
+        {
+          "character": "夕",
+          "meaning": "저녁",
+          "sound": "석"
+        },
+        {
+          "character": "禍",
+          "meaning": "재앙",
+          "sound": "화"
+        },
+        {
+          "character": "福",
+          "meaning": "복",
+          "sound": "복"
+        }
+      ],
+      "sourceFile": "source_records_pages_88_103_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-041",
+      "quoteNo": 41,
+      "page": 90,
+      "section": "성심 편",
+      "promptHanja": "家和貧也好",
+      "promptKorean": "가화빈야호",
+      "promptTranslation": "가정이 화목하면",
+      "fullHanja": "家和貧也好 不義富如何\n但存一子孝 何用子孫多",
+      "fullKorean": "가화빈야호 불의부여하\n단존일자효 하용자손다",
+      "directMeaning": "가정이 화목하면 가난해도 좋고\n의롭지 못하면 부자인들 무엇하리,\n다만 한 자식이라도 효도하면 충분하지\n자손이 많은들 무슨 소용이 있을 것인가.",
+      "translation": "가정이 화목하면 가난해도 좋고\n의롭지 못하면 부자인들 무엇하리,\n다만 한 자식이라도 효도하면 충분하지\n자손이 많은들 무슨 소용이 있을 것인가.",
+      "deepMeaning": "교육자인 페스탈로치는 ‘가정의 단란이 지상에 있어서의 가장 빛나는 기쁨이다.’라고 했어요. 가정이 화목하면 모든 일이 다 잘 풀려요. 가정이 화목하지 않으면 부자가 다 무슨 소용 있겠어요?\n한 아버지는 열 아들을 기를 수 있으나 열 아들은 한 아버지를 봉양하기 어렵다고 했어요. 그만큼 부모에게 효도하기가 어렵답니다.",
+      "hanjaLines": [
+        "家和貧也好 不義富如何",
+        "但存一子孝 何用子孫多"
+      ],
+      "koreanLines": [
+        "가화빈야호 불의부여하",
+        "단존일자효 하용자손다"
+      ],
+      "characters": [
+        {
+          "character": "家",
+          "meaning": "집",
+          "sound": "가"
+        },
+        {
+          "character": "和",
+          "meaning": "화할",
+          "sound": "화"
+        },
+        {
+          "character": "貧",
+          "meaning": "가난할",
+          "sound": "빈"
+        },
+        {
+          "character": "也",
+          "meaning": "어조사",
+          "sound": "야"
+        },
+        {
+          "character": "好",
+          "meaning": "좋을",
+          "sound": "호"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "義",
+          "meaning": "옳을",
+          "sound": "의"
+        },
+        {
+          "character": "富",
+          "meaning": "부유할",
+          "sound": "부"
+        },
+        {
+          "character": "如",
+          "meaning": "같을",
+          "sound": "여"
+        },
+        {
+          "character": "何",
+          "meaning": "어찌",
+          "sound": "하"
+        },
+        {
+          "character": "但",
+          "meaning": "다만",
+          "sound": "단"
+        },
+        {
+          "character": "存",
+          "meaning": "있을",
+          "sound": "존"
+        },
+        {
+          "character": "一",
+          "meaning": "한",
+          "sound": "일"
+        },
+        {
+          "character": "子",
+          "meaning": "아들",
+          "sound": "자"
+        },
+        {
+          "character": "孝",
+          "meaning": "효도",
+          "sound": "효"
+        },
+        {
+          "character": "用",
+          "meaning": "쓸",
+          "sound": "용"
+        },
+        {
+          "character": "孫",
+          "meaning": "손자",
+          "sound": "손"
+        },
+        {
+          "character": "多",
+          "meaning": "많을",
+          "sound": "다"
+        }
+      ],
+      "sourceFile": "source_records_pages_88_103_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-042",
+      "quoteNo": 42,
+      "page": 94,
+      "section": "성심 편",
+      "promptHanja": "父不憂心",
+      "promptKorean": "부불우심",
+      "promptTranslation": "아버지가",
+      "fullHanja": "父不憂心 因子孝\n夫無煩惱 是妻賢",
+      "fullKorean": "부불우심 인자효\n부무번뇌 시처현",
+      "directMeaning": "아버지가 마음에 근심하지 않는 것은\n자식이 효도하기 때문이고\n남편이 번뇌함이 없는 것은\n아내가 어질기 때문이다.",
+      "translation": "아버지가 마음에 근심하지 않는 것은\n자식이 효도하기 때문이고\n남편이 번뇌함이 없는 것은\n아내가 어질기 때문이다.",
+      "deepMeaning": "자식이 효도하면 아버지는 근심이 없고, 아내가 어질면 남편 또한 근심 걱정이 없어요. 즉 아버지가 근심을 가지기 전에 자식이 효성을 가져야 할 것이며, 아내의 따뜻한 말과 배려가 남편을 든든한 가장으로 만들어 주지요. 화목한 가정을 만들기 위해 깊이 생각해 볼 이야기예요.",
+      "hanjaLines": [
+        "父不憂心 因子孝",
+        "夫無煩惱 是妻賢"
+      ],
+      "koreanLines": [
+        "부불우심 인자효",
+        "부무번뇌 시처현"
+      ],
+      "characters": [
+        {
+          "character": "父",
+          "meaning": "아버지",
+          "sound": "부"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "憂",
+          "meaning": "근심할",
+          "sound": "우"
+        },
+        {
+          "character": "心",
+          "meaning": "마음",
+          "sound": "심"
+        },
+        {
+          "character": "因",
+          "meaning": "인할",
+          "sound": "인"
+        },
+        {
+          "character": "子",
+          "meaning": "아들",
+          "sound": "자"
+        },
+        {
+          "character": "孝",
+          "meaning": "효도",
+          "sound": "효"
+        },
+        {
+          "character": "夫",
+          "meaning": "지아비",
+          "sound": "부"
+        },
+        {
+          "character": "無",
+          "meaning": "없을",
+          "sound": "무"
+        },
+        {
+          "character": "煩",
+          "meaning": "괴로워할",
+          "sound": "번"
+        },
+        {
+          "character": "惱",
+          "meaning": "괴로워할",
+          "sound": "뇌"
+        },
+        {
+          "character": "是",
+          "meaning": "이",
+          "sound": "시"
+        },
+        {
+          "character": "妻",
+          "meaning": "아내",
+          "sound": "처"
+        },
+        {
+          "character": "賢",
+          "meaning": "어질",
+          "sound": "현"
+        }
+      ],
+      "sourceFile": "source_records_pages_88_103_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-043",
+      "quoteNo": 43,
+      "page": 95,
+      "section": "성심 편",
+      "promptHanja": "甚愛必甚費",
+      "promptKorean": "심애필심비",
+      "promptTranslation": "지나치게",
+      "fullHanja": "甚愛必甚費 甚譽必甚毀\n甚喜必甚憂 甚臧必甚亡",
+      "fullKorean": "심애필심비 심예필심훼\n심희필심우 심장필심망",
+      "directMeaning": "지나치게 아끼면 반드시 심한 낭비를 가져오고\n칭찬이 심하면 반드시 시기를 당할 것이다.\n기쁨이 지나치면 반드시 근심을 가져오고\n지나치게 뇌물을 탐하면 반드시 망하게 된다.",
+      "translation": "지나치게 아끼면 반드시 심한 낭비를 가져오고\n칭찬이 심하면 반드시 시기를 당할 것이다.\n기쁨이 지나치면 반드시 근심을 가져오고\n지나치게 뇌물을 탐하면 반드시 망하게 된다.",
+      "deepMeaning": "앞뒤를 따지지 않고 무조건 아끼기만 하다 보면 오히려 더 큰 낭비로 이어질 수 있어요. 또 너무 칭찬을 하면 주변 사람들로부터 시기와 질투를 받기 십상이에요. 너무 지나치게 기뻐 날뛰면 오히려 걱정을 불러오고, 지나치게 뇌물을 좋아하면 반드시 망하게 되지요. 그러니 무엇이든 지나치면 모자라는 것만 못하답니다.",
+      "hanjaLines": [
+        "甚愛必甚費 甚譽必甚毀",
+        "甚喜必甚憂 甚臧必甚亡"
+      ],
+      "koreanLines": [
+        "심애필심비 심예필심훼",
+        "심희필심우 심장필심망"
+      ],
+      "characters": [
+        {
+          "character": "甚",
+          "meaning": "심할",
+          "sound": "심"
+        },
+        {
+          "character": "愛",
+          "meaning": "아낄",
+          "sound": "애"
+        },
+        {
+          "character": "必",
+          "meaning": "반드시",
+          "sound": "필"
+        },
+        {
+          "character": "費",
+          "meaning": "쓸",
+          "sound": "비"
+        },
+        {
+          "character": "譽",
+          "meaning": "기릴",
+          "sound": "예"
+        },
+        {
+          "character": "毀",
+          "meaning": "헐",
+          "sound": "훼"
+        },
+        {
+          "character": "喜",
+          "meaning": "기쁠",
+          "sound": "희"
+        },
+        {
+          "character": "憂",
+          "meaning": "근심할",
+          "sound": "우"
+        },
+        {
+          "character": "臧",
+          "meaning": "장물",
+          "sound": "장"
+        },
+        {
+          "character": "亡",
+          "meaning": "망할",
+          "sound": "망"
+        }
+      ],
+      "sourceFile": "source_records_pages_88_103_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "臧의 뜻음은 하단 표기 기준 ‘장물 장’으로 전사했습니다. prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-044",
+      "quoteNo": 44,
+      "page": 96,
+      "section": "성심 편",
+      "promptHanja": "欲知未來",
+      "promptKorean": "욕지미래",
+      "promptTranslation": "미래를",
+      "fullHanja": "欲知未來\n先察已然",
+      "fullKorean": "욕지미래\n선찰이연",
+      "directMeaning": "미래를 알고자 한다면\n먼저 이미 지나간 것을 살펴야 한다.",
+      "translation": "미래를 알고자 한다면\n먼저 이미 지나간 것을 살펴야 한다.",
+      "deepMeaning": "과거는 오늘을 있게 만들었고, 오늘은 또 내일을 만들어 가는 과정 중 하나예요. 그러니 과거에 어떤 일이 있었는지 잘 살펴보면 미래에 일어날 일들도 어느 정도 예측할 수 있답니다.\n우리가 역사를 배우는 이유 중 하나도 과거를 본보기 삼아 현재와 미래를 잘 살아가기 위함이에요. 밝은 미래를 위해서는 항상 과거를 돌아보며 반성하는 자세를 가져야 한답니다.",
+      "hanjaLines": [
+        "欲知未來",
+        "先察已然"
+      ],
+      "koreanLines": [
+        "욕지미래",
+        "선찰이연"
+      ],
+      "characters": [
+        {
+          "character": "欲",
+          "meaning": "하고자 할",
+          "sound": "욕"
+        },
+        {
+          "character": "知",
+          "meaning": "알",
+          "sound": "지"
+        },
+        {
+          "character": "未",
+          "meaning": "아닐",
+          "sound": "미"
+        },
+        {
+          "character": "來",
+          "meaning": "올",
+          "sound": "래"
+        },
+        {
+          "character": "先",
+          "meaning": "먼저",
+          "sound": "선"
+        },
+        {
+          "character": "察",
+          "meaning": "살필",
+          "sound": "찰"
+        },
+        {
+          "character": "已",
+          "meaning": "이미",
+          "sound": "이"
+        },
+        {
+          "character": "然",
+          "meaning": "그럴",
+          "sound": "연"
+        }
+      ],
+      "sourceFile": "source_records_pages_88_103_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-045",
+      "quoteNo": 45,
+      "page": 100,
+      "section": "성심 편",
+      "promptHanja": "海枯終見底",
+      "promptKorean": "해고종견저",
+      "promptTranslation": "바다가",
+      "fullHanja": "海枯終見底\n人死不知心",
+      "fullKorean": "해고종견저\n인사부지심",
+      "directMeaning": "바다가 마르면 마침내 바닥을 볼 수 있으나\n사람은 죽고 나서도 그 속마음을 알 수 없다.",
+      "translation": "바다가 마르면 마침내 바닥을 볼 수 있으나\n사람은 죽고 나서도 그 속마음을 알 수 없다.",
+      "deepMeaning": "‘열 길 물속은 알아도 한 길 사람 속은 모른다’라고 했어요. 아무리 가족이라고 해도, 친한 친구라고 해도 가족과 친구의 마음을 속속들이 다 알 수는 없어요. 사람의 마음은 각자 다르고 천차만별이기 때문이에요. 자신의 마음을 자신조차 모를 때도 있듯이 다른 사람의 마음은 더욱 알기 어렵답니다.",
+      "hanjaLines": [
+        "海枯終見底",
+        "人死不知心"
+      ],
+      "koreanLines": [
+        "해고종견저",
+        "인사부지심"
+      ],
+      "characters": [
+        {
+          "character": "海",
+          "meaning": "바다",
+          "sound": "해"
+        },
+        {
+          "character": "枯",
+          "meaning": "마를",
+          "sound": "고"
+        },
+        {
+          "character": "終",
+          "meaning": "끝낼",
+          "sound": "종"
+        },
+        {
+          "character": "見",
+          "meaning": "볼",
+          "sound": "견"
+        },
+        {
+          "character": "底",
+          "meaning": "밑",
+          "sound": "저"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "死",
+          "meaning": "죽을",
+          "sound": "사"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "부"
+        },
+        {
+          "character": "知",
+          "meaning": "알",
+          "sound": "지"
+        },
+        {
+          "character": "心",
+          "meaning": "마음",
+          "sound": "심"
+        }
+      ],
+      "sourceFile": "source_records_pages_88_103_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "不의 음은 이미지 기준 ‘부’로 전사했습니다."
+    },
+    {
+      "id": "MGB-046",
+      "quoteNo": 46,
+      "page": 101,
+      "section": "성심 편",
+      "promptHanja": "若聽一面說",
+      "promptKorean": "약청일면설",
+      "promptTranslation": "만약",
+      "fullHanja": "若聽一面說\n便見相離別",
+      "fullKorean": "약청일면설\n변견상이별",
+      "directMeaning": "만약 한쪽 말만 들으면\n곧 서로 사이가 멀어지게 된다.",
+      "translation": "만약 한쪽 말만 들으면\n곧 서로 사이가 멀어지게 된다.",
+      "deepMeaning": "공평무사(公平無私)는 ‘모든 일을 바르게 처리해서 사사로운 이득이 없도록 한다.’는 뜻의 고사성어예요. 한쪽 말만 들으면 간사한 일이 생긴다고 했어요. 무슨 일이 생겼을 때는 관련된 사람들의 이야기를 다 들어봐야 해요. 어느 한쪽의 이야기에 치우친다면 공평하게 일을 처리할 수 없어요. 사람은 누구나 다 자기 입장에서 생각하고 변명하려고 하기 때문이에요.",
+      "hanjaLines": [
+        "若聽一面說",
+        "便見相離別"
+      ],
+      "koreanLines": [
+        "약청일면설",
+        "변견상이별"
+      ],
+      "characters": [
+        {
+          "character": "若",
+          "meaning": "같을",
+          "sound": "약"
+        },
+        {
+          "character": "聽",
+          "meaning": "들을",
+          "sound": "청"
+        },
+        {
+          "character": "一",
+          "meaning": "한",
+          "sound": "일"
+        },
+        {
+          "character": "面",
+          "meaning": "낯",
+          "sound": "면"
+        },
+        {
+          "character": "說",
+          "meaning": "말씀",
+          "sound": "설"
+        },
+        {
+          "character": "便",
+          "meaning": "문득",
+          "sound": "변"
+        },
+        {
+          "character": "見",
+          "meaning": "볼",
+          "sound": "견"
+        },
+        {
+          "character": "相",
+          "meaning": "서로",
+          "sound": "상"
+        },
+        {
+          "character": "離",
+          "meaning": "떼놓을",
+          "sound": "이"
+        },
+        {
+          "character": "別",
+          "meaning": "나눌",
+          "sound": "별"
+        }
+      ],
+      "sourceFile": "source_records_pages_88_103_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-047",
+      "quoteNo": 47,
+      "page": 102,
+      "section": "성심 편",
+      "promptHanja": "巧者拙之奴",
+      "promptKorean": "교자졸지노",
+      "promptTranslation": "재주가",
+      "fullHanja": "巧者拙之奴\n苦者樂之母",
+      "fullKorean": "교자졸지노\n고자낙지모",
+      "directMeaning": "재주가 많은 자는 재주 없는 자의 종이요\n괴로움은 즐거움의 어머니라.",
+      "translation": "재주가 많은 자는 재주 없는 자의 종이요\n괴로움은 즐거움의 어머니라.",
+      "deepMeaning": "‘곰팡이도 구르는 재주가 있다.’고 했어요. 아무리 미련하고 못난 사람이라도 누구나 한두 가지의 재주는 가지고 있지요. 하지만 재주가 너무 많은 사람은 하루도 편할 날이 없어요. 늘 사람들 앞에서 재주를 부려야 하니까요. 그러니까 뭐든 적당한 게 좋아요.\n괴로움은 즐거움의 어머니라는 말은 ‘고생 끝에 낙이 온다.’라는 말과 비슷해요. 어려움과 고난을 이겨내고 나면 더 큰 보상이 뒤따른답니다.",
+      "hanjaLines": [
+        "巧者拙之奴",
+        "苦者樂之母"
+      ],
+      "koreanLines": [
+        "교자졸지노",
+        "고자낙지모"
+      ],
+      "characters": [
+        {
+          "character": "巧",
+          "meaning": "공교할",
+          "sound": "교"
+        },
+        {
+          "character": "者",
+          "meaning": "놈",
+          "sound": "자"
+        },
+        {
+          "character": "拙",
+          "meaning": "졸할",
+          "sound": "졸"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "奴",
+          "meaning": "종",
+          "sound": "노"
+        },
+        {
+          "character": "苦",
+          "meaning": "괴로울",
+          "sound": "고"
+        },
+        {
+          "character": "樂",
+          "meaning": "즐길",
+          "sound": "낙"
+        },
+        {
+          "character": "母",
+          "meaning": "어미",
+          "sound": "모"
+        }
+      ],
+      "sourceFile": "source_records_pages_88_103_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-048",
+      "quoteNo": 48,
+      "page": 103,
+      "section": "성심 편",
+      "promptHanja": "寧塞無底缸",
+      "promptKorean": "영색무저항",
+      "promptTranslation": "차라리",
+      "fullHanja": "寧塞無底缸\n難塞鼻下橫",
+      "fullKorean": "영색무저항\n난색비하횡",
+      "directMeaning": "차라리 밑 빠진 항아리를 막을지언정\n코 아래 가로놓인 입은 막기 어렵다.",
+      "translation": "차라리 밑 빠진 항아리를 막을지언정\n코 아래 가로놓인 입은 막기 어렵다.",
+      "deepMeaning": "‘말이 말을 만든다.’는 속담이 있어요. 말은 이 사람 저 사람의 입을 옮겨 가는 동안에 점점 그 내용이 과장되고 변한답니다.\n깨진 항아리에 물을 부으면 물이 줄줄 샐 거예요. 그런 깨진 항아리를 물이 새지 않도록 막는 것보다 우리가 무심코 내뱉는 말을 막는 것이 훨씬 더 어렵다는 것이지요. 말을 많이 하다 보면 실수를 하게 마련이에요. 그러니 꼭 필요한 말만 바르게 하는 것이 중요해요.",
+      "hanjaLines": [
+        "寧塞無底缸",
+        "難塞鼻下橫"
+      ],
+      "koreanLines": [
+        "영색무저항",
+        "난색비하횡"
+      ],
+      "characters": [
+        {
+          "character": "寧",
+          "meaning": "편안할",
+          "sound": "영"
+        },
+        {
+          "character": "塞",
+          "meaning": "막을",
+          "sound": "색"
+        },
+        {
+          "character": "無",
+          "meaning": "없을",
+          "sound": "무"
+        },
+        {
+          "character": "底",
+          "meaning": "밑",
+          "sound": "저"
+        },
+        {
+          "character": "缸",
+          "meaning": "항아리",
+          "sound": "항"
+        },
+        {
+          "character": "難",
+          "meaning": "어려울",
+          "sound": "난"
+        },
+        {
+          "character": "鼻",
+          "meaning": "코",
+          "sound": "비"
+        },
+        {
+          "character": "下",
+          "meaning": "아래",
+          "sound": "하"
+        },
+        {
+          "character": "橫",
+          "meaning": "가로",
+          "sound": "횡"
+        }
+      ],
+      "sourceFile": "source_records_pages_88_103_draft.json",
+      "reviewStatus": "verified_structural_pass_image_draft",
+      "reviewNote": "prompt*는 임시 cue 후보입니다."
     }
   ]
 }

@@ -14,6 +14,10 @@ function isNonEmptyString(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
 
+function countVisibleCharacters(value) {
+  return Array.from(value).filter((character) => !/\s/.test(character)).length;
+}
+
 function getRecordLabel(record, index) {
   return isObject(record) && typeof record.id === "string"
     ? record.id
@@ -34,6 +38,14 @@ function validateRecord(record, index) {
 
   if (typeof record.page !== "number") {
     errors.push(`${label}: page must be a number`);
+  }
+
+  if (record.title !== undefined && !isNonEmptyString(record.title)) {
+    errors.push(`${label}: title must be a non-empty string when provided`);
+  }
+
+  if (record.section !== undefined && typeof record.section !== "string") {
+    errors.push(`${label}: section must be a string when provided`);
   }
 
   if (!isNonEmptyString(record.promptHanja)) {
@@ -60,6 +72,10 @@ function validateRecord(record, index) {
     errors.push(`${label}: translation must not be empty`);
   }
 
+  if (!isNonEmptyString(record.directMeaning)) {
+    errors.push(`${label}: directMeaning must not be empty`);
+  }
+
   if (
     isNonEmptyString(record.promptHanja) &&
     isNonEmptyString(record.fullHanja) &&
@@ -84,9 +100,40 @@ function validateRecord(record, index) {
     errors.push(`${label}: promptTranslation must appear inside translation`);
   }
 
+  if (
+    isNonEmptyString(record.translation) &&
+    isNonEmptyString(record.directMeaning) &&
+    record.translation !== record.directMeaning
+  ) {
+    errors.push(`${label}: translation must equal directMeaning`);
+  }
+
+  if (isNonEmptyString(record.fullHanja) && isNonEmptyString(record.fullKorean)) {
+    const hanjaLines = record.fullHanja.split("\n");
+    const koreanLines = record.fullKorean.split("\n");
+
+    if (hanjaLines.length !== koreanLines.length) {
+      errors.push(`${label}: fullHanja and fullKorean line counts must match`);
+    }
+
+    hanjaLines.forEach((hanjaLine, lineIndex) => {
+      const koreanLine = koreanLines[lineIndex] ?? "";
+      const hanjaCount = countVisibleCharacters(hanjaLine);
+      const koreanCount = countVisibleCharacters(koreanLine);
+
+      if (hanjaCount !== koreanCount) {
+        errors.push(
+          `${label}: line ${lineIndex + 1} Hanja count (${hanjaCount}) must match Korean count (${koreanCount})`
+        );
+      }
+    });
+  }
+
   if (!Array.isArray(record.characters)) {
     errors.push(`${label}: characters must be an array`);
   } else {
+    const knownCharacters = new Set();
+
     record.characters.forEach((character, characterIndex) => {
       if (
         !isObject(character) ||
@@ -97,8 +144,20 @@ function validateRecord(record, index) {
         errors.push(
           `${label}: characters[${characterIndex}] must have character, meaning, sound`
         );
+      } else {
+        knownCharacters.add(character.character);
       }
     });
+
+    if (isNonEmptyString(record.fullHanja)) {
+      Array.from(record.fullHanja)
+        .filter((character) => !/\s/.test(character))
+        .forEach((character) => {
+          if (!knownCharacters.has(character)) {
+            errors.push(`${label}: character ${character} is missing from characters`);
+          }
+        });
+    }
   }
 
   return errors;
@@ -106,13 +165,16 @@ function validateRecord(record, index) {
 
 function validateDataset(value) {
   const duplicateIds = [];
+  const duplicatePages = [];
   const invalidRecords = [];
   const pages = [];
   const seenIds = new Set();
+  const seenPages = new Set();
 
   if (!isObject(value)) {
     return {
       duplicateIds,
+      duplicatePages,
       invalidRecords: ["dataset must be an object"],
       pages,
       totalRecords: 0
@@ -122,6 +184,7 @@ function validateDataset(value) {
   if (!Array.isArray(value.records)) {
     return {
       duplicateIds,
+      duplicatePages,
       invalidRecords: ["records must be an array"],
       pages,
       totalRecords: 0
@@ -144,12 +207,18 @@ function validateDataset(value) {
     }
 
     if (typeof record.page === "number") {
+      if (seenPages.has(record.page)) {
+        duplicatePages.push(record.page);
+      }
+
+      seenPages.add(record.page);
       pages.push(record.page);
     }
   });
 
   return {
     duplicateIds,
+    duplicatePages,
     invalidRecords,
     pages,
     totalRecords: value.records.length
@@ -160,6 +229,7 @@ const result = validateDataset(dataset);
 
 console.log(`Total records: ${result.totalRecords}`);
 console.log(`Duplicate ids: ${result.duplicateIds.join(", ") || "none"}`);
+console.log(`Duplicate pages: ${result.duplicatePages.join(", ") || "none"}`);
 console.log(`Invalid records: ${result.invalidRecords.length}`);
 
 for (const issue of result.invalidRecords) {
@@ -168,6 +238,10 @@ for (const issue of result.invalidRecords) {
 
 console.log(`Pages included: ${result.pages.join(", ") || "none"}`);
 
-if (result.duplicateIds.length > 0 || result.invalidRecords.length > 0) {
+if (
+  result.duplicateIds.length > 0 ||
+  result.duplicatePages.length > 0 ||
+  result.invalidRecords.length > 0
+) {
   process.exitCode = 1;
 }

@@ -8,6 +8,7 @@ import type {
 
 export type DatasetValidationResult = {
   duplicateIds: string[];
+  duplicatePages: number[];
   invalidRecords: string[];
   pages: number[];
   totalRecords: number;
@@ -19,6 +20,10 @@ function isObject(value: unknown): value is Record<string, unknown> {
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+function countVisibleCharacters(value: string) {
+  return Array.from(value).filter((character) => !/\s/.test(character)).length;
 }
 
 function isCharacterMeaning(value: unknown): value is CharacterMeaning {
@@ -51,12 +56,16 @@ function getRecordErrors(value: unknown, index: number) {
     errors.push(`${label}: page must be a number`);
   }
 
-  if (!isNonEmptyString(record.title)) {
-    errors.push(`${label}: title must be a non-empty string`);
+  if (record.title !== undefined && !isNonEmptyString(record.title)) {
+    errors.push(`${label}: title must be a non-empty string when provided`);
   }
 
   if (record.source !== undefined && typeof record.source !== "string") {
     errors.push(`${label}: source must be a string when provided`);
+  }
+
+  if (record.section !== undefined && typeof record.section !== "string") {
+    errors.push(`${label}: section must be a string when provided`);
   }
 
   if (!isNonEmptyString(record.promptHanja)) {
@@ -83,6 +92,10 @@ function getRecordErrors(value: unknown, index: number) {
     errors.push(`${label}: translation must not be empty`);
   }
 
+  if (!isNonEmptyString(record.directMeaning)) {
+    errors.push(`${label}: directMeaning must not be empty`);
+  }
+
   const promptHanja = isNonEmptyString(record.promptHanja)
     ? record.promptHanja
     : null;
@@ -101,6 +114,9 @@ function getRecordErrors(value: unknown, index: number) {
   const translation = isNonEmptyString(record.translation)
     ? record.translation
     : null;
+  const directMeaning = isNonEmptyString(record.directMeaning)
+    ? record.directMeaning
+    : null;
 
   if (promptHanja && fullHanja && !fullHanja.includes(promptHanja)) {
     errors.push(`${label}: promptHanja must appear inside fullHanja`);
@@ -118,16 +134,55 @@ function getRecordErrors(value: unknown, index: number) {
     errors.push(`${label}: promptTranslation must appear inside translation`);
   }
 
+  if (translation && directMeaning && translation !== directMeaning) {
+    errors.push(`${label}: translation must equal directMeaning`);
+  }
+
+  if (fullHanja && fullKorean) {
+    const hanjaLines = fullHanja.split("\n");
+    const koreanLines = fullKorean.split("\n");
+
+    if (hanjaLines.length !== koreanLines.length) {
+      errors.push(`${label}: fullHanja and fullKorean line counts must match`);
+    }
+
+    hanjaLines.forEach((hanjaLine, lineIndex) => {
+      const koreanLine = koreanLines[lineIndex] ?? "";
+      const hanjaCount = countVisibleCharacters(hanjaLine);
+      const koreanCount = countVisibleCharacters(koreanLine);
+
+      if (hanjaCount !== koreanCount) {
+        errors.push(
+          `${label}: line ${lineIndex + 1} Hanja count (${hanjaCount}) must match Korean count (${koreanCount})`
+        );
+      }
+    });
+  }
+
   if (!Array.isArray(record.characters)) {
     errors.push(`${label}: characters must be an array`);
   } else {
+    const knownCharacters = new Set<string>();
+
     record.characters.forEach((character, characterIndex) => {
       if (!isCharacterMeaning(character)) {
         errors.push(
           `${label}: characters[${characterIndex}] must have character, meaning, sound`
         );
+      } else {
+        knownCharacters.add(character.character);
       }
     });
+
+    if (fullHanja) {
+      Array.from(fullHanja)
+        .filter((character) => !/\s/.test(character))
+        .forEach((character) => {
+          if (!knownCharacters.has(character)) {
+            errors.push(`${label}: character ${character} is missing from characters`);
+          }
+        });
+    }
   }
 
   if (record.tags !== undefined) {
@@ -145,11 +200,13 @@ function getRecordErrors(value: unknown, index: number) {
 export function validateMaster84Dataset(value: unknown): DatasetValidationResult {
   const invalidRecords: string[] = [];
   const duplicateIds: string[] = [];
+  const duplicatePages: number[] = [];
   const pages: number[] = [];
 
   if (!isObject(value)) {
     return {
       duplicateIds,
+      duplicatePages,
       invalidRecords: ["dataset must be an object"],
       pages,
       totalRecords: 0
@@ -168,6 +225,7 @@ export function validateMaster84Dataset(value: unknown): DatasetValidationResult
   if (!Array.isArray(value.records)) {
     return {
       duplicateIds,
+      duplicatePages,
       invalidRecords: [...invalidRecords, "records must be an array"],
       pages,
       totalRecords: 0
@@ -175,6 +233,7 @@ export function validateMaster84Dataset(value: unknown): DatasetValidationResult
   }
 
   const seenIds = new Set<string>();
+  const seenPages = new Set<number>();
 
   value.records.forEach((record, index) => {
     invalidRecords.push(...getRecordErrors(record, index));
@@ -189,6 +248,11 @@ export function validateMaster84Dataset(value: unknown): DatasetValidationResult
       }
 
       if (typeof record.page === "number") {
+        if (seenPages.has(record.page)) {
+          duplicatePages.push(record.page);
+        }
+
+        seenPages.add(record.page);
         pages.push(record.page);
       }
     }
@@ -196,6 +260,7 @@ export function validateMaster84Dataset(value: unknown): DatasetValidationResult
 
   return {
     duplicateIds,
+    duplicatePages,
     invalidRecords,
     pages,
     totalRecords: value.records.length
@@ -205,11 +270,16 @@ export function validateMaster84Dataset(value: unknown): DatasetValidationResult
 function assertMaster84Dataset(value: unknown): asserts value is Master84Dataset {
   const result = validateMaster84Dataset(value);
 
-  if (result.duplicateIds.length > 0 || result.invalidRecords.length > 0) {
+  if (
+    result.duplicateIds.length > 0 ||
+    result.duplicatePages.length > 0 ||
+    result.invalidRecords.length > 0
+  ) {
     throw new Error(
       [
         "master84 dataset has an invalid shape.",
         ...result.duplicateIds.map((id) => `Duplicate id: ${id}`),
+        ...result.duplicatePages.map((page) => `Duplicate page: ${page}`),
         ...result.invalidRecords
       ].join("\n")
     );

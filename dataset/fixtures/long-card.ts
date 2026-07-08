@@ -1,7 +1,7 @@
 import type { StudyPageRecord } from "../types";
 
 // layout stress-test fixture, not final content
-export const longCardFixture: StudyPageRecord = {
+const longCardFixtureBase = {
   id: "layout-stress-long-card",
   page: 999,
   title: "Layout stress-test fixture, not final content",
@@ -30,4 +30,9 @@ export const longCardFixture: StudyPageRecord = {
     { character: "心", meaning: "마음", sound: "심" }
   ],
   tags: ["layout-test", "not-final-content"]
+};
+
+export const longCardFixture: StudyPageRecord = {
+  ...longCardFixtureBase,
+  directMeaning: longCardFixtureBase.translation
 };
