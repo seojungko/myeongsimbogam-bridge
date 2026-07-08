@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import type { StudyPageRecord } from "@dataset/types";
 
@@ -56,6 +56,7 @@ type PageRangeSummary = {
 };
 
 const LEARNED_RECORD_IDS_KEY = "bridge.learnedRecordIds";
+const COMPLETION_SPARKLE_MS = 560;
 
 const densityClasses: Record<
   CardDensity,
@@ -493,7 +494,12 @@ function writeLearnedRecordIds(recordIds: Set<string>) {
 }
 
 export function StudyCard({ passages }: StudyCardProps) {
+  const completionTimeoutRef = useRef<number | null>(null);
   const [pageIndex, setPageIndex] = useState(0);
+  const [completionSparkleRecordId, setCompletionSparkleRecordId] = useState<
+    string | null
+  >(null);
+  const [isCompletingRecord, setIsCompletingRecord] = useState(false);
   const [isCharacterMeaningPeeking, setIsCharacterMeaningPeeking] =
     useState(false);
   const [isPeeking, setIsPeeking] = useState(false);
@@ -507,6 +513,14 @@ export function StudyCard({ passages }: StudyCardProps) {
 
   useEffect(() => {
     setLearnedRecordIds(readLearnedRecordIds());
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (completionTimeoutRef.current !== null) {
+        window.clearTimeout(completionTimeoutRef.current);
+      }
+    };
   }, []);
 
   const totalPages = passages.length;
@@ -549,6 +563,10 @@ export function StudyCard({ passages }: StudyCardProps) {
   const isLastRecord = currentIndex === totalPages - 1;
 
   function moveToRecord(nextIndex: number) {
+    if (isCompletingRecord) {
+      return;
+    }
+
     const boundedIndex = Math.min(Math.max(nextIndex, 0), totalPages - 1);
 
     if (boundedIndex === currentIndex) {
@@ -582,6 +600,10 @@ export function StudyCard({ passages }: StudyCardProps) {
   }
 
   function completeCurrentStep() {
+    if (isCompletingRecord) {
+      return;
+    }
+
     setIsPeeking(false);
     setIsCharacterMeaningPeeking(false);
 
@@ -591,14 +613,26 @@ export function StudyCard({ passages }: StudyCardProps) {
     }
 
     markCurrentRecordLearned();
-    setViewMode("phrase");
-    setIsTurningPage(true);
+    setCompletionSparkleRecordId(passage.id);
+    setIsCompletingRecord(true);
 
-    if (!isLastRecord) {
-      setPageIndex((current) => current + 1);
+    if (completionTimeoutRef.current !== null) {
+      window.clearTimeout(completionTimeoutRef.current);
     }
 
-    window.setTimeout(() => setIsTurningPage(false), 220);
+    completionTimeoutRef.current = window.setTimeout(() => {
+      setCompletionSparkleRecordId(null);
+      setIsCompletingRecord(false);
+      setViewMode("phrase");
+      setIsTurningPage(true);
+
+      if (!isLastRecord) {
+        setPageIndex((current) => Math.min(current + 1, totalPages - 1));
+      }
+
+      window.setTimeout(() => setIsTurningPage(false), 220);
+      completionTimeoutRef.current = null;
+    }, COMPLETION_SPARKLE_MS);
   }
 
   function beginPeek() {
@@ -760,22 +794,27 @@ export function StudyCard({ passages }: StudyCardProps) {
               {currentRangeRecords.map((record, rangeIndex) => {
                 const isCurrent = rangeIndex === currentRangePosition;
                 const isBefore = rangeIndex < currentRangePosition;
+                const isSparkling = completionSparkleRecordId === record.id;
 
                 return (
                   <span
-                    className="flex size-3.5 items-center justify-center"
+                    className="study-range-dot relative flex size-3.5 items-center justify-center"
+                    data-sparkle={isSparkling ? "true" : undefined}
                     key={record.id}
                     aria-hidden
                   >
                     <span
                       className={cn(
-                        "block rounded-full transition-colors",
+                        "study-range-dot-core block rounded-full transition-colors",
                         isCurrent
                           ? "size-2.5 bg-[rgb(var(--accent))]"
                           : "size-1.5",
                         !isCurrent && (isBefore ? "bg-white/76" : "bg-white/22")
                       )}
                     />
+                    {isSparkling ? (
+                      <span className="study-range-dot-glint" aria-hidden />
+                    ) : null}
                   </span>
                 );
               })}
@@ -969,7 +1008,8 @@ export function StudyCard({ passages }: StudyCardProps) {
 
           <button
             type="button"
-            className="study-action-button w-full bg-[rgb(var(--accent))] font-black text-black"
+            className="study-action-button w-full bg-[rgb(var(--accent))] font-black text-black active:scale-[0.99] active:brightness-105 disabled:pointer-events-none"
+            disabled={isCompletingRecord}
             onClick={completeCurrentStep}
           >
             외웠어!
