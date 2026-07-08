@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import { cn } from "@/lib/cn";
 import type { StudyPageRecord } from "@dataset/types";
 
@@ -54,9 +55,23 @@ type PageRangeSummary = {
   label: string;
   start: number;
 };
+type RangeCelebration = {
+  headline: string;
+  rangeLabel: string;
+  secondary: string;
+};
 
 const LEARNED_RECORD_IDS_KEY = "bridge.learnedRecordIds";
 const COMPLETION_SPARKLE_MS = 560;
+const RANGE_CELEBRATION_HEADLINES = [
+  "대단해!",
+  "정말 잘했어!",
+  "와, 이걸 해내다니!",
+  "정말 대단해!",
+  "멋지게 통과!",
+  "최고야!",
+  "역시, 잘 해낼 줄 알았어!"
+];
 
 const densityClasses: Record<
   CardDensity,
@@ -211,6 +226,26 @@ function buildPageRangeSummaries(passages: readonly StudyPageRecord[]) {
   });
 
   return Array.from(ranges.values()).sort((a, b) => a.end - b.end);
+}
+
+function pickRandomItem<T>(items: readonly T[]) {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function buildRangeCelebration(rangeLabel: string): RangeCelebration {
+  const secondaryOptions = [`${rangeLabel}까지 해냈어.`, "한 묶음을 끝냈어."];
+
+  return {
+    headline: pickRandomItem(RANGE_CELEBRATION_HEADLINES),
+    rangeLabel,
+    secondary: pickRandomItem(secondaryOptions)
+  };
+}
+
+function vibrateForRangeCompletion() {
+  if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+    navigator.vibrate([25, 70, 35, 90, 55]);
+  }
 }
 
 function getCardDensity(passage: StudyPageRecord): CardDensity {
@@ -504,6 +539,8 @@ export function StudyCard({ passages }: StudyCardProps) {
     useState(false);
   const [isPeeking, setIsPeeking] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
+  const [rangeCelebration, setRangeCelebration] =
+    useState<RangeCelebration | null>(null);
   const [showRangeSheet, setShowRangeSheet] = useState(false);
   const [viewMode, setViewMode] = useState<StudyViewMode>("phrase");
   const [learnedRecordIds, setLearnedRecordIds] = useState<Set<string>>(
@@ -561,6 +598,8 @@ export function StudyCard({ passages }: StudyCardProps) {
   const hanjaClasses = hanjaSizeClasses[phraseLayout.sizeTier];
   const isFirstRecord = currentIndex === 0;
   const isLastRecord = currentIndex === totalPages - 1;
+  const isLastRecordInCurrentRange =
+    currentRangePosition === currentRangeRecords.length - 1;
 
   function moveToRecord(nextIndex: number) {
     if (isCompletingRecord) {
@@ -599,6 +638,50 @@ export function StudyCard({ passages }: StudyCardProps) {
     writeLearnedRecordIds(nextLearnedRecordIds);
   }
 
+  function finishCompletedRecord() {
+    setCompletionSparkleRecordId(null);
+    setRangeCelebration(null);
+    setIsCompletingRecord(false);
+    setViewMode("phrase");
+    setIsTurningPage(true);
+
+    if (!isLastRecord) {
+      setPageIndex((current) => Math.min(current + 1, totalPages - 1));
+    }
+
+    window.setTimeout(() => setIsTurningPage(false), 220);
+    completionTimeoutRef.current = null;
+  }
+
+  function closeRangeCelebration() {
+    if (completionTimeoutRef.current !== null) {
+      window.clearTimeout(completionTimeoutRef.current);
+    }
+
+    finishCompletedRecord();
+  }
+
+  function getDotStyle(rangeIndex: number) {
+    return { "--dot-index": rangeIndex } as CSSProperties;
+  }
+
+  function getParticleStyle(particleIndex: number) {
+    return { "--particle-index": particleIndex } as CSSProperties;
+  }
+
+  function getParticleClassName(particleIndex: number) {
+    const positions = [
+      "left-[18%] top-[20%]",
+      "right-[18%] top-[22%]",
+      "left-[14%] bottom-[28%]",
+      "right-[15%] bottom-[30%]",
+      "left-[48%] top-[12%]",
+      "right-[42%] bottom-[16%]"
+    ];
+
+    return positions[particleIndex] ?? "left-1/2 top-1/2";
+  }
+
   function completeCurrentStep() {
     if (isCompletingRecord) {
       return;
@@ -615,23 +698,25 @@ export function StudyCard({ passages }: StudyCardProps) {
     markCurrentRecordLearned();
     setCompletionSparkleRecordId(passage.id);
     setIsCompletingRecord(true);
+    const shouldCelebrateRange = isLastRecordInCurrentRange;
 
     if (completionTimeoutRef.current !== null) {
       window.clearTimeout(completionTimeoutRef.current);
     }
 
+    if (shouldCelebrateRange) {
+      setRangeCelebration(buildRangeCelebration(currentRangeLabel));
+      vibrateForRangeCompletion();
+
+      completionTimeoutRef.current = window.setTimeout(() => {
+        setCompletionSparkleRecordId(null);
+        completionTimeoutRef.current = null;
+      }, COMPLETION_SPARKLE_MS);
+      return;
+    }
+
     completionTimeoutRef.current = window.setTimeout(() => {
-      setCompletionSparkleRecordId(null);
-      setIsCompletingRecord(false);
-      setViewMode("phrase");
-      setIsTurningPage(true);
-
-      if (!isLastRecord) {
-        setPageIndex((current) => Math.min(current + 1, totalPages - 1));
-      }
-
-      window.setTimeout(() => setIsTurningPage(false), 220);
-      completionTimeoutRef.current = null;
+      finishCompletedRecord();
     }, COMPLETION_SPARKLE_MS);
   }
 
@@ -737,6 +822,45 @@ export function StudyCard({ passages }: StudyCardProps) {
         </div>
       ) : null}
 
+      {rangeCelebration ? (
+        <div className="study-range-celebration absolute inset-0 z-40 flex items-center justify-center bg-black/62 px-5">
+          <button
+            type="button"
+            className="absolute inset-0 cursor-default"
+            onClick={closeRangeCelebration}
+            aria-label="축하 닫기"
+          />
+          <div className="pointer-events-none absolute inset-0" aria-hidden>
+            {Array.from({ length: 6 }).map((_, particleIndex) => (
+              <span
+                className={cn(
+                  "study-range-particle absolute",
+                  getParticleClassName(particleIndex)
+                )}
+                key={particleIndex}
+                style={getParticleStyle(particleIndex)}
+              />
+            ))}
+          </div>
+          <div className="study-range-celebration-card relative w-full max-w-[19rem] rounded-2xl border border-white/8 bg-[#121212]/96 px-6 py-7 text-center shadow-soft backdrop-blur-sm">
+            <p className="text-[clamp(1.45rem,7vw,2rem)] font-black leading-tight text-white">
+              {rangeCelebration.headline}
+            </p>
+            <p className="mt-3 text-base font-bold leading-7 text-white/72">
+              {rangeCelebration.secondary}
+            </p>
+            <button
+              type="button"
+              className="mt-6 inline-flex size-12 items-center justify-center rounded-full bg-white/10 text-2xl transition-colors active:scale-[0.98] active:bg-white/16"
+              onClick={closeRangeCelebration}
+              aria-label="축하 닫기"
+            >
+              😊
+            </button>
+          </div>
+        </div>
+      ) : null}
+
       <div className="relative z-10 flex min-h-0 w-full flex-col">
         <header className="study-card-header shrink-0">
           <div className="relative min-h-9">
@@ -785,7 +909,10 @@ export function StudyCard({ passages }: StudyCardProps) {
             className="mt-1.5 flex justify-center"
             aria-label={`${currentRangeLabel} 범위 안 ${currentRangeRecords.length}개 구문 중 ${currentRangePosition + 1}번째`}
           >
-            <div className="flex items-center justify-center gap-0.5">
+            <div
+              className="study-range-dots flex items-center justify-center gap-0.5"
+              data-shimmer={rangeCelebration ? "true" : undefined}
+            >
               {currentRangeRecords.map((record, rangeIndex) => {
                 const isCurrent = rangeIndex === currentRangePosition;
                 const isBefore = rangeIndex < currentRangePosition;
@@ -796,6 +923,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                     className="study-range-dot relative flex size-3.5 items-center justify-center"
                     data-sparkle={isSparkling ? "true" : undefined}
                     key={record.id}
+                    style={getDotStyle(rangeIndex)}
                     aria-hidden
                   >
                     <span

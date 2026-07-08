@@ -139,8 +139,25 @@ a {
   isolation: isolate;
 }
 
+.study-range-dot::after {
+  background: rgb(255 255 255 / 0.86);
+  border-radius: 999px;
+  box-shadow: 0 0 7px rgb(var(--accent) / 0.45);
+  content: "";
+  height: 0.18rem;
+  opacity: 0;
+  position: absolute;
+  top: 0.18rem;
+  width: 0.18rem;
+}
+
 .study-range-dot-core {
   transform-origin: center;
+}
+
+.study-range-dots[data-shimmer="true"] .study-range-dot::after {
+  animation: study-range-dot-shimmer 620ms ease-out both;
+  animation-delay: calc(var(--dot-index) * 42ms);
 }
 
 .study-range-dot[data-sparkle="true"] .study-range-dot-core {
@@ -159,6 +176,79 @@ a {
   right: 0.05rem;
   top: 0.04rem;
   width: 0.24rem;
+}
+
+.study-range-celebration {
+  animation: study-range-overlay-in 260ms ease-out both;
+}
+
+.study-range-celebration-card {
+  animation: study-range-card-in 340ms cubic-bezier(0.2, 0.85, 0.2, 1) both;
+}
+
+.study-range-particle {
+  animation: study-range-particle 1080ms ease-out both;
+  animation-delay: calc(var(--particle-index) * 72ms);
+  background: rgb(var(--accent) / 0.84);
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgb(var(--accent) / 0.45);
+  height: 0.28rem;
+  opacity: 0;
+  width: 0.28rem;
+}
+
+@keyframes study-range-overlay-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes study-range-card-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes study-range-particle {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.55);
+  }
+
+  24% {
+    opacity: 0.85;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-1.15rem) scale(1);
+  }
+}
+
+@keyframes study-range-dot-shimmer {
+  0% {
+    opacity: 0;
+    transform: translateX(-0.16rem) scale(0.6);
+  }
+
+  42% {
+    opacity: 0.95;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(0.18rem) scale(1);
+  }
 }
 
 @keyframes study-dot-complete {
@@ -202,6 +292,17 @@ a {
   }
 
   .study-range-dot-glint {
+    animation: none;
+    display: none;
+  }
+
+  .study-range-celebration,
+  .study-range-celebration-card {
+    animation: study-range-overlay-in 120ms ease-out both;
+  }
+
+  .study-range-particle,
+  .study-range-dots[data-shimmer="true"] .study-range-dot::after {
     animation: none;
     display: none;
   }
