@@ -1,6 +1,6 @@
 {
-  "name": "Bridge - 처음 만나는 명심보감 암기 도우미",
-  "short_name": "Bridge",
+  "name": "명심보감 Bridge",
+  "short_name": "명심보감",
   "description": "명심보감 문장을 모바일에서 읽고, 듣고, 반복하며 외우는 설치형 학습 도우미입니다.",
   "start_url": "/",
   "scope": "/",

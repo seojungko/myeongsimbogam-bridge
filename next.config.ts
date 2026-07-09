@@ -41,6 +41,19 @@ const nextConfig: NextConfig = {
             value: "no-cache, max-age=0, must-revalidate"
           }
         ]
+      },
+      {
+        source: "/.well-known/assetlinks.json",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache, max-age=0, must-revalidate"
+          },
+          {
+            key: "Content-Type",
+            value: "application/json; charset=utf-8"
+          }
+        ]
       }
     ];
   }
