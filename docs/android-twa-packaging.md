@@ -6,7 +6,7 @@ The APK should stay a lightweight Android shell around the Vercel-hosted web app
 
 - Android app start URL: `https://ohmymsbg.vercel.app`
 - Recommended Android app name: `명심보감 Bridge`
-- Recommended package name: `com.evontius.myeongsimbogam.bridge`
+- Recommended package name: `com.seojung.ohmymsbg.bridge`
 - The dataset and UI continue to come from Vercel.
 - Dataset/UI updates should flow through GitHub push -> Vercel deploy.
 - Children should not need to reinstall the APK for normal web app or dataset updates.
@@ -62,21 +62,13 @@ TWA requires this file after deployment:
 https://ohmymsbg.vercel.app/.well-known/assetlinks.json
 ```
 
-The current file is a template:
+The current file is:
 
 ```text
 public/.well-known/assetlinks.json
 ```
 
-It contains the package name but does not yet contain the real SHA-256 signing certificate fingerprint.
-
-Replace:
-
-```text
-REPLACE_WITH_REAL_SHA256_CERT_FINGERPRINT
-```
-
-with the real fingerprint before expecting TWA verification to pass.
+It contains the Android package name and current SHA-256 signing certificate fingerprint. If the Android signing key changes later, update this file with the new SHA-256 fingerprint before expecting TWA verification to pass.
 
 ## Get SHA-256 Signing Fingerprint
 
@@ -101,7 +93,7 @@ curl https://ohmymsbg.vercel.app/.well-known/assetlinks.json
 Confirm:
 
 - JSON is reachable over HTTPS
-- `package_name` is `com.evontius.myeongsimbogam.bridge`
+- `package_name` is `com.seojung.ohmymsbg.bridge`
 - `sha256_cert_fingerprints` contains the real SHA-256 fingerprint
 - There is no placeholder fingerprint left
 
@@ -131,7 +123,7 @@ bubblewrap build
 
 During `bubblewrap init`, use:
 
-- Application ID: `com.evontius.myeongsimbogam.bridge`
+- Application ID: `com.seojung.ohmymsbg.bridge`
 - Start URL: `https://ohmymsbg.vercel.app/`
 - Display mode: from manifest
 - Signing key: the release key selected for this APK
@@ -153,4 +145,4 @@ If offline support is added later, it should be versioned carefully around a dat
 
 ## Current Limitation
 
-The project is prepared for TWA packaging, but TWA verification is not final until the real Android signing certificate SHA-256 fingerprint replaces the placeholder in `public/.well-known/assetlinks.json`.
+The project is prepared for TWA packaging, but TWA verification still depends on the built APK being signed with the certificate whose SHA-256 fingerprint is listed in `public/.well-known/assetlinks.json`.
