@@ -97,6 +97,25 @@ Confirm:
 - `sha256_cert_fingerprints` contains the real SHA-256 fingerprint
 - There is no placeholder fingerprint left
 
+## Child Phone TWA Checks
+
+If the APK opens with a Chrome address bar, Android is likely falling back to a Custom Tab because TWA verification did not pass on that device.
+
+Check the child phone in this order:
+
+1. Update Chrome from Google Play.
+2. Update Android System WebView if it is available on the device.
+3. Open `https://ohmymsbg.vercel.app/.well-known/assetlinks.json` on the child phone and confirm it shows the deployed JSON.
+4. Confirm the JSON contains package name `com.seojung.ohmymsbg.bridge`.
+5. Confirm the JSON contains SHA-256 fingerprint `03:6E:5A:0F:E3:76:0C:C2:C3:AE:5A:CE:5A:B3:7F:73:BA:C2:87:87:58:82:43:67:4C:38:A0:E9:CC:8C:E1:9B`.
+6. Clear Chrome cache and site storage for `ohmymsbg.vercel.app`.
+7. Uninstall any old Bridge APK from the child phone.
+8. Reinstall the latest signed APK.
+9. Confirm the installed APK was built with application ID `com.seojung.ohmymsbg.bridge`.
+10. Confirm the installed APK is signed by the certificate matching the SHA-256 fingerprint above.
+
+Family Link or managed child devices may lag behind on Chrome updates or block some browser settings. If the same APK opens fullscreen on one phone but shows an address bar on the child phone, compare Chrome version, WebView version, cache state, and whether an older APK is still installed.
+
 ## Bubblewrap Packaging Flow
 
 Suggested next steps:
