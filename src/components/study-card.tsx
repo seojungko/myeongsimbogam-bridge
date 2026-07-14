@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/cn";
+import { useHanjaVoiceRecognition } from "@/lib/use-hanja-voice-recognition";
 import { useVoiceBeta } from "@/lib/use-voice-beta";
 import type { StudyPageRecord } from "@dataset/types";
 
@@ -36,6 +37,7 @@ type PhraseCell =
       reading: string;
       type: "character";
       visible: boolean;
+      voiceIndex: number;
     }
   | {
       key: string;
@@ -425,7 +427,8 @@ function buildPhraseLayout(
       key: `character-${textOffset}-${hanja}`,
       reading,
       type: "character",
-      visible: isVisible
+      visible: isVisible,
+      voiceIndex: readingIndex
     });
 
     readingIndex += 1;
@@ -563,6 +566,17 @@ export function StudyCard({ passages }: StudyCardProps) {
   }, []);
 
   const totalPages = passages.length;
+  const voicePassage =
+    passages[Math.min(pageIndex, Math.max(totalPages - 1, 0))];
+  const voiceRecognition = useHanjaVoiceRecognition({
+    enabled:
+      isVoiceBetaEnabled &&
+      viewMode === "phrase" &&
+      !isCompletingRecord &&
+      totalPages > 0,
+    expectedText: voicePassage?.fullKorean ?? "",
+    onComplete: completeCurrentStep
+  });
 
   if (totalPages === 0) {
     return (
@@ -614,6 +628,7 @@ export function StudyCard({ passages }: StudyCardProps) {
       return;
     }
 
+    voiceRecognition.stopListening();
     setIsPeeking(false);
     setIsCharacterMeaningPeeking(false);
     setShowRangeSheet(false);
@@ -628,6 +643,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   }
 
   function switchMode(nextMode: StudyViewMode) {
+    voiceRecognition.stopListening();
     setIsPeeking(false);
     setIsCharacterMeaningPeeking(false);
     setViewMode(nextMode);
@@ -689,6 +705,7 @@ export function StudyCard({ passages }: StudyCardProps) {
       return;
     }
 
+    voiceRecognition.stopListening();
     setIsPeeking(false);
     setIsCharacterMeaningPeeking(false);
 
@@ -976,14 +993,23 @@ export function StudyCard({ passages }: StudyCardProps) {
                   )}
                   key={row.key}
                 >
-                  {row.cells.map((cell) =>
-                    cell.type === "space" ? (
-                      <span
-                        className={hanjaClasses.space}
-                        key={cell.key}
-                        aria-hidden
-                      />
-                    ) : (
+                  {row.cells.map((cell) => {
+                    if (cell.type === "space") {
+                      return (
+                        <span
+                          className={hanjaClasses.space}
+                          key={cell.key}
+                          aria-hidden
+                        />
+                      );
+                    }
+
+                    const isVoiceRecognized =
+                      isVoiceBetaEnabled &&
+                      cell.voiceIndex < voiceRecognition.recognizedCount;
+                    const shouldShowCell = cell.visible || isVoiceRecognized;
+
+                    return (
                       <span
                         className={cn(
                           "flex shrink-0 flex-col items-center justify-between overflow-hidden rounded-md border border-transparent",
@@ -993,11 +1019,14 @@ export function StudyCard({ passages }: StudyCardProps) {
                         )}
                         key={cell.key}
                       >
-                        {cell.visible ? (
+                        {shouldShowCell ? (
                           <>
                             <span
                               className={cn(
-                                "flex min-h-0 flex-1 items-center font-black tracking-normal text-white",
+                                "flex min-h-0 flex-1 items-center font-black tracking-normal",
+                                isVoiceRecognized
+                                  ? "text-[rgb(var(--accent))]"
+                                  : "text-white",
                                 hanjaClasses.hanja
                               )}
                             >
@@ -1005,7 +1034,10 @@ export function StudyCard({ passages }: StudyCardProps) {
                             </span>
                             <span
                               className={cn(
-                                "flex h-[1.25em] max-w-full shrink-0 items-center overflow-hidden whitespace-nowrap font-bold text-white/68",
+                                "flex h-[1.25em] max-w-full shrink-0 items-center overflow-hidden whitespace-nowrap font-bold",
+                                isVoiceRecognized
+                                  ? "text-[rgb(var(--accent))]"
+                                  : "text-white/68",
                                 hanjaClasses.reading
                               )}
                             >
@@ -1022,8 +1054,8 @@ export function StudyCard({ passages }: StudyCardProps) {
                           />
                         )}
                       </span>
-                    )
-                  )}
+                    );
+                  })}
                 </div>
               ))}
             </div>
@@ -1094,6 +1126,53 @@ export function StudyCard({ passages }: StudyCardProps) {
         </section>
 
         <div className="study-card-actions shrink-0">
+          {isVoiceBetaEnabled &&
+          viewMode === "phrase" &&
+          voiceRecognition.support === "supported" ? (
+            <div className="flex flex-col gap-1">
+              <button
+                type="button"
+                className={cn(
+                  "min-h-11 rounded-lg px-3 text-sm font-black transition-colors active:scale-[0.99]",
+                  voiceRecognition.isListening
+                    ? "bg-[rgb(var(--accent)/0.2)] text-[rgb(var(--accent))]"
+                    : "bg-white/8 text-white/76 active:bg-white/12"
+                )}
+                onClick={() =>
+                  voiceRecognition.isListening
+                    ? voiceRecognition.stopListening()
+                    : voiceRecognition.startListening()
+                }
+                aria-pressed={voiceRecognition.isListening}
+              >
+                <span>
+                  {voiceRecognition.isListening
+                    ? "듣는 중..."
+                    : "마이크로 외우기"}
+                </span>
+                <span className="ml-2 text-xs text-white/50">
+                  {voiceRecognition.recognizedCount}/{voiceRecognition.targetCount}
+                </span>
+              </button>
+              <p className="text-center text-[0.68rem] font-semibold leading-4 text-white/38">
+                마이크는 외운 내용을 확인할 때만 사용해요.
+              </p>
+              {voiceRecognition.error ? (
+                <p className="text-center text-[0.68rem] font-semibold leading-4 text-white/45">
+                  마이크를 사용할 수 없어요.
+                </p>
+              ) : null}
+            </div>
+          ) : null}
+
+          {isVoiceBetaEnabled &&
+          viewMode === "phrase" &&
+          voiceRecognition.support === "unsupported" ? (
+            <p className="text-center text-[0.72rem] font-semibold leading-4 text-white/42">
+              이 브라우저에서는 음성 확인을 사용할 수 없어요.
+            </p>
+          ) : null}
+
           {viewMode === "phrase" ? (
             <button
               type="button"
