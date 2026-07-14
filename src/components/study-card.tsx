@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/cn";
+import { useVoiceBeta } from "@/lib/use-voice-beta";
 import type { StudyPageRecord } from "@dataset/types";
 
 type StudyCardProps = {
@@ -529,6 +530,7 @@ function writeLearnedRecordIds(recordIds: Set<string>) {
 }
 
 export function StudyCard({ passages }: StudyCardProps) {
+  const isVoiceBetaEnabled = useVoiceBeta();
   const completionTimeoutRef = useRef<number | null>(null);
   const [pageIndex, setPageIndex] = useState(0);
   const [completionSparkleRecordId, setCompletionSparkleRecordId] = useState<
@@ -747,6 +749,12 @@ export function StudyCard({ passages }: StudyCardProps) {
         className="book-cover pointer-events-none absolute inset-0 rounded-lg"
         aria-hidden
       />
+
+      {isVoiceBetaEnabled ? (
+        <div className="pointer-events-none absolute left-3 top-14 z-20 rounded-full bg-white/10 px-2 py-1 text-[0.65rem] font-black uppercase tracking-wide text-white/56">
+          Voice Beta
+        </div>
+      ) : null}
 
       {showHelp ? (
         <div className="absolute inset-0 z-30 flex items-start justify-center bg-black/48 px-4 pt-16">
