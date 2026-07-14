@@ -842,16 +842,16 @@ export function StudyCard({ passages }: StudyCardProps) {
               />
             ))}
           </div>
-          <div className="study-range-celebration-card relative w-full max-w-[19rem] rounded-2xl border border-white/8 bg-[#121212]/96 px-6 py-7 text-center shadow-soft backdrop-blur-sm">
+          <div className="study-range-celebration-card relative w-full max-w-[19rem] rounded-2xl px-6 py-7 text-center">
             <p className="text-[clamp(1.45rem,7vw,2rem)] font-black leading-tight text-white">
               {rangeCelebration.headline}
             </p>
-            <p className="mt-3 text-base font-bold leading-7 text-white/72">
+            <p className="text-base font-bold leading-7 text-white/72">
               {rangeCelebration.secondary}
             </p>
             <button
               type="button"
-              className="mt-6 inline-flex size-12 items-center justify-center rounded-full bg-white/10 text-2xl transition-colors active:scale-[0.98] active:bg-white/16"
+              className="mx-auto mt-2 inline-flex size-12 items-center justify-center rounded-full bg-white/10 text-2xl transition-colors active:scale-[0.98] active:bg-white/16"
               onClick={closeRangeCelebration}
               aria-label="축하 닫기"
             >
