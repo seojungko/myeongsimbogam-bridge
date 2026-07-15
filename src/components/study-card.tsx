@@ -39,12 +39,12 @@ type MaskedTranslationPart =
     };
 type PhraseCell =
   | {
+      cueVisible: boolean;
       hanja: string;
       key: string;
       reading: string;
       recognized: boolean;
       type: "character";
-      visible: boolean;
     }
   | {
       key: string;
@@ -427,16 +427,18 @@ function buildPhraseLayout(
     }
 
     const reading = readings[readingIndex] ?? "";
-    const isVisible = visibleAnswer || visibleOffsets?.has(textOffset) === true;
-    const isRecognized = readingIndex < recognizedVoiceUnits;
+    const isCueVisible =
+      visibleAnswer || visibleOffsets?.has(textOffset) === true;
+    const isRecognized =
+      reading.length > 0 && readingIndex < recognizedVoiceUnits;
 
     rows[rows.length - 1].push({
+      cueVisible: isCueVisible,
       hanja,
       key: `character-${textOffset}-${hanja}`,
       reading,
       recognized: isRecognized,
-      type: "character",
-      visible: isRecognized || isVisible
+      type: "character"
     });
 
     readingIndex += 1;
@@ -1104,6 +1106,9 @@ export function StudyCard({ passages }: StudyCardProps) {
                       );
                     }
 
+                    const shouldRenderActualCell =
+                      cell.recognized || cell.cueVisible;
+
                     return (
                       <span
                         className={cn(
@@ -1114,7 +1119,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                         )}
                         key={cell.key}
                       >
-                        {cell.visible ? (
+                        {shouldRenderActualCell ? (
                           <>
                             <span
                               className={cn(
