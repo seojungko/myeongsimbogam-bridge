@@ -53,7 +53,6 @@ declare global {
 type UseHanjaVoiceRecognitionOptions = {
   enabled: boolean;
   expectedText: string;
-  onComplete: () => void;
   onVoiceModeUnavailable?: () => void;
   voiceModeEnabled: boolean;
 };
@@ -65,7 +64,16 @@ type UseProgressiveVoiceRecognitionOptions = UseHanjaVoiceRecognitionOptions & {
 };
 
 type VoiceMatchResult = {
-  recognizedCount: number;
+  recognizedIndices: number[];
+  toleranceApplied: boolean;
+};
+
+type SyllableMatchCandidate = {
+  heardEnd: number;
+  heardStart: number;
+  indices: number[];
+  matchedHeardCount: number;
+  targetStart: number;
   toleranceApplied: boolean;
 };
 
@@ -121,17 +129,6 @@ function splitMeaningWords(value: string) {
     .filter(Boolean);
 }
 
-function countPrefixMatches(expected: string, spoken: string) {
-  const maxLength = Math.min(expected.length, spoken.length);
-  let count = 0;
-
-  while (count < maxLength && expected[count] === spoken[count]) {
-    count += 1;
-  }
-
-  return count;
-}
-
 function hasStableMatchAfterGap(
   expected: readonly string[],
   heard: readonly string[],
@@ -177,58 +174,6 @@ function canSkipExpectedSyllables(
   );
 }
 
-function countTolerantSyllablePrefixMatches(
-  expected: readonly string[],
-  heard: readonly string[]
-): VoiceMatchResult {
-  let expectedIndex = 0;
-  let heardIndex = 0;
-  let toleratedGapCount = 0;
-  let toleranceApplied = false;
-
-  while (expectedIndex < expected.length && heardIndex < heard.length) {
-    if (expected[expectedIndex] === heard[heardIndex]) {
-      expectedIndex += 1;
-      heardIndex += 1;
-      continue;
-    }
-
-    let matchedWithGap = false;
-
-    for (let gapSize = 1; gapSize <= MAX_LOOKAHEAD_GAP; gapSize += 1) {
-      const lookaheadIndex = expectedIndex + gapSize;
-
-      if (
-        expected[lookaheadIndex] === heard[heardIndex] &&
-        canSkipExpectedSyllables(
-          expected,
-          heard,
-          expectedIndex,
-          heardIndex,
-          gapSize,
-          toleratedGapCount
-        )
-      ) {
-        expectedIndex = lookaheadIndex + 1;
-        heardIndex += 1;
-        toleratedGapCount += gapSize;
-        toleranceApplied = true;
-        matchedWithGap = true;
-        break;
-      }
-    }
-
-    if (!matchedWithGap) {
-      break;
-    }
-  }
-
-  return {
-    recognizedCount: expectedIndex,
-    toleranceApplied
-  };
-}
-
 function countWordPrefixMatches(expected: readonly string[], spoken: readonly string[]) {
   const maxLength = Math.min(expected.length, spoken.length);
   let count = 0;
@@ -243,74 +188,214 @@ function countWordPrefixMatches(expected: readonly string[], spoken: readonly st
 function getNextRecognizedCount(
   expected: string,
   spoken: string,
-  currentCount: number
+  currentIndices: ReadonlySet<number>
 ): VoiceMatchResult {
   if (spoken.length === 0) {
     return {
-      recognizedCount: currentCount,
+      recognizedIndices: Array.from(currentIndices).sort((left, right) => left - right),
       toleranceApplied: false
     };
   }
 
   const expectedUnits = Array.from(expected);
   const spokenUnits = Array.from(spoken);
-  const strictFromBeginning = countPrefixMatches(expected, spoken);
-  const tolerantFromBeginning = countTolerantSyllablePrefixMatches(
+
+  return getNextRecognizedSyllableIndices(
     expectedUnits,
-    spokenUnits
+    spokenUnits,
+    currentIndices
   );
-  const strictFromCurrent =
-    currentCount + countPrefixMatches(expected.slice(currentCount), spoken);
-  const tolerantFromCurrent = countTolerantSyllablePrefixMatches(
-    expectedUnits.slice(currentCount),
-    spokenUnits
-  );
-  const fromCurrent = {
-    recognizedCount: currentCount + tolerantFromCurrent.recognizedCount,
-    toleranceApplied: tolerantFromCurrent.toleranceApplied
-  };
-  const nextCount = Math.min(
-    Math.max(
-      currentCount,
-      strictFromBeginning,
-      tolerantFromBeginning.recognizedCount,
-      strictFromCurrent,
-      fromCurrent.recognizedCount
-    ),
-    expected.length
-  );
+}
+
+function buildSyllableMatchCandidate(
+  expected: readonly string[],
+  heard: readonly string[],
+  heardStart: number,
+  targetStart: number
+): SyllableMatchCandidate | null {
+  const indices: number[] = [];
+  let heardIndex = heardStart;
+  let targetIndex = targetStart;
+  let matchedHeardCount = 0;
+  let toleratedGapCount = 0;
+  let toleranceApplied = false;
+
+  while (heardIndex < heard.length && targetIndex < expected.length) {
+    if (expected[targetIndex] === heard[heardIndex]) {
+      indices.push(targetIndex);
+      matchedHeardCount += 1;
+      heardIndex += 1;
+      targetIndex += 1;
+      continue;
+    }
+
+    let matchedWithGap = false;
+
+    for (let gapSize = 1; gapSize <= MAX_LOOKAHEAD_GAP; gapSize += 1) {
+      const lookaheadIndex = targetIndex + gapSize;
+
+      if (
+        expected[lookaheadIndex] === heard[heardIndex] &&
+        indices.length > 0 &&
+        canSkipExpectedSyllables(
+          expected,
+          heard,
+          targetIndex,
+          heardIndex,
+          gapSize,
+          toleratedGapCount
+        )
+      ) {
+        for (
+          let skippedIndex = targetIndex;
+          skippedIndex < lookaheadIndex;
+          skippedIndex += 1
+        ) {
+          indices.push(skippedIndex);
+        }
+
+        indices.push(lookaheadIndex);
+        matchedHeardCount += 1;
+        heardIndex += 1;
+        targetIndex = lookaheadIndex + 1;
+        toleratedGapCount += gapSize;
+        toleranceApplied = true;
+        matchedWithGap = true;
+        break;
+      }
+    }
+
+    if (!matchedWithGap) {
+      break;
+    }
+  }
+
+  if (matchedHeardCount < 2) {
+    return null;
+  }
 
   return {
-    recognizedCount: nextCount,
-    toleranceApplied:
-      (nextCount === tolerantFromBeginning.recognizedCount &&
-        tolerantFromBeginning.toleranceApplied) ||
-      (nextCount === fromCurrent.recognizedCount && fromCurrent.toleranceApplied)
+    heardEnd: heardIndex,
+    heardStart,
+    indices,
+    matchedHeardCount,
+    targetStart,
+    toleranceApplied
   };
+}
+
+function getNextRecognizedSyllableIndices(
+  expected: readonly string[],
+  heard: readonly string[],
+  currentIndices: ReadonlySet<number>
+): VoiceMatchResult {
+  const nextIndices = new Set(currentIndices);
+  const candidates: SyllableMatchCandidate[] = [];
+  let toleranceApplied = false;
+
+  for (let heardStart = 0; heardStart < heard.length; heardStart += 1) {
+    for (
+      let targetStart = 0;
+      targetStart < expected.length;
+      targetStart += 1
+    ) {
+      const candidate = buildSyllableMatchCandidate(
+        expected,
+        heard,
+        heardStart,
+        targetStart
+      );
+
+      if (candidate) {
+        candidates.push(candidate);
+      }
+    }
+  }
+
+  const usedHeardPositions = new Set<number>();
+
+  candidates
+    .sort((left, right) => {
+      if (right.matchedHeardCount !== left.matchedHeardCount) {
+        return right.matchedHeardCount - left.matchedHeardCount;
+      }
+
+      if (left.heardStart !== right.heardStart) {
+        return left.heardStart - right.heardStart;
+      }
+
+      return left.targetStart - right.targetStart;
+    })
+    .forEach((candidate) => {
+      for (
+        let heardIndex = candidate.heardStart;
+        heardIndex < candidate.heardEnd;
+        heardIndex += 1
+      ) {
+        if (usedHeardPositions.has(heardIndex)) {
+          return;
+        }
+      }
+
+      candidate.indices.forEach((index) => nextIndices.add(index));
+
+      for (
+        let heardIndex = candidate.heardStart;
+        heardIndex < candidate.heardEnd;
+        heardIndex += 1
+      ) {
+        usedHeardPositions.add(heardIndex);
+      }
+
+      toleranceApplied = toleranceApplied || candidate.toleranceApplied;
+    });
+
+  return {
+    recognizedIndices: Array.from(nextIndices).sort((left, right) => left - right),
+    toleranceApplied
+  };
+}
+
+function buildSequentialIndices(count: number) {
+  return Array.from({ length: count }, (_, index) => index);
+}
+
+function getCurrentSequentialCount(indices: ReadonlySet<number>) {
+  let count = 0;
+
+  while (indices.has(count)) {
+    count += 1;
+  }
+
+  return count;
 }
 
 function getNextRecognizedWordCount(
   expected: readonly string[],
   spoken: readonly string[],
-  currentCount: number
+  currentIndices: ReadonlySet<number>
 ): VoiceMatchResult {
   if (spoken.length === 0) {
     return {
-      recognizedCount: currentCount,
+      recognizedIndices: Array.from(currentIndices).sort(
+        (left, right) => left - right
+      ),
       toleranceApplied: false
     };
   }
 
+  const currentCount = getCurrentSequentialCount(currentIndices);
   const fromBeginning = countWordPrefixMatches(expected, spoken);
   const fromCurrent =
     currentCount +
     countWordPrefixMatches(expected.slice(currentCount), spoken);
+  const recognizedCount = Math.min(
+    Math.max(currentCount, fromBeginning, fromCurrent),
+    expected.length
+  );
 
   return {
-    recognizedCount: Math.min(
-      Math.max(currentCount, fromBeginning, fromCurrent),
-      expected.length
-    ),
+    recognizedIndices: buildSequentialIndices(recognizedCount),
     toleranceApplied: false
   };
 }
@@ -368,21 +453,21 @@ function mergeTranscriptChunks(
 function getNextCountForMode(
   expectedUnits: readonly string[],
   transcript: string,
-  currentCount: number,
+  currentIndices: ReadonlySet<number>,
   mode: VoiceUnitMode
 ): VoiceMatchResult {
   if (mode === "word") {
     return getNextRecognizedWordCount(
       expectedUnits,
       splitMeaningWords(transcript),
-      currentCount
+      currentIndices
     );
   }
 
   return getNextRecognizedCount(
     expectedUnits.join(""),
     normalizeKoreanSyllables(transcript),
-    currentCount
+    currentIndices
   );
 }
 
@@ -390,7 +475,6 @@ function useProgressiveVoiceRecognition({
   enabled,
   expectedText,
   mode,
-  onComplete,
   onVoiceModeUnavailable,
   voiceModeEnabled
 }: UseProgressiveVoiceRecognitionOptions) {
@@ -401,6 +485,7 @@ function useProgressiveVoiceRecognition({
   const [support, setSupport] = useState<SpeechSupport>("unknown");
   const [isListening, setIsListening] = useState(false);
   const [recognizedCount, setRecognizedCount] = useState(0);
+  const [recognizedIndices, setRecognizedIndices] = useState<number[]>([]);
   const [finalTranscript, setFinalTranscript] = useState("");
   const [interimTranscript, setInterimTranscript] = useState("");
   const [liveTranscript, setLiveTranscript] = useState("");
@@ -408,7 +493,7 @@ function useProgressiveVoiceRecognition({
   const [toleranceApplied, setToleranceApplied] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const recognitionRef = useRef<BrowserSpeechRecognition | null>(null);
-  const recognizedCountRef = useRef(0);
+  const recognizedIndicesRef = useRef(new Set<number>());
   const finalChunksRef = useRef(new Map<number, string>());
   const completedRef = useRef(false);
   const enabledRef = useRef(enabled);
@@ -416,15 +501,10 @@ function useProgressiveVoiceRecognition({
   const isStartingRef = useRef(false);
   const lastErrorRef = useRef<string | null>(null);
   const onVoiceModeUnavailableRef = useRef(optionsUnavailableNoop);
-  const onCompleteRef = useRef(onComplete);
   const previousVoiceModeEnabledRef = useRef(voiceModeEnabled);
   const recognitionGenerationRef = useRef(0);
   const restartTimeoutRef = useRef<number | null>(null);
   const voiceModeEnabledRef = useRef(voiceModeEnabled);
-
-  useEffect(() => {
-    onCompleteRef.current = onComplete;
-  }, [onComplete]);
 
   useEffect(() => {
     onVoiceModeUnavailableRef.current =
@@ -456,10 +536,11 @@ function useProgressiveVoiceRecognition({
   }, []);
 
   const resetAttempt = useCallback(() => {
-    recognizedCountRef.current = 0;
+    recognizedIndicesRef.current.clear();
     finalChunksRef.current.clear();
     completedRef.current = false;
     setRecognizedCount(0);
+    setRecognizedIndices([]);
     setFinalTranscript("");
     setInterimTranscript("");
     setLiveTranscript("");
@@ -577,10 +658,11 @@ function useProgressiveVoiceRecognition({
       const nextMatch = getNextCountForMode(
         expectedUnits,
         nextLiveTranscript,
-        recognizedCountRef.current,
+        recognizedIndicesRef.current,
         mode
       );
-      const nextCount = nextMatch.recognizedCount;
+      const nextIndices = nextMatch.recognizedIndices;
+      const nextCount = nextIndices.length;
 
       setFinalTranscript(nextFinalTranscript);
       setInterimTranscript(nextInterimTranscript);
@@ -588,19 +670,10 @@ function useProgressiveVoiceRecognition({
       setLiveTranscriptNormalized(normalizedTranscript);
       setToleranceApplied(nextMatch.toleranceApplied);
 
-      if (nextCount > recognizedCountRef.current) {
-        recognizedCountRef.current = nextCount;
+      if (nextCount > recognizedIndicesRef.current.size) {
+        recognizedIndicesRef.current = new Set(nextIndices);
         setRecognizedCount(nextCount);
-      }
-
-      if (nextCount >= expectedUnits.length && !completedRef.current) {
-        completedRef.current = true;
-        clearRestartTimer();
-        recognitionGenerationRef.current += 1;
-        recognition.abort();
-        recognitionRef.current = null;
-        setIsListening(false);
-        onCompleteRef.current();
+        setRecognizedIndices(nextIndices);
       }
     };
 
@@ -693,11 +766,14 @@ function useProgressiveVoiceRecognition({
     recognitionRef.current?.stop();
     recognitionRef.current = null;
     completedRef.current = true;
-    recognizedCountRef.current = expectedUnits.length;
+    recognizedIndicesRef.current = new Set(
+      expectedUnits.map((_, index) => index)
+    );
     finalChunksRef.current.clear();
     finalChunksRef.current.set(0, expectedUnits.join(mode === "word" ? " " : ""));
     setIsListening(false);
     setRecognizedCount(expectedUnits.length);
+    setRecognizedIndices(expectedUnits.map((_, index) => index));
     setFinalTranscript(finalChunksRef.current.get(0) ?? "");
     setInterimTranscript("");
     setLiveTranscript(finalChunksRef.current.get(0) ?? "");
@@ -715,10 +791,7 @@ function useProgressiveVoiceRecognition({
     liveTranscript,
     liveTranscriptNormalized,
     recognizedCount,
-    recognizedIndices: Array.from(
-      { length: recognizedCount },
-      (_, index) => index
-    ),
+    recognizedIndices,
     startListening,
     stopListening,
     support,

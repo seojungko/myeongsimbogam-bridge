@@ -55,3 +55,15 @@ export function useVoiceBeta() {
 
   return isVoiceBetaEnabled;
 }
+
+export function useVoiceDebug() {
+  const [isVoiceDebugEnabled, setIsVoiceDebugEnabled] = useState(false);
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+
+    setIsVoiceDebugEnabled(url.searchParams.get("voiceDebug") === "1");
+  }, []);
+
+  return isVoiceDebugEnabled;
+}

@@ -8,7 +8,7 @@ import {
   useHanjaVoiceRecognition,
   useKoreanMeaningVoiceRecognition
 } from "@/lib/use-hanja-voice-recognition";
-import { useVoiceBeta } from "@/lib/use-voice-beta";
+import { useVoiceBeta, useVoiceDebug } from "@/lib/use-voice-beta";
 import type { StudyPageRecord } from "@dataset/types";
 
 type StudyCardProps = {
@@ -400,10 +400,11 @@ function getHanjaSizeTier(rows: PhraseRow[]): HanjaSizeTier {
 function buildPhraseLayout(
   passage: StudyPageRecord,
   visibleAnswer: boolean,
-  recognizedVoiceUnits: number
+  recognizedVoiceIndices: readonly number[]
 ): PhraseLayout {
   const rows: PhraseCell[][] = [[]];
   const readings = passage.fullKorean.match(/[\uAC00-\uD7A3]/gu) ?? [];
+  const recognizedVoiceIndexSet = new Set(recognizedVoiceIndices);
   const visibleOffsets = visibleAnswer
     ? null
     : getVisibleOffsets(passage.fullHanja, passage.promptHanja);
@@ -430,7 +431,7 @@ function buildPhraseLayout(
     const isCueVisible =
       visibleAnswer || visibleOffsets?.has(textOffset) === true;
     const isRecognized =
-      reading.length > 0 && readingIndex < recognizedVoiceUnits;
+      reading.length > 0 && recognizedVoiceIndexSet.has(readingIndex);
 
     rows[rows.length - 1].push({
       cueVisible: isCueVisible,
@@ -565,6 +566,7 @@ function writeLearnedRecordIds(recordIds: Set<string>) {
 
 export function StudyCard({ passages }: StudyCardProps) {
   const isVoiceBetaEnabled = useVoiceBeta();
+  const isVoiceDebugEnabled = useVoiceDebug();
   const completionTimeoutRef = useRef<number | null>(null);
   const [pageIndex, setPageIndex] = useState(0);
   const [completionSparkleRecordId, setCompletionSparkleRecordId] = useState<
@@ -651,7 +653,6 @@ export function StudyCard({ passages }: StudyCardProps) {
       !isCompletingRecord &&
       totalPages > 0,
     expectedText: voicePassage?.fullKorean ?? "",
-    onComplete: completeCurrentStep,
     onVoiceModeUnavailable: disableVoiceMode,
     voiceModeEnabled
   });
@@ -662,7 +663,6 @@ export function StudyCard({ passages }: StudyCardProps) {
       !isCompletingRecord &&
       totalPages > 0,
     expectedText: voiceMeaningText,
-    onComplete: completeCurrentStep,
     onVoiceModeUnavailable: disableVoiceMode,
     voiceModeEnabled
   });
@@ -704,7 +704,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   const phraseLayout = buildPhraseLayout(
     passage,
     phraseAnswerVisible,
-    isVoiceBetaEnabled ? hanjaVoiceRecognition.recognizedCount : 0
+    isVoiceBetaEnabled ? hanjaVoiceRecognition.recognizedIndices : []
   );
   const phraseCells = phraseLayout.rows.flatMap((row) =>
     row.cells.filter((cell) => cell.type === "character")
@@ -1295,7 +1295,7 @@ export function StudyCard({ passages }: StudyCardProps) {
         </section>
 
         <div className="study-card-actions shrink-0">
-          {isVoiceBetaEnabled && viewMode === "phrase" ? (
+          {isVoiceBetaEnabled && isVoiceDebugEnabled && viewMode === "phrase" ? (
             <div className="rounded-lg bg-white/5 px-2.5 py-2 text-left text-[0.62rem] font-semibold leading-4 text-white/42">
               <p className="font-black text-white/58">Voice Debug</p>
               <p className="truncate">
