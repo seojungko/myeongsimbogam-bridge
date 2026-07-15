@@ -1284,6 +1284,10 @@ export function StudyCard({ passages }: StudyCardProps) {
                 recognized: [
                 {hanjaVoiceRecognition.recognizedIndices.join(",")}]
               </p>
+              <p>
+                tolerance:{" "}
+                {hanjaVoiceRecognition.toleranceApplied ? "applied" : "off"}
+              </p>
               <p>cue: {cueVisibleCount}</p>
               <button
                 type="button"
