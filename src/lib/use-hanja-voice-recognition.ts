@@ -56,6 +56,12 @@ type UseHanjaVoiceRecognitionOptions = {
   onComplete: () => void;
 };
 
+type VoiceUnitMode = "syllable" | "word";
+
+type UseProgressiveVoiceRecognitionOptions = UseHanjaVoiceRecognitionOptions & {
+  mode: VoiceUnitMode;
+};
+
 function getSpeechRecognitionConstructor() {
   if (typeof window === "undefined") {
     return undefined;
@@ -68,7 +74,29 @@ function normalizeKoreanSyllables(value: string) {
   return value.match(/[\uAC00-\uD7A3]/gu)?.join("") ?? "";
 }
 
+function normalizeMeaningWord(value: string) {
+  return value.match(/[\uAC00-\uD7A30-9]+/gu)?.join("") ?? "";
+}
+
+function splitMeaningWords(value: string) {
+  return value
+    .split(/\s+/u)
+    .map(normalizeMeaningWord)
+    .filter(Boolean);
+}
+
 function countPrefixMatches(expected: string, spoken: string) {
+  const maxLength = Math.min(expected.length, spoken.length);
+  let count = 0;
+
+  while (count < maxLength && expected[count] === spoken[count]) {
+    count += 1;
+  }
+
+  return count;
+}
+
+function countWordPrefixMatches(expected: readonly string[], spoken: readonly string[]) {
   const maxLength = Math.min(expected.length, spoken.length);
   let count = 0;
 
@@ -96,6 +124,26 @@ function getNextRecognizedCount(
   return Math.min(Math.max(currentCount, fromBeginning, fromCurrent), expected.length);
 }
 
+function getNextRecognizedWordCount(
+  expected: readonly string[],
+  spoken: readonly string[],
+  currentCount: number
+) {
+  if (spoken.length === 0) {
+    return currentCount;
+  }
+
+  const fromBeginning = countWordPrefixMatches(expected, spoken);
+  const fromCurrent =
+    currentCount +
+    countWordPrefixMatches(expected.slice(currentCount), spoken);
+
+  return Math.min(
+    Math.max(currentCount, fromBeginning, fromCurrent),
+    expected.length
+  );
+}
+
 function getTranscriptFromResults(event: BrowserSpeechRecognitionEvent) {
   let transcript = "";
 
@@ -106,14 +154,44 @@ function getTranscriptFromResults(event: BrowserSpeechRecognitionEvent) {
   return transcript;
 }
 
-export function useHanjaVoiceRecognition({
+function getExpectedUnits(expectedText: string, mode: VoiceUnitMode) {
+  if (mode === "word") {
+    return splitMeaningWords(expectedText);
+  }
+
+  return Array.from(normalizeKoreanSyllables(expectedText));
+}
+
+function getNextCountForMode(
+  expectedUnits: readonly string[],
+  transcript: string,
+  currentCount: number,
+  mode: VoiceUnitMode
+) {
+  if (mode === "word") {
+    return getNextRecognizedWordCount(
+      expectedUnits,
+      splitMeaningWords(transcript),
+      currentCount
+    );
+  }
+
+  return getNextRecognizedCount(
+    expectedUnits.join(""),
+    normalizeKoreanSyllables(transcript),
+    currentCount
+  );
+}
+
+function useProgressiveVoiceRecognition({
   enabled,
   expectedText,
+  mode,
   onComplete
-}: UseHanjaVoiceRecognitionOptions) {
-  const expected = useMemo(
-    () => normalizeKoreanSyllables(expectedText),
-    [expectedText]
+}: UseProgressiveVoiceRecognitionOptions) {
+  const expectedUnits = useMemo(
+    () => getExpectedUnits(expectedText, mode),
+    [expectedText, mode]
   );
   const [support, setSupport] = useState<SpeechSupport>("unknown");
   const [isListening, setIsListening] = useState(false);
@@ -159,7 +237,7 @@ export function useHanjaVoiceRecognition({
     recognitionRef.current = null;
     setIsListening(false);
     resetAttempt();
-  }, [expected, resetAttempt]);
+  }, [expectedUnits, resetAttempt]);
 
   useEffect(() => {
     return () => {
@@ -169,7 +247,7 @@ export function useHanjaVoiceRecognition({
   }, []);
 
   const startListening = useCallback(() => {
-    if (!enabled || expected.length === 0) {
+    if (!enabled || expectedUnits.length === 0) {
       return;
     }
 
@@ -190,11 +268,11 @@ export function useHanjaVoiceRecognition({
     recognition.maxAlternatives = 1;
 
     recognition.onresult = (event) => {
-      const spoken = normalizeKoreanSyllables(getTranscriptFromResults(event));
-      const nextCount = getNextRecognizedCount(
-        expected,
-        spoken,
-        recognizedCountRef.current
+      const nextCount = getNextCountForMode(
+        expectedUnits,
+        getTranscriptFromResults(event),
+        recognizedCountRef.current,
+        mode
       );
 
       if (nextCount > recognizedCountRef.current) {
@@ -202,7 +280,7 @@ export function useHanjaVoiceRecognition({
         setRecognizedCount(nextCount);
       }
 
-      if (nextCount >= expected.length && !completedRef.current) {
+      if (nextCount >= expectedUnits.length && !completedRef.current) {
         completedRef.current = true;
         recognition.stop();
         recognitionRef.current = null;
@@ -232,7 +310,7 @@ export function useHanjaVoiceRecognition({
       setIsListening(false);
       setError("start-failed");
     }
-  }, [enabled, expected, resetAttempt]);
+  }, [enabled, expectedUnits, mode, resetAttempt]);
 
   return {
     error,
@@ -241,6 +319,24 @@ export function useHanjaVoiceRecognition({
     startListening,
     stopListening,
     support,
-    targetCount: expected.length
+    targetCount: expectedUnits.length
   };
+}
+
+export function useHanjaVoiceRecognition(
+  options: UseHanjaVoiceRecognitionOptions
+) {
+  return useProgressiveVoiceRecognition({
+    ...options,
+    mode: "syllable"
+  });
+}
+
+export function useKoreanMeaningVoiceRecognition(
+  options: UseHanjaVoiceRecognitionOptions
+) {
+  return useProgressiveVoiceRecognition({
+    ...options,
+    mode: "word"
+  });
 }

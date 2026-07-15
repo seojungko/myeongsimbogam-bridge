@@ -3,7 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/cn";
-import { useHanjaVoiceRecognition } from "@/lib/use-hanja-voice-recognition";
+import {
+  useHanjaVoiceRecognition,
+  useKoreanMeaningVoiceRecognition
+} from "@/lib/use-hanja-voice-recognition";
 import { useVoiceBeta } from "@/lib/use-voice-beta";
 import type { StudyPageRecord } from "@dataset/types";
 
@@ -18,6 +21,8 @@ type MaskedTranslationPart =
   | {
       key: string;
       type: "cover";
+      value: string;
+      voiceIndex: number | null;
       widthEm: number;
     }
   | {
@@ -29,6 +34,7 @@ type MaskedTranslationPart =
       key: string;
       type: "visible";
       value: string;
+      voiceIndex: number | null;
     };
 type PhraseCell =
   | {
@@ -457,53 +463,74 @@ function getCoverWidthEm(value: string) {
   return Math.min(Math.max(visibleCharacters * 0.5, 1.2), 6.8);
 }
 
-function buildCoveredTranslationParts(value: string, keyPrefix: string) {
+function normalizeMeaningToken(value: string) {
+  return value.match(/[\uAC00-\uD7A30-9]+/gu)?.join("") ?? "";
+}
+
+function buildMaskedTranslationParts(
+  fullText: string,
+  prompt: string,
+  answerVisible: boolean
+) {
   const parts: MaskedTranslationPart[] = [];
-  const tokens = value.match(/\s+|\S+/gu) ?? [];
+  const tokens = fullText.match(/\s+|\S+/gu) ?? [];
+  const promptIndex = prompt.length > 0 ? fullText.indexOf(prompt) : -1;
+  let textOffset = 0;
+  let voiceIndex = 0;
 
   tokens.forEach((token, index) => {
     if (/^\s+$/u.test(token)) {
       parts.push({
-        key: `${keyPrefix}-space-${index}`,
+        key: `space-${index}-${textOffset}`,
         type: "space",
         value: token
       });
+      textOffset += token.length;
       return;
     }
 
-    parts.push({
-      key: `${keyPrefix}-cover-${index}`,
-      type: "cover",
-      widthEm: getCoverWidthEm(token)
-    });
+    const normalizedToken = normalizeMeaningToken(token);
+    const tokenVoiceIndex = normalizedToken.length > 0 ? voiceIndex : null;
+    const tokenStartsInPrompt =
+      promptIndex >= 0 &&
+      textOffset >= promptIndex &&
+      textOffset < promptIndex + prompt.length;
+    const tokenEndsInPrompt =
+      promptIndex >= 0 &&
+      textOffset + token.length > promptIndex &&
+      textOffset + token.length <= promptIndex + prompt.length;
+    const shouldShowText =
+      answerVisible || tokenStartsInPrompt || tokenEndsInPrompt;
+
+    if (shouldShowText) {
+      parts.push({
+        key: `visible-${index}-${textOffset}`,
+        type: "visible" as const,
+        value: token,
+        voiceIndex: tokenVoiceIndex
+      });
+    } else {
+      parts.push({
+        key: `cover-${index}-${textOffset}`,
+        type: "cover",
+        value: token,
+        voiceIndex: tokenVoiceIndex,
+        widthEm: getCoverWidthEm(token)
+      });
+    }
+
+    if (normalizedToken.length > 0) {
+      voiceIndex += 1;
+    }
+
+    textOffset += token.length;
   });
 
   return parts;
 }
 
-function buildMaskedTranslationParts(fullText: string, prompt: string) {
-  if (prompt.length === 0) {
-    return buildCoveredTranslationParts(fullText, "full");
-  }
-
-  const promptIndex = fullText.indexOf(prompt);
-
-  if (promptIndex === -1) {
-    return buildCoveredTranslationParts(fullText, "full");
-  }
-
-  const beforePrompt = fullText.slice(0, promptIndex);
-  const afterPrompt = fullText.slice(promptIndex + prompt.length);
-
-  return [
-    ...buildCoveredTranslationParts(beforePrompt, "before"),
-    {
-      key: "prompt",
-      type: "visible" as const,
-      value: prompt
-    },
-    ...buildCoveredTranslationParts(afterPrompt, "after")
-  ];
+function getMeaningText(passage: StudyPageRecord) {
+  return passage.directMeaning || passage.translation;
 }
 
 function readLearnedRecordIds() {
@@ -568,13 +595,23 @@ export function StudyCard({ passages }: StudyCardProps) {
   const totalPages = passages.length;
   const voicePassage =
     passages[Math.min(pageIndex, Math.max(totalPages - 1, 0))];
-  const voiceRecognition = useHanjaVoiceRecognition({
+  const voiceMeaningText = voicePassage ? getMeaningText(voicePassage) : "";
+  const hanjaVoiceRecognition = useHanjaVoiceRecognition({
     enabled:
       isVoiceBetaEnabled &&
       viewMode === "phrase" &&
       !isCompletingRecord &&
       totalPages > 0,
     expectedText: voicePassage?.fullKorean ?? "",
+    onComplete: completeCurrentStep
+  });
+  const meaningVoiceRecognition = useKoreanMeaningVoiceRecognition({
+    enabled:
+      isVoiceBetaEnabled &&
+      viewMode === "meaning" &&
+      !isCompletingRecord &&
+      totalPages > 0,
+    expectedText: voiceMeaningText,
     onComplete: completeCurrentStep
   });
 
@@ -606,9 +643,11 @@ export function StudyCard({ passages }: StudyCardProps) {
   const visibleAnswer = isPeeking || isCharacterMeaningPeeking;
   const phraseAnswerVisible = isPhraseMode && visibleAnswer;
   const meaningAnswerVisible = isMeaningMode && isPeeking;
+  const meaningText = getMeaningText(passage);
   const maskedTranslationParts = buildMaskedTranslationParts(
-    passage.translation,
-    passage.promptTranslation
+    meaningText,
+    passage.promptTranslation,
+    meaningAnswerVisible
   );
   const phraseLayout = buildPhraseLayout(passage, phraseAnswerVisible);
   const hanjaClasses = hanjaSizeClasses[phraseLayout.sizeTier];
@@ -628,7 +667,8 @@ export function StudyCard({ passages }: StudyCardProps) {
       return;
     }
 
-    voiceRecognition.stopListening();
+    hanjaVoiceRecognition.stopListening();
+    meaningVoiceRecognition.stopListening();
     setIsPeeking(false);
     setIsCharacterMeaningPeeking(false);
     setShowRangeSheet(false);
@@ -643,7 +683,8 @@ export function StudyCard({ passages }: StudyCardProps) {
   }
 
   function switchMode(nextMode: StudyViewMode) {
-    voiceRecognition.stopListening();
+    hanjaVoiceRecognition.stopListening();
+    meaningVoiceRecognition.stopListening();
     setIsPeeking(false);
     setIsCharacterMeaningPeeking(false);
     setViewMode(nextMode);
@@ -705,7 +746,8 @@ export function StudyCard({ passages }: StudyCardProps) {
       return;
     }
 
-    voiceRecognition.stopListening();
+    hanjaVoiceRecognition.stopListening();
+    meaningVoiceRecognition.stopListening();
     setIsPeeking(false);
     setIsCharacterMeaningPeeking(false);
 
@@ -1006,7 +1048,7 @@ export function StudyCard({ passages }: StudyCardProps) {
 
                     const isVoiceRecognized =
                       isVoiceBetaEnabled &&
-                      cell.voiceIndex < voiceRecognition.recognizedCount;
+                      cell.voiceIndex < hanjaVoiceRecognition.recognizedCount;
                     const shouldShowCell = cell.visible || isVoiceRecognized;
 
                     return (
@@ -1070,7 +1112,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                 )}
                 aria-hidden
               >
-                {passage.translation}
+                {meaningText}
               </p>
               <div
                 className={cn(
@@ -1078,12 +1120,23 @@ export function StudyCard({ passages }: StudyCardProps) {
                   classes.translation
                 )}
               >
-                {meaningAnswerVisible
-                  ? passage.translation
-                  : maskedTranslationParts.map((part) => {
+                {maskedTranslationParts.map((part) => {
                       if (part.type === "visible") {
+                        const isMeaningVoiceRecognized =
+                          isVoiceBetaEnabled &&
+                          part.voiceIndex !== null &&
+                          part.voiceIndex <
+                            meaningVoiceRecognition.recognizedCount;
+
                         return (
-                          <span className="text-white/88" key={part.key}>
+                          <span
+                            className={
+                              isMeaningVoiceRecognized
+                                ? "text-[rgb(var(--accent))]"
+                                : "text-white/88"
+                            }
+                            key={part.key}
+                          >
                             {part.value}
                           </span>
                         );
@@ -1093,13 +1146,31 @@ export function StudyCard({ passages }: StudyCardProps) {
                         return <span key={part.key}>{part.value}</span>;
                       }
 
+                      const isMeaningVoiceRecognized =
+                        isVoiceBetaEnabled &&
+                        part.voiceIndex !== null &&
+                        part.voiceIndex <
+                          meaningVoiceRecognition.recognizedCount;
+
+                      if (isMeaningVoiceRecognized) {
+                        return (
+                          <span
+                            className="text-[rgb(var(--accent))]"
+                            key={part.key}
+                          >
+                            {part.value}
+                          </span>
+                        );
+                      }
+
                       return (
                         <span
-                          className="inline-block h-[0.72em] rounded bg-white/10 align-middle"
+                          className="rounded bg-white/10 text-transparent"
                           key={part.key}
-                          style={{ width: `${part.widthEm}em` }}
                           aria-hidden
-                        />
+                        >
+                          {part.value}
+                        </span>
                       );
                     })}
               </div>
@@ -1128,36 +1199,36 @@ export function StudyCard({ passages }: StudyCardProps) {
         <div className="study-card-actions shrink-0">
           {isVoiceBetaEnabled &&
           viewMode === "phrase" &&
-          voiceRecognition.support === "supported" ? (
+          hanjaVoiceRecognition.support === "supported" ? (
             <div className="flex flex-col gap-1">
               <button
                 type="button"
                 className={cn(
                   "min-h-11 rounded-lg px-3 text-sm font-black transition-colors active:scale-[0.99]",
-                  voiceRecognition.isListening
+                  hanjaVoiceRecognition.isListening
                     ? "bg-[rgb(var(--accent)/0.2)] text-[rgb(var(--accent))]"
                     : "bg-white/8 text-white/76 active:bg-white/12"
                 )}
                 onClick={() =>
-                  voiceRecognition.isListening
-                    ? voiceRecognition.stopListening()
-                    : voiceRecognition.startListening()
+                  hanjaVoiceRecognition.isListening
+                    ? hanjaVoiceRecognition.stopListening()
+                    : hanjaVoiceRecognition.startListening()
                 }
-                aria-pressed={voiceRecognition.isListening}
+                aria-pressed={hanjaVoiceRecognition.isListening}
               >
                 <span>
-                  {voiceRecognition.isListening
+                  {hanjaVoiceRecognition.isListening
                     ? "듣는 중..."
                     : "마이크로 외우기"}
                 </span>
                 <span className="ml-2 text-xs text-white/50">
-                  {voiceRecognition.recognizedCount}/{voiceRecognition.targetCount}
+                  {hanjaVoiceRecognition.recognizedCount}/{hanjaVoiceRecognition.targetCount}
                 </span>
               </button>
               <p className="text-center text-[0.68rem] font-semibold leading-4 text-white/38">
                 마이크는 외운 내용을 확인할 때만 사용해요.
               </p>
-              {voiceRecognition.error ? (
+              {hanjaVoiceRecognition.error ? (
                 <p className="text-center text-[0.68rem] font-semibold leading-4 text-white/45">
                   마이크를 사용할 수 없어요.
                 </p>
@@ -1167,7 +1238,55 @@ export function StudyCard({ passages }: StudyCardProps) {
 
           {isVoiceBetaEnabled &&
           viewMode === "phrase" &&
-          voiceRecognition.support === "unsupported" ? (
+          hanjaVoiceRecognition.support === "unsupported" ? (
+            <p className="text-center text-[0.72rem] font-semibold leading-4 text-white/42">
+              이 브라우저에서는 음성 확인을 사용할 수 없어요.
+            </p>
+          ) : null}
+
+          {isVoiceBetaEnabled &&
+          viewMode === "meaning" &&
+          meaningVoiceRecognition.support === "supported" ? (
+            <div className="flex flex-col gap-1">
+              <button
+                type="button"
+                className={cn(
+                  "min-h-11 rounded-lg px-3 text-sm font-black transition-colors active:scale-[0.99]",
+                  meaningVoiceRecognition.isListening
+                    ? "bg-[rgb(var(--accent)/0.2)] text-[rgb(var(--accent))]"
+                    : "bg-white/8 text-white/76 active:bg-white/12"
+                )}
+                onClick={() =>
+                  meaningVoiceRecognition.isListening
+                    ? meaningVoiceRecognition.stopListening()
+                    : meaningVoiceRecognition.startListening()
+                }
+                aria-pressed={meaningVoiceRecognition.isListening}
+              >
+                <span>
+                  {meaningVoiceRecognition.isListening
+                    ? "듣는 중..."
+                    : "마이크로 바로뜻 외우기"}
+                </span>
+                <span className="ml-2 text-xs text-white/50">
+                  {meaningVoiceRecognition.recognizedCount}/
+                  {meaningVoiceRecognition.targetCount}
+                </span>
+              </button>
+              <p className="text-center text-[0.68rem] font-semibold leading-4 text-white/38">
+                마이크는 외운 내용을 확인할 때만 사용해요.
+              </p>
+              {meaningVoiceRecognition.error ? (
+                <p className="text-center text-[0.68rem] font-semibold leading-4 text-white/45">
+                  마이크를 사용할 수 없어요.
+                </p>
+              ) : null}
+            </div>
+          ) : null}
+
+          {isVoiceBetaEnabled &&
+          viewMode === "meaning" &&
+          meaningVoiceRecognition.support === "unsupported" ? (
             <p className="text-center text-[0.72rem] font-semibold leading-4 text-white/42">
               이 브라우저에서는 음성 확인을 사용할 수 없어요.
             </p>
