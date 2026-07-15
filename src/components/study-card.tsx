@@ -575,6 +575,7 @@ export function StudyCard({ passages }: StudyCardProps) {
     useState(false);
   const [isPeeking, setIsPeeking] = useState(false);
   const [showVoiceIntro, setShowVoiceIntro] = useState(false);
+  const [voiceModeEnabled, setVoiceModeEnabled] = useState(false);
   const [rangeCelebration, setRangeCelebration] =
     useState<RangeCelebration | null>(null);
   const [showRangeSheet, setShowRangeSheet] = useState(false);
@@ -591,6 +592,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   useEffect(() => {
     if (!isVoiceBetaEnabled) {
       setShowVoiceIntro(false);
+      setVoiceModeEnabled(false);
       return;
     }
 
@@ -601,6 +603,33 @@ export function StudyCard({ passages }: StudyCardProps) {
     } catch {
       setShowVoiceIntro(true);
     }
+  }, [isVoiceBetaEnabled]);
+
+  useEffect(() => {
+    if (!isVoiceBetaEnabled) {
+      setVoiceModeEnabled(false);
+      return;
+    }
+
+    function disableVoiceModeForBackground() {
+      setVoiceModeEnabled(false);
+    }
+
+    function handleVisibilityChange() {
+      if (document.visibilityState === "hidden") {
+        disableVoiceModeForBackground();
+      }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("pagehide", disableVoiceModeForBackground);
+    window.addEventListener("freeze", disableVoiceModeForBackground);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("pagehide", disableVoiceModeForBackground);
+      window.removeEventListener("freeze", disableVoiceModeForBackground);
+    };
   }, [isVoiceBetaEnabled]);
 
   useEffect(() => {
@@ -622,7 +651,9 @@ export function StudyCard({ passages }: StudyCardProps) {
       !isCompletingRecord &&
       totalPages > 0,
     expectedText: voicePassage?.fullKorean ?? "",
-    onComplete: completeCurrentStep
+    onComplete: completeCurrentStep,
+    onVoiceModeUnavailable: disableVoiceMode,
+    voiceModeEnabled
   });
   const meaningVoiceRecognition = useKoreanMeaningVoiceRecognition({
     enabled:
@@ -631,7 +662,9 @@ export function StudyCard({ passages }: StudyCardProps) {
       !isCompletingRecord &&
       totalPages > 0,
     expectedText: voiceMeaningText,
-    onComplete: completeCurrentStep
+    onComplete: completeCurrentStep,
+    onVoiceModeUnavailable: disableVoiceMode,
+    voiceModeEnabled
   });
 
   if (totalPages === 0) {
@@ -689,6 +722,11 @@ export function StudyCard({ passages }: StudyCardProps) {
   const isVoiceControlUnavailable =
     activeVoiceRecognition.support === "unsupported";
   const isVoiceListening = activeVoiceRecognition.isListening;
+  const isVoiceModeOn = isVoiceBetaEnabled && voiceModeEnabled;
+
+  function disableVoiceMode() {
+    setVoiceModeEnabled(false);
+  }
 
   function dismissVoiceIntro() {
     try {
@@ -705,12 +743,7 @@ export function StudyCard({ passages }: StudyCardProps) {
       return;
     }
 
-    if (activeVoiceRecognition.isListening) {
-      activeVoiceRecognition.stopListening();
-      return;
-    }
-
-    activeVoiceRecognition.startListening();
+    setVoiceModeEnabled((currentValue) => !currentValue);
   }
 
   function moveToRecord(nextIndex: number) {
@@ -988,17 +1021,19 @@ export function StudyCard({ passages }: StudyCardProps) {
                 type="button"
                 className={cn(
                   "absolute left-0 top-0 flex size-9 items-center justify-center rounded-full transition",
-                  isVoiceListening
-                    ? "animate-pulse bg-[rgb(var(--accent)/0.2)] text-[rgb(var(--accent))] shadow-[0_0_18px_rgb(var(--accent)/0.18)]"
+                  isVoiceModeOn
+                    ? "bg-[rgb(var(--accent)/0.2)] text-[rgb(var(--accent))] shadow-[0_0_18px_rgb(var(--accent)/0.12)]"
                     : "bg-white/8 text-white/82 active:bg-white/12",
+                  isVoiceListening &&
+                    "animate-pulse shadow-[0_0_18px_rgb(var(--accent)/0.18)]",
                   isVoiceControlUnavailable &&
                     "pointer-events-none opacity-35"
                 )}
                 onClick={toggleVoiceListening}
                 aria-label={
-                  isVoiceListening ? "음성 확인 끄기" : "음성 확인 켜기"
+                  isVoiceModeOn ? "음성 모드 끄기" : "음성 모드 켜기"
                 }
-                aria-pressed={isVoiceListening}
+                aria-pressed={isVoiceModeOn}
                 disabled={isVoiceControlUnavailable}
               >
                 <Mic className="size-4" aria-hidden />

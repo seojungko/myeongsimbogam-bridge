@@ -54,6 +54,8 @@ type UseHanjaVoiceRecognitionOptions = {
   enabled: boolean;
   expectedText: string;
   onComplete: () => void;
+  onVoiceModeUnavailable?: () => void;
+  voiceModeEnabled: boolean;
 };
 
 type VoiceUnitMode = "syllable" | "word";
@@ -86,6 +88,11 @@ const WEAK_READING_SYLLABLES = new Set([
 
 const MAX_LOOKAHEAD_GAP = 2;
 const MAX_TOLERATED_GAPS = 2;
+const RESTART_DELAY_MS = 250;
+
+function optionsUnavailableNoop() {
+  // Optional callback used by voice beta screens that can turn the mic mode off.
+}
 
 function getSpeechRecognitionConstructor() {
   if (typeof window === "undefined") {
@@ -93,6 +100,10 @@ function getSpeechRecognitionConstructor() {
   }
 
   return window.SpeechRecognition ?? window.webkitSpeechRecognition;
+}
+
+function isDocumentVisible() {
+  return typeof document === "undefined" || document.visibilityState === "visible";
 }
 
 function normalizeKoreanSyllables(value: string) {
@@ -379,7 +390,9 @@ function useProgressiveVoiceRecognition({
   enabled,
   expectedText,
   mode,
-  onComplete
+  onComplete,
+  onVoiceModeUnavailable,
+  voiceModeEnabled
 }: UseProgressiveVoiceRecognitionOptions) {
   const expectedUnits = useMemo(
     () => getExpectedUnits(expectedText, mode),
@@ -398,16 +411,48 @@ function useProgressiveVoiceRecognition({
   const recognizedCountRef = useRef(0);
   const finalChunksRef = useRef(new Map<number, string>());
   const completedRef = useRef(false);
+  const enabledRef = useRef(enabled);
+  const expectedUnitsRef = useRef(expectedUnits);
+  const isStartingRef = useRef(false);
+  const lastErrorRef = useRef<string | null>(null);
+  const onVoiceModeUnavailableRef = useRef(optionsUnavailableNoop);
   const onCompleteRef = useRef(onComplete);
+  const previousVoiceModeEnabledRef = useRef(voiceModeEnabled);
+  const recognitionGenerationRef = useRef(0);
+  const restartTimeoutRef = useRef<number | null>(null);
+  const voiceModeEnabledRef = useRef(voiceModeEnabled);
 
   useEffect(() => {
     onCompleteRef.current = onComplete;
   }, [onComplete]);
 
-  const stopListening = useCallback(() => {
-    recognitionRef.current?.stop();
-    recognitionRef.current = null;
-    setIsListening(false);
+  useEffect(() => {
+    onVoiceModeUnavailableRef.current =
+      onVoiceModeUnavailable ?? optionsUnavailableNoop;
+  }, [onVoiceModeUnavailable]);
+
+  useEffect(() => {
+    enabledRef.current = enabled;
+    expectedUnitsRef.current = expectedUnits;
+    voiceModeEnabledRef.current = voiceModeEnabled;
+  }, [enabled, expectedUnits, voiceModeEnabled]);
+
+  const clearRestartTimer = useCallback(() => {
+    if (restartTimeoutRef.current === null) {
+      return;
+    }
+
+    window.clearTimeout(restartTimeoutRef.current);
+    restartTimeoutRef.current = null;
+  }, []);
+
+  const canRunRecognition = useCallback(() => {
+    return (
+      enabledRef.current &&
+      voiceModeEnabledRef.current &&
+      expectedUnitsRef.current.length > 0 &&
+      isDocumentVisible()
+    );
   }, []);
 
   const resetAttempt = useCallback(() => {
@@ -423,35 +468,53 @@ function useProgressiveVoiceRecognition({
     setError(null);
   }, []);
 
+  const stopListening = useCallback(() => {
+    clearRestartTimer();
+    recognitionGenerationRef.current += 1;
+    isStartingRef.current = false;
+    recognitionRef.current?.abort();
+    recognitionRef.current = null;
+    setIsListening(false);
+  }, [clearRestartTimer]);
+
   useEffect(() => {
     if (!enabled) {
-      recognitionRef.current?.abort();
-      recognitionRef.current = null;
-      setIsListening(false);
+      stopListening();
       setSupport("unknown");
       resetAttempt();
       return;
     }
 
     setSupport(getSpeechRecognitionConstructor() ? "supported" : "unsupported");
-  }, [enabled, resetAttempt]);
+  }, [enabled, resetAttempt, stopListening]);
 
   useEffect(() => {
-    recognitionRef.current?.abort();
-    recognitionRef.current = null;
-    setIsListening(false);
+    stopListening();
     resetAttempt();
-  }, [expectedUnits, resetAttempt]);
+  }, [expectedUnits, resetAttempt, stopListening]);
 
   useEffect(() => {
     return () => {
-      recognitionRef.current?.abort();
-      recognitionRef.current = null;
+      stopListening();
     };
-  }, []);
+  }, [stopListening]);
+
+  useEffect(() => {
+    function handleVisibilityChange() {
+      if (!isDocumentVisible()) {
+        stopListening();
+      }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [stopListening]);
 
   const startListening = useCallback(() => {
-    if (!enabled || expectedUnits.length === 0) {
+    if (!canRunRecognition() || recognitionRef.current || isStartingRef.current) {
       return;
     }
 
@@ -459,12 +522,15 @@ function useProgressiveVoiceRecognition({
 
     if (!SpeechRecognition) {
       setSupport("unsupported");
+      onVoiceModeUnavailableRef.current();
       return;
     }
 
-    recognitionRef.current?.abort();
-    resetAttempt();
-
+    clearRestartTimer();
+    isStartingRef.current = true;
+    lastErrorRef.current = null;
+    const generation = recognitionGenerationRef.current + 1;
+    recognitionGenerationRef.current = generation;
     const recognition = new SpeechRecognition();
     recognition.lang = "ko-KR";
     recognition.continuous = true;
@@ -529,7 +595,9 @@ function useProgressiveVoiceRecognition({
 
       if (nextCount >= expectedUnits.length && !completedRef.current) {
         completedRef.current = true;
-        recognition.stop();
+        clearRestartTimer();
+        recognitionGenerationRef.current += 1;
+        recognition.abort();
         recognitionRef.current = null;
         setIsListening(false);
         onCompleteRef.current();
@@ -537,13 +605,53 @@ function useProgressiveVoiceRecognition({
     };
 
     recognition.onerror = (event) => {
+      lastErrorRef.current = event.error;
       setError(event.error);
-      setIsListening(false);
+
+      if (
+        event.error === "not-allowed" ||
+        event.error === "service-not-allowed" ||
+        event.error === "audio-capture"
+      ) {
+        clearRestartTimer();
+        recognitionGenerationRef.current += 1;
+        recognitionRef.current?.abort();
+        recognitionRef.current = null;
+        setIsListening(false);
+        onVoiceModeUnavailableRef.current();
+      }
     };
 
     recognition.onend = () => {
+      isStartingRef.current = false;
       setIsListening(false);
+
+      if (recognitionGenerationRef.current !== generation) {
+        return;
+      }
+
       recognitionRef.current = null;
+
+      if (completedRef.current || !canRunRecognition()) {
+        return;
+      }
+
+      const lastError = lastErrorRef.current;
+
+      if (
+        lastError &&
+        lastError !== "no-speech" &&
+        lastError !== "aborted"
+      ) {
+        onVoiceModeUnavailableRef.current();
+        return;
+      }
+
+      clearRestartTimer();
+      restartTimeoutRef.current = window.setTimeout(() => {
+        restartTimeoutRef.current = null;
+        startListening();
+      }, RESTART_DELAY_MS);
     };
 
     try {
@@ -553,11 +661,33 @@ function useProgressiveVoiceRecognition({
       setIsListening(true);
       setError(null);
     } catch {
+      isStartingRef.current = false;
       recognitionRef.current = null;
       setIsListening(false);
       setError("start-failed");
+      onVoiceModeUnavailableRef.current();
     }
-  }, [enabled, expectedUnits, mode, resetAttempt]);
+  }, [canRunRecognition, clearRestartTimer, expectedUnits, mode]);
+
+  useEffect(() => {
+    const wasVoiceModeEnabled = previousVoiceModeEnabledRef.current;
+    previousVoiceModeEnabledRef.current = voiceModeEnabled;
+
+    if (!voiceModeEnabled) {
+      stopListening();
+      return;
+    }
+
+    if (!wasVoiceModeEnabled) {
+      resetAttempt();
+    }
+
+    if (!enabled) {
+      return;
+    }
+
+    startListening();
+  }, [enabled, resetAttempt, startListening, stopListening, voiceModeEnabled]);
 
   const debugRevealAll = useCallback(() => {
     recognitionRef.current?.stop();
