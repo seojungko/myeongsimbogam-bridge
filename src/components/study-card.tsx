@@ -41,9 +41,9 @@ type PhraseCell =
       hanja: string;
       key: string;
       reading: string;
+      recognized: boolean;
       type: "character";
       visible: boolean;
-      voiceIndex: number;
     }
   | {
       key: string;
@@ -397,12 +397,11 @@ function getHanjaSizeTier(rows: PhraseRow[]): HanjaSizeTier {
 
 function buildPhraseLayout(
   passage: StudyPageRecord,
-  visibleAnswer: boolean
+  visibleAnswer: boolean,
+  recognizedVoiceUnits: number
 ): PhraseLayout {
   const rows: PhraseCell[][] = [[]];
-  const readings = Array.from(passage.fullKorean).filter(
-    (character) => !/\s/.test(character)
-  );
+  const readings = passage.fullKorean.match(/[\uAC00-\uD7A3]/gu) ?? [];
   const visibleOffsets = visibleAnswer
     ? null
     : getVisibleOffsets(passage.fullHanja, passage.promptHanja);
@@ -427,14 +426,15 @@ function buildPhraseLayout(
 
     const reading = readings[readingIndex] ?? "";
     const isVisible = visibleAnswer || visibleOffsets?.has(textOffset) === true;
+    const isRecognized = readingIndex < recognizedVoiceUnits;
 
     rows[rows.length - 1].push({
       hanja,
       key: `character-${textOffset}-${hanja}`,
       reading,
+      recognized: isRecognized,
       type: "character",
-      visible: isVisible,
-      voiceIndex: readingIndex
+      visible: isRecognized || isVisible
     });
 
     readingIndex += 1;
@@ -649,7 +649,11 @@ export function StudyCard({ passages }: StudyCardProps) {
     passage.promptTranslation,
     meaningAnswerVisible
   );
-  const phraseLayout = buildPhraseLayout(passage, phraseAnswerVisible);
+  const phraseLayout = buildPhraseLayout(
+    passage,
+    phraseAnswerVisible,
+    isVoiceBetaEnabled ? hanjaVoiceRecognition.recognizedCount : 0
+  );
   const hanjaClasses = hanjaSizeClasses[phraseLayout.sizeTier];
   const isFirstRecord = currentIndex === 0;
   const isLastRecord = currentIndex === totalPages - 1;
@@ -1046,11 +1050,6 @@ export function StudyCard({ passages }: StudyCardProps) {
                       );
                     }
 
-                    const isVoiceRecognized =
-                      isVoiceBetaEnabled &&
-                      cell.voiceIndex < hanjaVoiceRecognition.recognizedCount;
-                    const shouldShowCell = cell.visible || isVoiceRecognized;
-
                     return (
                       <span
                         className={cn(
@@ -1061,12 +1060,12 @@ export function StudyCard({ passages }: StudyCardProps) {
                         )}
                         key={cell.key}
                       >
-                        {shouldShowCell ? (
+                        {cell.visible ? (
                           <>
                             <span
                               className={cn(
                                 "flex min-h-0 flex-1 items-center font-black tracking-normal",
-                                isVoiceRecognized
+                                cell.recognized
                                   ? "text-[rgb(var(--accent))]"
                                   : "text-white",
                                 hanjaClasses.hanja
@@ -1077,7 +1076,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                             <span
                               className={cn(
                                 "flex h-[1.25em] max-w-full shrink-0 items-center overflow-hidden whitespace-nowrap font-bold",
-                                isVoiceRecognized
+                                cell.recognized
                                   ? "text-[rgb(var(--accent))]"
                                   : "text-white/68",
                                 hanjaClasses.reading
