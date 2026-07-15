@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
+import { Mic } from "lucide-react";
 import { cn } from "@/lib/cn";
 import {
   useHanjaVoiceRecognition,
@@ -71,6 +72,7 @@ type RangeCelebration = {
 };
 
 const LEARNED_RECORD_IDS_KEY = "bridge.learnedRecordIds";
+const VOICE_BETA_INTRO_SEEN_KEY = "voiceBetaIntroSeen";
 const COMPLETION_SPARKLE_MS = 560;
 const RANGE_CELEBRATION_HEADLINES = [
   "대단해!",
@@ -570,7 +572,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   const [isCharacterMeaningPeeking, setIsCharacterMeaningPeeking] =
     useState(false);
   const [isPeeking, setIsPeeking] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
+  const [showVoiceIntro, setShowVoiceIntro] = useState(false);
   const [rangeCelebration, setRangeCelebration] =
     useState<RangeCelebration | null>(null);
   const [showRangeSheet, setShowRangeSheet] = useState(false);
@@ -583,6 +585,21 @@ export function StudyCard({ passages }: StudyCardProps) {
   useEffect(() => {
     setLearnedRecordIds(readLearnedRecordIds());
   }, []);
+
+  useEffect(() => {
+    if (!isVoiceBetaEnabled) {
+      setShowVoiceIntro(false);
+      return;
+    }
+
+    try {
+      setShowVoiceIntro(
+        window.localStorage.getItem(VOICE_BETA_INTRO_SEEN_KEY) !== "true"
+      );
+    } catch {
+      setShowVoiceIntro(true);
+    }
+  }, [isVoiceBetaEnabled]);
 
   useEffect(() => {
     return () => {
@@ -659,6 +676,35 @@ export function StudyCard({ passages }: StudyCardProps) {
   const isLastRecord = currentIndex === totalPages - 1;
   const isLastRecordInCurrentRange =
     currentRangePosition === currentRangeRecords.length - 1;
+  const activeVoiceRecognition = isMeaningMode
+    ? meaningVoiceRecognition
+    : hanjaVoiceRecognition;
+  const isVoiceControlUnavailable =
+    activeVoiceRecognition.support === "unsupported";
+  const isVoiceListening = activeVoiceRecognition.isListening;
+
+  function dismissVoiceIntro() {
+    try {
+      window.localStorage.setItem(VOICE_BETA_INTRO_SEEN_KEY, "true");
+    } catch {
+      // Keep the guidance lightweight even when storage is unavailable.
+    }
+
+    setShowVoiceIntro(false);
+  }
+
+  function toggleVoiceListening() {
+    if (!isVoiceBetaEnabled || isVoiceControlUnavailable) {
+      return;
+    }
+
+    if (activeVoiceRecognition.isListening) {
+      activeVoiceRecognition.stopListening();
+      return;
+    }
+
+    activeVoiceRecognition.startListening();
+  }
 
   function moveToRecord(nextIndex: number) {
     if (isCompletingRecord) {
@@ -813,31 +859,26 @@ export function StudyCard({ passages }: StudyCardProps) {
         aria-hidden
       />
 
-      {isVoiceBetaEnabled ? (
-        <div className="pointer-events-none absolute left-3 top-14 z-20 rounded-full bg-white/10 px-2 py-1 text-[0.65rem] font-black uppercase tracking-wide text-white/56">
-          Voice Beta
-        </div>
-      ) : null}
+      {showVoiceIntro ? (
+        <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/45 px-5">
+          <div className="w-full max-w-xs rounded-2xl border border-white/5 bg-[#121212]/95 p-5 text-center shadow-soft">
+            <p className="whitespace-pre-line text-[0.95rem] font-bold leading-7 text-white/86">
+              {`'처음 만나는 명심보감' 책의
+암기를 돕기 위한 앱이에요.
 
-      {showHelp ? (
-        <div className="absolute inset-0 z-30 flex items-start justify-center bg-black/48 px-4 pt-16">
-          <div className="w-full max-w-xs rounded-lg border border-[#2A2A2A] bg-[#121212] p-4 text-left shadow-soft">
-            <div className="mb-3 flex items-center justify-between">
-              <p className="text-sm font-black text-white">도움말</p>
-              <button
-                type="button"
-                className="flex size-9 items-center justify-center rounded-full bg-white/10 text-base font-black text-white transition-colors active:bg-white/14"
-                onClick={() => setShowHelp(false)}
-                aria-label="도움말 닫기"
-              >
-                ×
-              </button>
-            </div>
-            <ul className="space-y-2 text-sm font-semibold leading-6 text-white/76">
-              <li>길게 누르면 답을 잠깐 볼 수 있어요.</li>
-              <li>손을 떼면 다시 가려져요.</li>
-              <li>한자 뜻은 아래 문장을 길게 누르면 볼 수 있어요.</li>
-            </ul>
+카드 영역을 길게 누르면
+가려진 글자가 보여요.
+
+마이크를 켜고 소리내어 읽으면
+맞힌 글자가 파란색으로 변해요.`}
+            </p>
+            <button
+              type="button"
+              className="mt-5 min-h-11 rounded-full bg-[rgb(var(--accent))] px-6 text-sm font-black text-black transition active:scale-[0.98]"
+              onClick={dismissVoiceIntro}
+            >
+              화이팅🎉
+            </button>
           </div>
         </div>
       ) : null}
@@ -935,14 +976,27 @@ export function StudyCard({ passages }: StudyCardProps) {
       <div className="relative z-10 flex min-h-0 w-full flex-col">
         <header className="study-card-header shrink-0">
           <div className="relative min-h-9">
-            <button
-              type="button"
-              className="absolute left-0 top-0 flex size-9 items-center justify-center rounded-full bg-white/8 text-base font-black text-white transition-colors active:bg-white/12"
-              onClick={() => setShowHelp(true)}
-              aria-label="도움말 열기"
-            >
-              ⓘ
-            </button>
+            {isVoiceBetaEnabled ? (
+              <button
+                type="button"
+                className={cn(
+                  "absolute left-0 top-0 flex size-9 items-center justify-center rounded-full transition",
+                  isVoiceListening
+                    ? "animate-pulse bg-[rgb(var(--accent)/0.2)] text-[rgb(var(--accent))] shadow-[0_0_18px_rgb(var(--accent)/0.18)]"
+                    : "bg-white/8 text-white/82 active:bg-white/12",
+                  isVoiceControlUnavailable &&
+                    "pointer-events-none opacity-35"
+                )}
+                onClick={toggleVoiceListening}
+                aria-label={
+                  isVoiceListening ? "음성 확인 끄기" : "음성 확인 켜기"
+                }
+                aria-pressed={isVoiceListening}
+                disabled={isVoiceControlUnavailable}
+              >
+                <Mic className="size-4" aria-hidden />
+              </button>
+            ) : null}
             <div className="absolute left-1/2 top-0 flex -translate-x-1/2 items-center justify-center gap-1.5 whitespace-nowrap">
               <button
                 type="button"
@@ -1196,101 +1250,6 @@ export function StudyCard({ passages }: StudyCardProps) {
         </section>
 
         <div className="study-card-actions shrink-0">
-          {isVoiceBetaEnabled &&
-          viewMode === "phrase" &&
-          hanjaVoiceRecognition.support === "supported" ? (
-            <div className="flex flex-col gap-1">
-              <button
-                type="button"
-                className={cn(
-                  "min-h-11 rounded-lg px-3 text-sm font-black transition-colors active:scale-[0.99]",
-                  hanjaVoiceRecognition.isListening
-                    ? "bg-[rgb(var(--accent)/0.2)] text-[rgb(var(--accent))]"
-                    : "bg-white/8 text-white/76 active:bg-white/12"
-                )}
-                onClick={() =>
-                  hanjaVoiceRecognition.isListening
-                    ? hanjaVoiceRecognition.stopListening()
-                    : hanjaVoiceRecognition.startListening()
-                }
-                aria-pressed={hanjaVoiceRecognition.isListening}
-              >
-                <span>
-                  {hanjaVoiceRecognition.isListening
-                    ? "듣는 중..."
-                    : "마이크로 외우기"}
-                </span>
-                <span className="ml-2 text-xs text-white/50">
-                  {hanjaVoiceRecognition.recognizedCount}/{hanjaVoiceRecognition.targetCount}
-                </span>
-              </button>
-              <p className="text-center text-[0.68rem] font-semibold leading-4 text-white/38">
-                마이크는 외운 내용을 확인할 때만 사용해요.
-              </p>
-              {hanjaVoiceRecognition.error ? (
-                <p className="text-center text-[0.68rem] font-semibold leading-4 text-white/45">
-                  마이크를 사용할 수 없어요.
-                </p>
-              ) : null}
-            </div>
-          ) : null}
-
-          {isVoiceBetaEnabled &&
-          viewMode === "phrase" &&
-          hanjaVoiceRecognition.support === "unsupported" ? (
-            <p className="text-center text-[0.72rem] font-semibold leading-4 text-white/42">
-              이 브라우저에서는 음성 확인을 사용할 수 없어요.
-            </p>
-          ) : null}
-
-          {isVoiceBetaEnabled &&
-          viewMode === "meaning" &&
-          meaningVoiceRecognition.support === "supported" ? (
-            <div className="flex flex-col gap-1">
-              <button
-                type="button"
-                className={cn(
-                  "min-h-11 rounded-lg px-3 text-sm font-black transition-colors active:scale-[0.99]",
-                  meaningVoiceRecognition.isListening
-                    ? "bg-[rgb(var(--accent)/0.2)] text-[rgb(var(--accent))]"
-                    : "bg-white/8 text-white/76 active:bg-white/12"
-                )}
-                onClick={() =>
-                  meaningVoiceRecognition.isListening
-                    ? meaningVoiceRecognition.stopListening()
-                    : meaningVoiceRecognition.startListening()
-                }
-                aria-pressed={meaningVoiceRecognition.isListening}
-              >
-                <span>
-                  {meaningVoiceRecognition.isListening
-                    ? "듣는 중..."
-                    : "마이크로 바로뜻 외우기"}
-                </span>
-                <span className="ml-2 text-xs text-white/50">
-                  {meaningVoiceRecognition.recognizedCount}/
-                  {meaningVoiceRecognition.targetCount}
-                </span>
-              </button>
-              <p className="text-center text-[0.68rem] font-semibold leading-4 text-white/38">
-                마이크는 외운 내용을 확인할 때만 사용해요.
-              </p>
-              {meaningVoiceRecognition.error ? (
-                <p className="text-center text-[0.68rem] font-semibold leading-4 text-white/45">
-                  마이크를 사용할 수 없어요.
-                </p>
-              ) : null}
-            </div>
-          ) : null}
-
-          {isVoiceBetaEnabled &&
-          viewMode === "meaning" &&
-          meaningVoiceRecognition.support === "unsupported" ? (
-            <p className="text-center text-[0.72rem] font-semibold leading-4 text-white/42">
-              이 브라우저에서는 음성 확인을 사용할 수 없어요.
-            </p>
-          ) : null}
-
           {viewMode === "phrase" ? (
             <button
               type="button"
