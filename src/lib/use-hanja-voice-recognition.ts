@@ -144,16 +144,6 @@ function getNextRecognizedWordCount(
   );
 }
 
-function getTranscriptFromResults(event: BrowserSpeechRecognitionEvent) {
-  let transcript = "";
-
-  for (let index = 0; index < event.results.length; index += 1) {
-    transcript += event.results[index]?.[0]?.transcript ?? "";
-  }
-
-  return transcript;
-}
-
 function getExpectedUnits(expectedText: string, mode: VoiceUnitMode) {
   if (mode === "word") {
     return splitMeaningWords(expectedText);
@@ -204,12 +194,15 @@ function useProgressiveVoiceRecognition({
   const [support, setSupport] = useState<SpeechSupport>("unknown");
   const [isListening, setIsListening] = useState(false);
   const [recognizedCount, setRecognizedCount] = useState(0);
-  const [recognizedTranscriptRaw, setRecognizedTranscriptRaw] = useState("");
-  const [recognizedTranscriptNormalized, setRecognizedTranscriptNormalized] =
-    useState("");
+  const [finalTranscript, setFinalTranscript] = useState("");
+  const [interimTranscript, setInterimTranscript] = useState("");
+  const [liveTranscript, setLiveTranscript] = useState("");
+  const [liveTranscriptNormalized, setLiveTranscriptNormalized] = useState("");
   const [error, setError] = useState<string | null>(null);
   const recognitionRef = useRef<BrowserSpeechRecognition | null>(null);
   const recognizedCountRef = useRef(0);
+  const finalTranscriptRef = useRef("");
+  const lastFinalChunkRef = useRef("");
   const completedRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
 
@@ -225,10 +218,14 @@ function useProgressiveVoiceRecognition({
 
   const resetAttempt = useCallback(() => {
     recognizedCountRef.current = 0;
+    finalTranscriptRef.current = "";
+    lastFinalChunkRef.current = "";
     completedRef.current = false;
     setRecognizedCount(0);
-    setRecognizedTranscriptRaw("");
-    setRecognizedTranscriptNormalized("");
+    setFinalTranscript("");
+    setInterimTranscript("");
+    setLiveTranscript("");
+    setLiveTranscriptNormalized("");
     setError(null);
   }, []);
 
@@ -281,17 +278,50 @@ function useProgressiveVoiceRecognition({
     recognition.maxAlternatives = 1;
 
     recognition.onresult = (event) => {
-      const transcript = getTranscriptFromResults(event);
-      const normalizedTranscript = normalizeTranscriptForMode(transcript, mode);
+      let nextFinalTranscript = finalTranscriptRef.current;
+      let nextInterimTranscript = "";
+
+      for (
+        let resultIndex = event.resultIndex;
+        resultIndex < event.results.length;
+        resultIndex += 1
+      ) {
+        const result = event.results[resultIndex];
+        const transcriptChunk = result?.[0]?.transcript.trim() ?? "";
+
+        if (transcriptChunk.length === 0) {
+          continue;
+        }
+
+        if (result?.isFinal) {
+          if (transcriptChunk !== lastFinalChunkRef.current) {
+            nextFinalTranscript = `${nextFinalTranscript} ${transcriptChunk}`.trim();
+            lastFinalChunkRef.current = transcriptChunk;
+          }
+
+          continue;
+        }
+
+        nextInterimTranscript = transcriptChunk;
+      }
+
+      finalTranscriptRef.current = nextFinalTranscript;
+      const nextLiveTranscript = `${nextFinalTranscript} ${nextInterimTranscript}`.trim();
+      const normalizedTranscript = normalizeTranscriptForMode(
+        nextLiveTranscript,
+        mode
+      );
       const nextCount = getNextCountForMode(
         expectedUnits,
-        transcript,
+        nextLiveTranscript,
         recognizedCountRef.current,
         mode
       );
 
-      setRecognizedTranscriptRaw(transcript);
-      setRecognizedTranscriptNormalized(normalizedTranscript);
+      setFinalTranscript(nextFinalTranscript);
+      setInterimTranscript(nextInterimTranscript);
+      setLiveTranscript(nextLiveTranscript);
+      setLiveTranscriptNormalized(normalizedTranscript);
 
       if (nextCount > recognizedCountRef.current) {
         recognizedCountRef.current = nextCount;
@@ -335,26 +365,30 @@ function useProgressiveVoiceRecognition({
     recognitionRef.current = null;
     completedRef.current = true;
     recognizedCountRef.current = expectedUnits.length;
+    finalTranscriptRef.current = expectedUnits.join(mode === "word" ? " " : "");
+    lastFinalChunkRef.current = finalTranscriptRef.current;
     setIsListening(false);
     setRecognizedCount(expectedUnits.length);
-    setRecognizedTranscriptRaw(expectedUnits.join(mode === "word" ? " " : ""));
-    setRecognizedTranscriptNormalized(
-      expectedUnits.join(mode === "word" ? " " : "")
-    );
+    setFinalTranscript(finalTranscriptRef.current);
+    setInterimTranscript("");
+    setLiveTranscript(finalTranscriptRef.current);
+    setLiveTranscriptNormalized(finalTranscriptRef.current);
   }, [expectedUnits, mode]);
 
   return {
     debugRevealAll,
     error,
     expectedNormalized: expectedUnits.join(mode === "word" ? " " : ""),
+    finalTranscript,
+    interimTranscript,
     isListening,
+    liveTranscript,
+    liveTranscriptNormalized,
     recognizedCount,
     recognizedIndices: Array.from(
       { length: recognizedCount },
       (_, index) => index
     ),
-    recognizedTranscriptNormalized,
-    recognizedTranscriptRaw,
     startListening,
     stopListening,
     support,

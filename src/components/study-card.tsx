@@ -1267,11 +1267,13 @@ export function StudyCard({ passages }: StudyCardProps) {
                 target: {hanjaVoiceRecognition.expectedNormalized || "-"}
               </p>
               <p className="truncate">
-                heard:{" "}
-                {hanjaVoiceRecognition.recognizedTranscriptNormalized || "-"}
+                live: {hanjaVoiceRecognition.liveTranscriptNormalized || "-"}
               </p>
               <p className="truncate">
-                raw: {hanjaVoiceRecognition.recognizedTranscriptRaw || "-"}
+                final: {hanjaVoiceRecognition.finalTranscript || "-"}
+              </p>
+              <p className="truncate">
+                interim: {hanjaVoiceRecognition.interimTranscript || "-"}
               </p>
               <p>
                 progress: {hanjaVoiceRecognition.recognizedCount} /{" "}
