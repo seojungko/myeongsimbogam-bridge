@@ -673,6 +673,11 @@ export function StudyCard({ passages }: StudyCardProps) {
     phraseAnswerVisible,
     isVoiceBetaEnabled ? hanjaVoiceRecognition.recognizedCount : 0
   );
+  const phraseCells = phraseLayout.rows.flatMap((row) =>
+    row.cells.filter((cell) => cell.type === "character")
+  );
+  const visualUnitCount = phraseCells.length;
+  const cueVisibleCount = phraseCells.filter((cell) => cell.cueVisible).length;
   const hanjaClasses = hanjaSizeClasses[phraseLayout.sizeTier];
   const isFirstRecord = currentIndex === 0;
   const isLastRecord = currentIndex === totalPages - 1;
@@ -1255,6 +1260,39 @@ export function StudyCard({ passages }: StudyCardProps) {
         </section>
 
         <div className="study-card-actions shrink-0">
+          {isVoiceBetaEnabled && viewMode === "phrase" ? (
+            <div className="rounded-lg bg-white/5 px-2.5 py-2 text-left text-[0.62rem] font-semibold leading-4 text-white/42">
+              <p className="font-black text-white/58">Voice Debug</p>
+              <p className="truncate">
+                target: {hanjaVoiceRecognition.expectedNormalized || "-"}
+              </p>
+              <p className="truncate">
+                heard:{" "}
+                {hanjaVoiceRecognition.recognizedTranscriptNormalized || "-"}
+              </p>
+              <p className="truncate">
+                raw: {hanjaVoiceRecognition.recognizedTranscriptRaw || "-"}
+              </p>
+              <p>
+                progress: {hanjaVoiceRecognition.recognizedCount} /{" "}
+                {hanjaVoiceRecognition.targetCount}
+              </p>
+              <p>visualUnits: {visualUnitCount}</p>
+              <p>
+                recognized: [
+                {hanjaVoiceRecognition.recognizedIndices.join(",")}]
+              </p>
+              <p>cue: {cueVisibleCount}</p>
+              <button
+                type="button"
+                className="mt-1 rounded-full bg-white/8 px-2 py-1 text-[0.62rem] font-black text-white/64 transition active:bg-white/12"
+                onClick={hanjaVoiceRecognition.debugRevealAll}
+              >
+                Debug reveal all
+              </button>
+            </div>
+          ) : null}
+
           {viewMode === "phrase" ? (
             <button
               type="button"

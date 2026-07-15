@@ -162,6 +162,14 @@ function getExpectedUnits(expectedText: string, mode: VoiceUnitMode) {
   return Array.from(normalizeKoreanSyllables(expectedText));
 }
 
+function normalizeTranscriptForMode(transcript: string, mode: VoiceUnitMode) {
+  if (mode === "word") {
+    return splitMeaningWords(transcript).join(" ");
+  }
+
+  return normalizeKoreanSyllables(transcript);
+}
+
 function getNextCountForMode(
   expectedUnits: readonly string[],
   transcript: string,
@@ -196,6 +204,9 @@ function useProgressiveVoiceRecognition({
   const [support, setSupport] = useState<SpeechSupport>("unknown");
   const [isListening, setIsListening] = useState(false);
   const [recognizedCount, setRecognizedCount] = useState(0);
+  const [recognizedTranscriptRaw, setRecognizedTranscriptRaw] = useState("");
+  const [recognizedTranscriptNormalized, setRecognizedTranscriptNormalized] =
+    useState("");
   const [error, setError] = useState<string | null>(null);
   const recognitionRef = useRef<BrowserSpeechRecognition | null>(null);
   const recognizedCountRef = useRef(0);
@@ -216,6 +227,8 @@ function useProgressiveVoiceRecognition({
     recognizedCountRef.current = 0;
     completedRef.current = false;
     setRecognizedCount(0);
+    setRecognizedTranscriptRaw("");
+    setRecognizedTranscriptNormalized("");
     setError(null);
   }, []);
 
@@ -268,12 +281,17 @@ function useProgressiveVoiceRecognition({
     recognition.maxAlternatives = 1;
 
     recognition.onresult = (event) => {
+      const transcript = getTranscriptFromResults(event);
+      const normalizedTranscript = normalizeTranscriptForMode(transcript, mode);
       const nextCount = getNextCountForMode(
         expectedUnits,
-        getTranscriptFromResults(event),
+        transcript,
         recognizedCountRef.current,
         mode
       );
+
+      setRecognizedTranscriptRaw(transcript);
+      setRecognizedTranscriptNormalized(normalizedTranscript);
 
       if (nextCount > recognizedCountRef.current) {
         recognizedCountRef.current = nextCount;
@@ -312,10 +330,31 @@ function useProgressiveVoiceRecognition({
     }
   }, [enabled, expectedUnits, mode, resetAttempt]);
 
+  const debugRevealAll = useCallback(() => {
+    recognitionRef.current?.stop();
+    recognitionRef.current = null;
+    completedRef.current = true;
+    recognizedCountRef.current = expectedUnits.length;
+    setIsListening(false);
+    setRecognizedCount(expectedUnits.length);
+    setRecognizedTranscriptRaw(expectedUnits.join(mode === "word" ? " " : ""));
+    setRecognizedTranscriptNormalized(
+      expectedUnits.join(mode === "word" ? " " : "")
+    );
+  }, [expectedUnits, mode]);
+
   return {
+    debugRevealAll,
     error,
+    expectedNormalized: expectedUnits.join(mode === "word" ? " " : ""),
     isListening,
     recognizedCount,
+    recognizedIndices: Array.from(
+      { length: recognizedCount },
+      (_, index) => index
+    ),
+    recognizedTranscriptNormalized,
+    recognizedTranscriptRaw,
     startListening,
     stopListening,
     support,
