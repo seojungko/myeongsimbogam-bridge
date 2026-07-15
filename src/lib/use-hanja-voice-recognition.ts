@@ -160,6 +160,40 @@ function normalizeTranscriptForMode(transcript: string, mode: VoiceUnitMode) {
   return normalizeKoreanSyllables(transcript);
 }
 
+function getComparableTranscript(value: string, mode: VoiceUnitMode) {
+  return getExpectedUnits(value, mode).join("\u0001");
+}
+
+function mergeTranscriptChunks(
+  chunks: readonly string[],
+  mode: VoiceUnitMode
+) {
+  return chunks.reduce((mergedTranscript, chunk) => {
+    const nextChunk = chunk.trim();
+
+    if (nextChunk.length === 0) {
+      return mergedTranscript;
+    }
+
+    if (mergedTranscript.length === 0) {
+      return nextChunk;
+    }
+
+    const mergedComparable = getComparableTranscript(mergedTranscript, mode);
+    const chunkComparable = getComparableTranscript(nextChunk, mode);
+
+    if (
+      chunkComparable.length > 0 &&
+      (chunkComparable === mergedComparable ||
+        chunkComparable.startsWith(mergedComparable))
+    ) {
+      return nextChunk;
+    }
+
+    return `${mergedTranscript} ${nextChunk}`.trim();
+  }, "");
+}
+
 function getNextCountForMode(
   expectedUnits: readonly string[],
   transcript: string,
@@ -201,8 +235,7 @@ function useProgressiveVoiceRecognition({
   const [error, setError] = useState<string | null>(null);
   const recognitionRef = useRef<BrowserSpeechRecognition | null>(null);
   const recognizedCountRef = useRef(0);
-  const finalTranscriptRef = useRef("");
-  const lastFinalChunkRef = useRef("");
+  const finalChunksRef = useRef(new Map<number, string>());
   const completedRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
 
@@ -218,8 +251,7 @@ function useProgressiveVoiceRecognition({
 
   const resetAttempt = useCallback(() => {
     recognizedCountRef.current = 0;
-    finalTranscriptRef.current = "";
-    lastFinalChunkRef.current = "";
+    finalChunksRef.current.clear();
     completedRef.current = false;
     setRecognizedCount(0);
     setFinalTranscript("");
@@ -278,7 +310,6 @@ function useProgressiveVoiceRecognition({
     recognition.maxAlternatives = 1;
 
     recognition.onresult = (event) => {
-      let nextFinalTranscript = finalTranscriptRef.current;
       let nextInterimTranscript = "";
 
       for (
@@ -294,19 +325,23 @@ function useProgressiveVoiceRecognition({
         }
 
         if (result?.isFinal) {
-          if (transcriptChunk !== lastFinalChunkRef.current) {
-            nextFinalTranscript = `${nextFinalTranscript} ${transcriptChunk}`.trim();
-            lastFinalChunkRef.current = transcriptChunk;
-          }
-
+          finalChunksRef.current.set(resultIndex, transcriptChunk);
           continue;
         }
 
         nextInterimTranscript = transcriptChunk;
       }
 
-      finalTranscriptRef.current = nextFinalTranscript;
-      const nextLiveTranscript = `${nextFinalTranscript} ${nextInterimTranscript}`.trim();
+      const nextFinalTranscript = mergeTranscriptChunks(
+        Array.from(finalChunksRef.current.entries())
+          .sort(([leftIndex], [rightIndex]) => leftIndex - rightIndex)
+          .map(([, transcriptChunk]) => transcriptChunk),
+        mode
+      );
+      const nextLiveTranscript = mergeTranscriptChunks(
+        [nextFinalTranscript, nextInterimTranscript],
+        mode
+      );
       const normalizedTranscript = normalizeTranscriptForMode(
         nextLiveTranscript,
         mode
@@ -365,14 +400,14 @@ function useProgressiveVoiceRecognition({
     recognitionRef.current = null;
     completedRef.current = true;
     recognizedCountRef.current = expectedUnits.length;
-    finalTranscriptRef.current = expectedUnits.join(mode === "word" ? " " : "");
-    lastFinalChunkRef.current = finalTranscriptRef.current;
+    finalChunksRef.current.clear();
+    finalChunksRef.current.set(0, expectedUnits.join(mode === "word" ? " " : ""));
     setIsListening(false);
     setRecognizedCount(expectedUnits.length);
-    setFinalTranscript(finalTranscriptRef.current);
+    setFinalTranscript(finalChunksRef.current.get(0) ?? "");
     setInterimTranscript("");
-    setLiveTranscript(finalTranscriptRef.current);
-    setLiveTranscriptNormalized(finalTranscriptRef.current);
+    setLiveTranscript(finalChunksRef.current.get(0) ?? "");
+    setLiveTranscriptNormalized(finalChunksRef.current.get(0) ?? "");
   }, [expectedUnits, mode]);
 
   return {
