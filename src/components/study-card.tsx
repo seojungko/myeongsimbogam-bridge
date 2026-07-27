@@ -1,7 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import type { CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type {
+  CSSProperties,
+  MouseEvent as ReactMouseEvent,
+  PointerEvent as ReactPointerEvent
+} from "react";
 import { cn } from "@/lib/cn";
 import type { StudyPageRecord } from "@dataset/types";
 
@@ -538,6 +542,8 @@ function writeLearnedRecordIds(recordIds: Set<string>) {
 
 export function StudyCard({ passages }: StudyCardProps) {
   const completionTimeoutRef = useRef<number | null>(null);
+  const activePeekPointerIdRef = useRef<number | null>(null);
+  const peekTargetRef = useRef<HTMLElement | null>(null);
   const [pageIndex, setPageIndex] = useState(0);
   const [completionSparkleRecordId, setCompletionSparkleRecordId] = useState<
     string | null
@@ -555,17 +561,61 @@ export function StudyCard({ passages }: StudyCardProps) {
   );
   const [isTurningPage, setIsTurningPage] = useState(false);
 
+  const clearPeek = useCallback(() => {
+    const pointerId = activePeekPointerIdRef.current;
+    const target = peekTargetRef.current;
+
+    if (pointerId !== null && target?.hasPointerCapture(pointerId)) {
+      try {
+        target.releasePointerCapture(pointerId);
+      } catch {
+        // Capture may already be released by the browser.
+      }
+    }
+
+    activePeekPointerIdRef.current = null;
+    peekTargetRef.current = null;
+    setIsPeeking(false);
+  }, []);
+
   useEffect(() => {
     setLearnedRecordIds(readLearnedRecordIds());
   }, []);
 
   useEffect(() => {
     return () => {
+      clearPeek();
+
       if (completionTimeoutRef.current !== null) {
         window.clearTimeout(completionTimeoutRef.current);
       }
     };
-  }, []);
+  }, [clearPeek]);
+
+  useEffect(() => {
+    function handleVisibilityChange() {
+      if (document.visibilityState === "hidden") {
+        clearPeek();
+        setIsCharacterMeaningPeeking(false);
+      }
+    }
+
+    function handleWindowPointerUp(event: PointerEvent) {
+      if (activePeekPointerIdRef.current === event.pointerId) {
+        clearPeek();
+      }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("pagehide", clearPeek);
+    window.addEventListener("pointerup", handleWindowPointerUp);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("pagehide", clearPeek);
+      window.removeEventListener("pointerup", handleWindowPointerUp);
+    };
+  }, [clearPeek]);
 
   const totalPages = passages.length;
 
@@ -623,7 +673,7 @@ export function StudyCard({ passages }: StudyCardProps) {
       return;
     }
 
-    setIsPeeking(false);
+    clearPeek();
     setIsCharacterMeaningPeeking(false);
     setShowRangeSheet(false);
     setPageIndex(boundedIndex);
@@ -637,7 +687,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   }
 
   function switchMode(nextMode: StudyViewMode) {
-    setIsPeeking(false);
+    clearPeek();
     setIsCharacterMeaningPeeking(false);
     setViewMode(nextMode);
   }
@@ -698,7 +748,7 @@ export function StudyCard({ passages }: StudyCardProps) {
       return;
     }
 
-    setIsPeeking(false);
+    clearPeek();
     setIsCharacterMeaningPeeking(false);
 
     if (viewMode === "phrase") {
@@ -731,16 +781,55 @@ export function StudyCard({ passages }: StudyCardProps) {
     }, COMPLETION_SPARKLE_MS);
   }
 
-  function beginPeek() {
+  function beginPeek(event: ReactPointerEvent<HTMLElement>) {
+    if (event.pointerType === "mouse" && event.button !== 0) {
+      return;
+    }
+
+    activePeekPointerIdRef.current = event.pointerId;
+    peekTargetRef.current = event.currentTarget;
+
+    try {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    } catch {
+      // Some browsers may reject capture during unusual gesture states.
+    }
+
     setIsPeeking(true);
   }
 
-  function endPeek() {
-    setIsPeeking(false);
+  function endPeek(event: ReactPointerEvent<HTMLElement>) {
+    if (activePeekPointerIdRef.current !== event.pointerId) {
+      return;
+    }
+
+    clearPeek();
+  }
+
+  function handlePeekPointerLeave(event: ReactPointerEvent<HTMLElement>) {
+    if (activePeekPointerIdRef.current === event.pointerId) {
+      return;
+    }
+  }
+
+  function handlePeekPointerCancel(event: ReactPointerEvent<HTMLElement>) {
+    if (activePeekPointerIdRef.current === event.pointerId) {
+      setIsPeeking(true);
+    }
+  }
+
+  function handlePeekLostPointerCapture(event: ReactPointerEvent<HTMLElement>) {
+    if (activePeekPointerIdRef.current === event.pointerId) {
+      setIsPeeking(true);
+    }
+  }
+
+  function preventPeekContextMenu(event: ReactMouseEvent<HTMLElement>) {
+    event.preventDefault();
   }
 
   function beginCharacterMeaningPeek() {
-    setIsPeeking(false);
+    clearPeek();
     setIsCharacterMeaningPeeking(true);
   }
 
@@ -929,12 +1018,14 @@ export function StudyCard({ passages }: StudyCardProps) {
           className={cn(
             "study-page-content relative flex min-h-0 flex-1 flex-col items-center text-center",
             density === "extraLong" ? "justify-start" : "justify-center",
-            "touch-manipulation select-none",
+            "touch-none select-none [-webkit-touch-callout:none] [-webkit-user-select:none]",
             classes.content
           )}
-          onPointerCancel={endPeek}
+          onContextMenu={preventPeekContextMenu}
+          onLostPointerCapture={handlePeekLostPointerCapture}
+          onPointerCancel={handlePeekPointerCancel}
           onPointerDown={beginPeek}
-          onPointerLeave={endPeek}
+          onPointerLeave={handlePeekPointerLeave}
           onPointerUp={endPeek}
         >
           {viewMode === "phrase" ? (
