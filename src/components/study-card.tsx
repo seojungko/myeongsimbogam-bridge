@@ -514,6 +514,14 @@ function getMeaningText(passage: StudyPageRecord) {
   return passage.directMeaning || passage.translation;
 }
 
+function getDisplayMeaningText(passage: StudyPageRecord) {
+  if (passage.directMeaningLines && passage.directMeaningLines.length > 0) {
+    return passage.directMeaningLines.join("\n");
+  }
+
+  return getMeaningText(passage);
+}
+
 function readLearnedRecordIds() {
   if (typeof window === "undefined") {
     return new Set<string>();
@@ -647,7 +655,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   const visibleAnswer = isPeeking || isCharacterMeaningPeeking;
   const phraseAnswerVisible = isPhraseMode && visibleAnswer;
   const meaningAnswerVisible = isMeaningMode && isPeeking;
-  const meaningText = getMeaningText(passage);
+  const meaningText = getDisplayMeaningText(passage);
   const maskedTranslationParts = buildMaskedTranslationParts(
     meaningText,
     passage.promptTranslation,

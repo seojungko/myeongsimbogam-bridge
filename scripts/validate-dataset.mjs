@@ -18,6 +18,10 @@ function countVisibleCharacters(value) {
   return Array.from(value).filter((character) => !/\s/.test(character)).length;
 }
 
+function normalizeMeaningForComparison(value) {
+  return value.replace(/\s+/g, " ").trim();
+}
+
 function getRecordLabel(record, index) {
   return isObject(record) && typeof record.id === "string"
     ? record.id
@@ -106,6 +110,22 @@ function validateRecord(record, index) {
     record.translation !== record.directMeaning
   ) {
     errors.push(`${label}: translation must equal directMeaning`);
+  }
+
+  if (record.directMeaningLines !== undefined) {
+    if (
+      !Array.isArray(record.directMeaningLines) ||
+      record.directMeaningLines.length === 0 ||
+      !record.directMeaningLines.every(isNonEmptyString)
+    ) {
+      errors.push(`${label}: directMeaningLines must be a non-empty string array when provided`);
+    } else if (
+      isNonEmptyString(record.directMeaning) &&
+      normalizeMeaningForComparison(record.directMeaningLines.join(" ")) !==
+        normalizeMeaningForComparison(record.directMeaning)
+    ) {
+      errors.push(`${label}: directMeaningLines must preserve directMeaning text`);
+    }
   }
 
   if (isNonEmptyString(record.fullHanja) && isNonEmptyString(record.fullKorean)) {

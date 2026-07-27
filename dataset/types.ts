@@ -15,6 +15,7 @@ export type StudyPageRecord = {
   fullHanja: string;
   fullKorean: string;
   directMeaning: string;
+  directMeaningLines?: string[];
   translation: string;
   deepMeaning?: string;
   hanjaLines?: string[];
