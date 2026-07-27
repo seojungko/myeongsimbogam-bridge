@@ -2469,7 +2469,7 @@
       "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
       "reviewStatus": "verified_structural_pass_image_draft",
       "reviewNote": "prompt*는 임시 cue 후보입니다.",
-      "directMeaningHint": "분함을 참으면"
+      "directMeaningHint": "한때의 분한 것을"
     },
     {
       "id": "MGB-030",
@@ -2552,7 +2552,7 @@
       "sourceFile": "source_records_pages_55_74_draft.json",
       "reviewStatus": "verified_structural_pass_image_draft",
       "reviewNote": "prompt*는 임시 cue 후보입니다.",
-      "directMeaningHint": "자기를 굽히면"
+      "directMeaningHint": "자기를 굽힐 줄"
     },
     {
       "id": "MGB-031",
@@ -2802,7 +2802,7 @@
       "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
       "reviewStatus": "verified_structural_pass_image_draft",
       "reviewNote": "prompt*는 임시 cue 후보입니다.",
-      "directMeaningHint": "널리 배우면"
+      "directMeaningHint": "널리 배워"
     },
     {
       "id": "MGB-034",
@@ -2917,7 +2917,7 @@
       "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
       "reviewStatus": "verified_structural_pass_image_draft",
       "reviewNote": "prompt*는 임시 cue 후보입니다.",
-      "directMeaningHint": "배움이 많아지면"
+      "directMeaningHint": "사람이 배워서"
     },
     {
       "id": "MGB-035",
@@ -4187,13 +4187,13 @@
       "promptHanja": "無藥可",
       "promptKorean": "무약가",
       "promptTranslation": "약으로도 재상의",
-      "directMeaningHint": "약으로도 재상의 목숨을",
+      "directMeaningHint": "약으로도",
       "fullHanja": "無藥可醫卿相壽\n有錢難買子孫賢",
       "fullKorean": "무약가의경상수\n유전난매자손현",
       "directMeaning": "약으로도 재상의 목숨을 고칠 수 없고\n돈이 있어도 자손의 현명함을 살 수 없다.",
       "directMeaningLines": [
-        "약으로도 재상의 목숨을",
-        "고칠 수 없고",
+        "약으로도",
+        "재상의 목숨을 고칠 수 없고",
         "돈이 있어도",
         "자손의 현명함을 살 수 없다."
       ],
@@ -4612,8 +4612,7 @@
       "fullKorean": "무고이득천금\n불유대복 필유대화",
       "directMeaning": "아무 까닭 없이 천금을 얻으면\n큰 복이 있는 것이 아니라 반드시 큰 화가 따른다.",
       "directMeaningLines": [
-        "아무 까닭 없이",
-        "천금을 얻으면",
+        "아무 까닭 없이 천금을 얻으면",
         "큰 복이 있는 것이 아니라",
         "반드시 큰 화가 따른다."
       ],
@@ -4704,17 +4703,15 @@
       "promptHanja": "大廈千",
       "promptKorean": "대하천",
       "promptTranslation": "천 칸이나",
-      "directMeaningHint": "천 칸이나 되는 큰 집이라도",
+      "directMeaningHint": "천 칸이나 되는",
       "fullHanja": "大廈千間 夜臥八尺\n良田萬頃 日食二升",
       "fullKorean": "대하천간 야와팔척\n양전만경 일식이승",
       "directMeaning": "천 칸이나 되는 큰 집이라도\n밤에 눕는 것은 여덟 자 뿐이고\n좋은 밭이 만 이랑이라도\n하루에 먹는 것은 쌀 두 되일 뿐이다.",
       "directMeaningLines": [
         "천 칸이나 되는 큰 집이라도",
-        "밤에 눕는 것은",
-        "여덟 자 뿐이고",
+        "밤에 눕는 것은 여덟 자 뿐이고",
         "좋은 밭이 만 이랑이라도",
-        "하루에 먹는 것은",
-        "쌀 두 되일 뿐이다."
+        "하루에 먹는 것은 쌀 두 되일 뿐이다."
       ],
       "translation": "천 칸이나 되는 큰 집이라도\n밤에 눕는 것은 여덟 자 뿐이고\n좋은 밭이 만 이랑이라도\n하루에 먹는 것은 쌀 두 되일 뿐이다.",
       "deepMeaning": "",
@@ -4823,15 +4820,13 @@
       "promptHanja": "不恨自",
       "promptKorean": "불한자",
       "promptTranslation": "자기 두레박줄이",
-      "directMeaningHint": "자기 두레박줄이 짧은 것은",
+      "directMeaningHint": "자기 두레박줄이",
       "fullHanja": "不恨自家汲繩短\n只恨他家苦井深",
       "fullKorean": "불한자가급승단\n지한타가고정심",
       "directMeaning": "자기 두레박줄이 짧은 것은 탓하지 않고\n남의 집 우물이 깊은 것만 한탄하는구나.",
       "directMeaningLines": [
-        "자기 두레박줄이 짧은 것은",
-        "탓하지 않고",
-        "남의 집 우물이 깊은 것만",
-        "한탄하는구나."
+        "자기 두레박줄이 짧은 것은 탓하지 않고",
+        "남의 집 우물이 깊은 것만 한탄하는구나."
       ],
       "translation": "자기 두레박줄이 짧은 것은 탓하지 않고\n남의 집 우물이 깊은 것만 한탄하는구나.",
       "deepMeaning": "",
@@ -4925,10 +4920,8 @@
       "fullKorean": "척벽비보\n촌음시경",
       "directMeaning": "한 자나 되는 옥이 보배가 아니라\n한 치의 시간을 다투어야 한다.",
       "directMeaningLines": [
-        "한 자나 되는 옥이",
-        "보배가 아니라",
-        "한 치의 시간을",
-        "다투어야 한다."
+        "한 자나 되는 옥이 보배가 아니라",
+        "한 치의 시간을 다투어야 한다."
       ],
       "translation": "한 자나 되는 옥이 보배가 아니라\n한 치의 시간을 다투어야 한다.",
       "deepMeaning": "",
@@ -5002,10 +4995,8 @@
       "fullKorean": "입산금호역\n개구고인난",
       "directMeaning": "산에 들어가 호랑이를 잡는 게 쉽지\n입을 열어 남에게 충고하기는 어렵다.",
       "directMeaningLines": [
-        "산에 들어가",
-        "호랑이를 잡는 게 쉽지",
-        "입을 열어",
-        "남에게 충고하기는 어렵다."
+        "산에 들어가 호랑이를 잡는 게 쉽지",
+        "입을 열어 남에게 충고하기는 어렵다."
       ],
       "translation": "산에 들어가 호랑이를 잡는 게 쉽지\n입을 열어 남에게 충고하기는 어렵다.",
       "deepMeaning": "",
@@ -5171,10 +5162,8 @@
       "fullKorean": "기만즉일\n인만즉상",
       "directMeaning": "그릇이 가득 차면 넘치듯이\n사람이 가득 차면 잃게 된다.",
       "directMeaningLines": [
-        "그릇이 가득 차면",
-        "넘치듯이",
-        "사람이 가득 차면",
-        "잃게 된다."
+        "그릇이 가득 차면 넘치듯이",
+        "사람이 가득 차면 잃게 된다."
       ],
       "translation": "그릇이 가득 차면 넘치듯이\n사람이 가득 차면 잃게 된다.",
       "deepMeaning": "",
@@ -5233,7 +5222,7 @@
       "promptHanja": "良田萬",
       "promptKorean": "양전만",
       "promptTranslation": "기름진 땅",
-      "directMeaningHint": "기름진 땅 만경을",
+      "directMeaningHint": "기름진 땅",
       "fullHanja": "良田萬頃\n不如薄藝隨身",
       "fullKorean": "양전만경\n불여박예수신",
       "directMeaning": "기름진 땅 만경을 가지느니\n작은 재주 하나를 몸에 지니고 있는 게 낫다.",
@@ -5420,10 +5409,8 @@
       "fullKorean": "충신 불사이군\n열녀 불경이부",
       "directMeaning": "충신은 두 임금을 섬기지 않고\n열녀는 두 남편을 거치지 않는다.",
       "directMeaningLines": [
-        "충신은 두 임금을",
-        "섬기지 않고",
-        "열녀는 두 남편을",
-        "거치지 않는다."
+        "충신은 두 임금을 섬기지 않고",
+        "열녀는 두 남편을 거치지 않는다."
       ],
       "translation": "충신은 두 임금을 섬기지 않고\n열녀는 두 남편을 거치지 않는다.",
       "deepMeaning": "",
@@ -5502,13 +5489,12 @@
       "promptHanja": "讀書",
       "promptKorean": "독서",
       "promptTranslation": "독서는 집안을",
-      "directMeaningHint": "독서는 집안을 일으키는",
+      "directMeaningHint": "독서는 집안을",
       "fullHanja": "讀書 起家之本\n循理 保家之本",
       "fullKorean": "독서 기가지본\n순리 보가지본",
       "directMeaning": "독서는 집안을 일으키는 근본이요\n이치를 따르는 것이 집안을 보존하는 근본이다.",
       "directMeaningLines": [
-        "독서는 집안을 일으키는",
-        "근본이요",
+        "독서는 집안을 일으키는 근본이요",
         "이치를 따르는 것이",
         "집안을 보존하는 근본이다."
       ],
@@ -5584,15 +5570,13 @@
       "promptHanja": "治官",
       "promptKorean": "치관",
       "promptTranslation": "관리가 일을",
-      "directMeaningHint": "관리가 일을 할 때는",
+      "directMeaningHint": "관리가 일을",
       "fullHanja": "治官 莫若平\n臨財 莫若廉",
       "fullKorean": "치관 막약평\n임재 막약염",
       "directMeaning": "관리가 일을 할 때는 공평해야 하고\n재물을 대할 때는 청렴해야 한다.",
       "directMeaningLines": [
-        "관리가 일을 할 때는",
-        "공평해야 하고",
-        "재물을 대할 때는",
-        "청렴해야 한다."
+        "관리가 일을 할 때는 공평해야 하고",
+        "재물을 대할 때는 청렴해야 한다."
       ],
       "translation": "관리가 일을 할 때는 공평해야 하고\n재물을 대할 때는 청렴해야 한다.",
       "deepMeaning": "",
@@ -5661,7 +5645,7 @@
       "promptHanja": "一命之",
       "promptKorean": "일명지",
       "promptTranslation": "처음 벼슬하는",
-      "directMeaningHint": "처음 벼슬하는 선비라도",
+      "directMeaningHint": "처음 벼슬하는",
       "fullHanja": "一命之士\n苟有存心於愛物\n於人 必有所濟",
       "fullKorean": "일명지사\n구유존심어애물\n어인 필유소제",
       "directMeaning": "처음 벼슬하는 선비라도\n남을 사랑하는 마음을 가진다면\n사람들에게 반드시 도움을 줄 것이다.",
@@ -6462,10 +6446,8 @@
       "fullKorean": "약요인중아\n무과아중인",
       "directMeaning": "만약 남이 나를 소중하게 여기기를 바란다면\n나도 남을 소중하게 여겨야 한다.",
       "directMeaningLines": [
-        "만약 남이 나를",
-        "소중하게 여기기를 바란다면",
-        "나도 남을",
-        "소중하게 여겨야 한다."
+        "만약 남이 나를 소중하게 여기기를 바란다면",
+        "나도 남을 소중하게 여겨야 한다."
       ],
       "translation": "만약 남이 나를 소중하게 여기기를 바란다면\n나도 남을 소중하게 여겨야 한다.",
       "deepMeaning": "",
@@ -6534,10 +6516,8 @@
       "fullKorean": "부불언자지덕\n자부담부지과",
       "directMeaning": "아버지는 자식의 덕을 말하지 아니하고\n아들은 아버지의 허물을 말하지 아니한다.",
       "directMeaningLines": [
-        "아버지는 자식의 덕을",
-        "말하지 아니하고",
-        "아들은 아버지의 허물을",
-        "말하지 아니한다."
+        "아버지는 자식의 덕을 말하지 아니하고",
+        "아들은 아버지의 허물을 말하지 아니한다."
       ],
       "translation": "아버지는 자식의 덕을 말하지 아니하고\n아들은 아버지의 허물을 말하지 아니한다.",
       "deepMeaning": "",
@@ -6606,7 +6586,7 @@
       "promptHanja": "言不中",
       "promptKorean": "언부중",
       "promptTranslation": "이치에 맞지",
-      "directMeaningHint": "이치에 맞지 않는 말은",
+      "directMeaningHint": "이치에 맞지 않는",
       "fullHanja": "言不中理\n不如不言",
       "fullKorean": "언부중리\n불여불언",
       "directMeaning": "이치에 맞지 않는 말은\n안 하는 편이 더 낫다.",
@@ -6746,10 +6726,8 @@
       "fullKorean": "구설자 화환지문\n멸신지부야",
       "directMeaning": "입과 혀는 재앙과 근심의 문이요\n몸을 망치는 도끼와 같다.",
       "directMeaningLines": [
-        "입과 혀는",
-        "재앙과 근심의 문이요",
-        "몸을 망치는",
-        "도끼와 같다."
+        "입과 혀는 재앙과 근심의 문이요",
+        "몸을 망치는 도끼와 같다."
       ],
       "translation": "입과 혀는 재앙과 근심의 문이요\n몸을 망치는 도끼와 같다.",
       "deepMeaning": "",
@@ -6833,7 +6811,7 @@
       "promptHanja": "相識滿",
       "promptKorean": "상식만",
       "promptTranslation": "서로 얼굴을",
-      "directMeaningHint": "서로 얼굴을 아는 사람은",
+      "directMeaningHint": "서로 얼굴을 아는",
       "fullHanja": "相識滿天下\n知心能幾人",
       "fullKorean": "상식만천하\n지심능기인",
       "directMeaning": "서로 얼굴을 아는 사람은 세상에 많지만\n서로 마음을 아는 사람이 몇이나 될까.",
@@ -6920,7 +6898,7 @@
       "promptHanja": "與好學",
       "promptKorean": "여호학",
       "promptTranslation": "배우기를 좋아하는",
-      "directMeaningHint": "배우기를 좋아하는 사람과",
+      "directMeaningHint": "배우기를 좋아하는",
       "fullHanja": "與好學人同行 如霧露中行\n雖不濕衣 時時有潤",
       "fullKorean": "여호학인동행 여무로중행\n수불습의 시시유윤",
       "directMeaning": "배우기를 좋아하는 사람과 함께 가면\n안개 속을 가는 것과 같아서\n비록 옷은 흠뻑 젖지 않더라도\n점점 물기가 배어든다.",
@@ -7043,7 +7021,7 @@
       "promptHanja": "不結子",
       "promptKorean": "불결자",
       "promptTranslation": "열매를 맺지",
-      "directMeaningHint": "열매를 맺지 않는 꽃은",
+      "directMeaningHint": "열매를 맺지 않는",
       "fullHanja": "不結子花 休要種\n無義之朋 不可交",
       "fullKorean": "불결자화 휴요종\n무의지붕 불가교",
       "directMeaning": "열매를 맺지 않는 꽃은 심을 필요가 없고\n의리가 없는 벗은 사귀지 말라.",
@@ -7150,10 +7128,8 @@
       "fullKorean": "로요지마력\n일구견인심",
       "directMeaning": "길이 멀면 말의 힘을 알게 되고\n시간이 흘러야 사람의 마음을 보게 된다.",
       "directMeaningLines": [
-        "길이 멀면",
-        "말의 힘을 알게 되고",
-        "시간이 흘러야",
-        "사람의 마음을 보게 된다."
+        "길이 멀면 말의 힘을 알게 되고",
+        "시간이 흘러야 사람의 마음을 보게 된다."
       ],
       "translation": "길이 멀면 말의 힘을 알게 되고\n시간이 흘러야 사람의 마음을 보게 된다.",
       "deepMeaning": "",
@@ -7319,17 +7295,15 @@
       "promptHanja": "盛年不",
       "promptKorean": "성년부",
       "promptTranslation": "젊은 나이는",
-      "directMeaningHint": "젊은 나이는 다시 오지 않고",
+      "directMeaningHint": "젊은 나이는",
       "fullHanja": "盛年不重來 一日難再晨\n及時當勉勵 歲月不待人",
       "fullKorean": "성년부중래 일일난재신\n급시당면려 세월부대인",
       "directMeaning": "젊은 나이는 다시 오지 않고\n하루의 새벽은 두 번 오기 어렵다.\n그때그때 할 일을 다하라.\n세월이 사람을 기다려 주지 않는다.",
       "directMeaningLines": [
         "젊은 나이는 다시 오지 않고",
-        "하루의 새벽은",
-        "두 번 오기 어렵다.",
+        "하루의 새벽은 두 번 오기 어렵다.",
         "그때그때 할 일을 다하라.",
-        "세월이 사람을",
-        "기다려 주지 않는다."
+        "세월이 사람을 기다려 주지 않는다."
       ],
       "translation": "젊은 나이는 다시 오지 않고\n하루의 새벽은 두 번 오기 어렵다.\n그때그때 할 일을 다하라.\n세월이 사람을 기다려 주지 않는다.",
       "deepMeaning": "",
