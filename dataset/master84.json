@@ -5,7 +5,7 @@
   "locale": "ko-KR",
   "sourceSchemaVersion": "mgb.final-draft.v1",
   "sourceCreatedAt": "2026-07-08",
-  "sourceRecordCount": 48,
+  "sourceRecordCount": 84,
   "sourcePages": [
     8,
     12,
@@ -54,14 +54,53 @@
     100,
     101,
     102,
-    103
+    103,
+    104,
+    108,
+    109,
+    110,
+    111,
+    112,
+    116,
+    117,
+    118,
+    122,
+    123,
+    124,
+    128,
+    129,
+    130,
+    134,
+    135,
+    136,
+    140,
+    141,
+    142,
+    146,
+    147,
+    148,
+    152,
+    153,
+    154,
+    158,
+    159,
+    160,
+    164,
+    165,
+    166,
+    170,
+    171,
+    172
   ],
   "notes": [
     "directMeaning은 책의 바로뜻 원문 기준 전사값입니다.",
     "translation 필드는 앱 기존 호환을 위해 directMeaning과 같은 값을 중복 제공했습니다.",
     "promptHanja/promptKorean/promptTranslation은 암기 cue 후보이며 사용자가 최종 지정 예정입니다.",
     "deepMeaning은 확보된 배치에만 포함되어 있으며, 없는 초기 기록은 빈 문자열입니다.",
-    "중복 페이지는 뒤 배치를 우선했습니다. page 56은 source_records_pages_55_74_draft.json 기준입니다."
+    "중복 페이지는 뒤 배치를 우선했습니다. page 56은 source_records_pages_55_74_draft.json 기준입니다.",
+    "page 104~172의 36개 기록은 pasted-text-remaining-pages-104-172.txt 제공 원문을 기준으로 추가했습니다.",
+    "directMeaningLines는 한글 바로 뜻 화면 표시용 줄바꿈이며 directMeaning 원문은 보존합니다.",
+    "directMeaningHint는 한글 바로 뜻 화면의 짧은 암기 cue입니다."
   ],
   "verificationSummary": {
     "pageUniquePass": true,
@@ -69,7 +108,7 @@
     "characterCoveragePass": true,
     "directMeaningPresentPass": true,
     "errorCount": 0,
-    "warningCount": 0
+    "warningCount": 36
   },
   "records": [
     {
@@ -3992,6 +4031,3420 @@
       "sourceFile": "source_records_pages_88_103_draft.json",
       "reviewStatus": "verified_structural_pass_image_draft",
       "reviewNote": "prompt*는 임시 cue 후보입니다."
+    },
+    {
+      "id": "MGB-049",
+      "quoteNo": 49,
+      "page": 104,
+      "section": "성심",
+      "promptHanja": "成家之",
+      "promptKorean": "성가지",
+      "promptTranslation": "집안을 이룰",
+      "directMeaningHint": "집안을 이루려면",
+      "fullHanja": "成家之兒 惜糞如金\n敗家之兒 用金如糞",
+      "fullKorean": "성가지아 석분여금\n패가지아 용금여분",
+      "directMeaning": "집안을 이룰 아이는 거름도 황금처럼 아끼고\n집안을 망칠 아이는 황금도 거름처럼 펑펑 쓴다.",
+      "directMeaningLines": [
+        "집안을 이룰 아이는",
+        "거름도 황금처럼 아끼고",
+        "집안을 망칠 아이는",
+        "황금도 거름처럼 펑펑 쓴다."
+      ],
+      "translation": "집안을 이룰 아이는 거름도 황금처럼 아끼고\n집안을 망칠 아이는 황금도 거름처럼 펑펑 쓴다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "成家之兒 惜糞如金",
+        "敗家之兒 用金如糞"
+      ],
+      "koreanLines": [
+        "성가지아 석분여금",
+        "패가지아 용금여분"
+      ],
+      "characters": [
+        {
+          "character": "成",
+          "meaning": "이룰",
+          "sound": "성"
+        },
+        {
+          "character": "家",
+          "meaning": "집",
+          "sound": "가"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "兒",
+          "meaning": "아이",
+          "sound": "아"
+        },
+        {
+          "character": "惜",
+          "meaning": "뜻 확인 필요",
+          "sound": "석"
+        },
+        {
+          "character": "糞",
+          "meaning": "뜻 확인 필요",
+          "sound": "분"
+        },
+        {
+          "character": "如",
+          "meaning": "같을",
+          "sound": "여"
+        },
+        {
+          "character": "金",
+          "meaning": "뜻 확인 필요",
+          "sound": "금"
+        },
+        {
+          "character": "敗",
+          "meaning": "뜻 확인 필요",
+          "sound": "패"
+        },
+        {
+          "character": "用",
+          "meaning": "쓸",
+          "sound": "용"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-050",
+      "quoteNo": 50,
+      "page": 108,
+      "section": "성심",
+      "promptHanja": "一日清",
+      "promptKorean": "일일청",
+      "promptTranslation": "하루라도 마음이",
+      "directMeaningHint": "마음이 맑으면",
+      "fullHanja": "一日清閑\n一日仙",
+      "fullKorean": "일일청한\n일일선",
+      "directMeaning": "하루라도 마음이 맑고 편하면\n그날 하루는 신선이 된다.",
+      "directMeaningLines": [
+        "하루라도 마음이 맑고 편하면",
+        "그날 하루는 신선이 된다."
+      ],
+      "translation": "하루라도 마음이 맑고 편하면\n그날 하루는 신선이 된다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "一日清閑",
+        "一日仙"
+      ],
+      "koreanLines": [
+        "일일청한",
+        "일일선"
+      ],
+      "characters": [
+        {
+          "character": "一",
+          "meaning": "한",
+          "sound": "일"
+        },
+        {
+          "character": "日",
+          "meaning": "날",
+          "sound": "일"
+        },
+        {
+          "character": "清",
+          "meaning": "뜻 확인 필요",
+          "sound": "청"
+        },
+        {
+          "character": "閑",
+          "meaning": "뜻 확인 필요",
+          "sound": "한"
+        },
+        {
+          "character": "仙",
+          "meaning": "뜻 확인 필요",
+          "sound": "선"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-051",
+      "quoteNo": 51,
+      "page": 109,
+      "section": "성심",
+      "promptHanja": "無藥可",
+      "promptKorean": "무약가",
+      "promptTranslation": "약으로도 재상의",
+      "directMeaningHint": "약과 돈으로도",
+      "fullHanja": "無藥可醫卿相壽\n有錢難買子孫賢",
+      "fullKorean": "무약가의경상수\n유전난매자손현",
+      "directMeaning": "약으로도 재상의 목숨을 고칠 수 없고\n돈이 있어도 자손의 현명함을 살 수 없다.",
+      "directMeaningLines": [
+        "약으로도 재상의 목숨을",
+        "고칠 수 없고",
+        "돈이 있어도",
+        "자손의 현명함을 살 수 없다."
+      ],
+      "translation": "약으로도 재상의 목숨을 고칠 수 없고\n돈이 있어도 자손의 현명함을 살 수 없다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "無藥可醫卿相壽",
+        "有錢難買子孫賢"
+      ],
+      "koreanLines": [
+        "무약가의경상수",
+        "유전난매자손현"
+      ],
+      "characters": [
+        {
+          "character": "無",
+          "meaning": "없을",
+          "sound": "무"
+        },
+        {
+          "character": "藥",
+          "meaning": "뜻 확인 필요",
+          "sound": "약"
+        },
+        {
+          "character": "可",
+          "meaning": "옳을",
+          "sound": "가"
+        },
+        {
+          "character": "醫",
+          "meaning": "뜻 확인 필요",
+          "sound": "의"
+        },
+        {
+          "character": "卿",
+          "meaning": "뜻 확인 필요",
+          "sound": "경"
+        },
+        {
+          "character": "相",
+          "meaning": "서로",
+          "sound": "상"
+        },
+        {
+          "character": "壽",
+          "meaning": "뜻 확인 필요",
+          "sound": "수"
+        },
+        {
+          "character": "有",
+          "meaning": "있을",
+          "sound": "유"
+        },
+        {
+          "character": "錢",
+          "meaning": "뜻 확인 필요",
+          "sound": "전"
+        },
+        {
+          "character": "難",
+          "meaning": "어려울",
+          "sound": "난"
+        },
+        {
+          "character": "買",
+          "meaning": "뜻 확인 필요",
+          "sound": "매"
+        },
+        {
+          "character": "子",
+          "meaning": "아들",
+          "sound": "자"
+        },
+        {
+          "character": "孫",
+          "meaning": "손자",
+          "sound": "손"
+        },
+        {
+          "character": "賢",
+          "meaning": "어질",
+          "sound": "현"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-052",
+      "quoteNo": 52,
+      "page": 110,
+      "section": "성심",
+      "promptHanja": "欲知其",
+      "promptKorean": "욕지기",
+      "promptTranslation": "그 임금을",
+      "directMeaningHint": "사람을 알려면",
+      "fullHanja": "欲知其君 先視其臣\n欲識其人 先視其友\n欲知其父 先視其子",
+      "fullKorean": "욕지기군 선시기신\n욕식기인 선시기우\n욕지기부 선시기자",
+      "directMeaning": "그 임금을 알고자 하면 먼저 그의 신하를 보고\n그 사람을 알고자 하면 먼저 그의 친구를 볼 것이며\n그 아버지를 알고자 하면 먼저 그의 자식을 보라.",
+      "directMeaningLines": [
+        "그 임금을 알고자 하면",
+        "먼저 그의 신하를 보고",
+        "그 사람을 알고자 하면",
+        "먼저 그의 친구를 볼 것이며",
+        "그 아버지를 알고자 하면",
+        "먼저 그의 자식을 보라."
+      ],
+      "translation": "그 임금을 알고자 하면 먼저 그의 신하를 보고\n그 사람을 알고자 하면 먼저 그의 친구를 볼 것이며\n그 아버지를 알고자 하면 먼저 그의 자식을 보라.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "欲知其君 先視其臣",
+        "欲識其人 先視其友",
+        "欲知其父 先視其子"
+      ],
+      "koreanLines": [
+        "욕지기군 선시기신",
+        "욕식기인 선시기우",
+        "욕지기부 선시기자"
+      ],
+      "characters": [
+        {
+          "character": "欲",
+          "meaning": "하고자 할",
+          "sound": "욕"
+        },
+        {
+          "character": "知",
+          "meaning": "알",
+          "sound": "지"
+        },
+        {
+          "character": "其",
+          "meaning": "그",
+          "sound": "기"
+        },
+        {
+          "character": "君",
+          "meaning": "임금",
+          "sound": "군"
+        },
+        {
+          "character": "先",
+          "meaning": "먼저",
+          "sound": "선"
+        },
+        {
+          "character": "視",
+          "meaning": "볼",
+          "sound": "시"
+        },
+        {
+          "character": "臣",
+          "meaning": "뜻 확인 필요",
+          "sound": "신"
+        },
+        {
+          "character": "識",
+          "meaning": "뜻 확인 필요",
+          "sound": "식"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "友",
+          "meaning": "뜻 확인 필요",
+          "sound": "우"
+        },
+        {
+          "character": "父",
+          "meaning": "아비",
+          "sound": "부"
+        },
+        {
+          "character": "子",
+          "meaning": "아들",
+          "sound": "자"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-053",
+      "quoteNo": 53,
+      "page": 111,
+      "section": "성심",
+      "promptHanja": "接物之",
+      "promptKorean": "접물지",
+      "promptTranslation": "사물을 대할",
+      "directMeaningHint": "중요한 것은",
+      "fullHanja": "接物之要\n己所不欲 勿施於人\n行有不得 反求諸己",
+      "fullKorean": "접물지요\n기소불욕 물시어인\n행유부득 반구제기",
+      "directMeaning": "사물을 대할 때 가장 중요한 것은\n자기가 하기 싫은 일을 남에게 시키지 않는 것과\n실행하고도 결과를 얻지 못하는 것이 있거든\n돌이켜 자신에게 그 원인을 찾는 것이다.",
+      "directMeaningLines": [
+        "사물을 대할 때",
+        "가장 중요한 것은",
+        "자기가 하기 싫은 일을",
+        "남에게 시키지 않는 것과",
+        "실행하고도 결과를 얻지 못하는 것이 있거든",
+        "돌이켜 자신에게 그 원인을 찾는 것이다."
+      ],
+      "translation": "사물을 대할 때 가장 중요한 것은\n자기가 하기 싫은 일을 남에게 시키지 않는 것과\n실행하고도 결과를 얻지 못하는 것이 있거든\n돌이켜 자신에게 그 원인을 찾는 것이다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "接物之要",
+        "己所不欲 勿施於人",
+        "行有不得 反求諸己"
+      ],
+      "koreanLines": [
+        "접물지요",
+        "기소불욕 물시어인",
+        "행유부득 반구제기"
+      ],
+      "characters": [
+        {
+          "character": "接",
+          "meaning": "뜻 확인 필요",
+          "sound": "접"
+        },
+        {
+          "character": "物",
+          "meaning": "물건",
+          "sound": "물"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "要",
+          "meaning": "뜻 확인 필요",
+          "sound": "요"
+        },
+        {
+          "character": "己",
+          "meaning": "자기",
+          "sound": "기"
+        },
+        {
+          "character": "所",
+          "meaning": "바",
+          "sound": "소"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "欲",
+          "meaning": "하고자 할",
+          "sound": "욕"
+        },
+        {
+          "character": "勿",
+          "meaning": "말",
+          "sound": "물"
+        },
+        {
+          "character": "施",
+          "meaning": "베풀",
+          "sound": "시"
+        },
+        {
+          "character": "於",
+          "meaning": "어조사",
+          "sound": "어"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "行",
+          "meaning": "갈",
+          "sound": "행"
+        },
+        {
+          "character": "有",
+          "meaning": "있을",
+          "sound": "유"
+        },
+        {
+          "character": "得",
+          "meaning": "얻을",
+          "sound": "득"
+        },
+        {
+          "character": "反",
+          "meaning": "뜻 확인 필요",
+          "sound": "반"
+        },
+        {
+          "character": "求",
+          "meaning": "구할",
+          "sound": "구"
+        },
+        {
+          "character": "諸",
+          "meaning": "모든",
+          "sound": "제"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-054",
+      "quoteNo": 54,
+      "page": 112,
+      "section": "성심",
+      "promptHanja": "水至清",
+      "promptKorean": "수지청",
+      "promptTranslation": "물이 너무",
+      "directMeaningHint": "너무 맑으면",
+      "fullHanja": "水至清則無魚\n人至察則無徒",
+      "fullKorean": "수지청즉무어\n인지찰즉무도",
+      "directMeaning": "물이 너무 맑으면 고기가 살지 않고\n사람이 너무 따지면 따르는 사람이 없다.",
+      "directMeaningLines": [
+        "물이 너무 맑으면",
+        "고기가 살지 않고",
+        "사람이 너무 따지면",
+        "따르는 사람이 없다."
+      ],
+      "translation": "물이 너무 맑으면 고기가 살지 않고\n사람이 너무 따지면 따르는 사람이 없다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "水至清則無魚",
+        "人至察則無徒"
+      ],
+      "koreanLines": [
+        "수지청즉무어",
+        "인지찰즉무도"
+      ],
+      "characters": [
+        {
+          "character": "水",
+          "meaning": "뜻 확인 필요",
+          "sound": "수"
+        },
+        {
+          "character": "至",
+          "meaning": "뜻 확인 필요",
+          "sound": "지"
+        },
+        {
+          "character": "清",
+          "meaning": "뜻 확인 필요",
+          "sound": "청"
+        },
+        {
+          "character": "則",
+          "meaning": "곧",
+          "sound": "즉"
+        },
+        {
+          "character": "無",
+          "meaning": "없을",
+          "sound": "무"
+        },
+        {
+          "character": "魚",
+          "meaning": "뜻 확인 필요",
+          "sound": "어"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "察",
+          "meaning": "살필",
+          "sound": "찰"
+        },
+        {
+          "character": "徒",
+          "meaning": "뜻 확인 필요",
+          "sound": "도"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-055",
+      "quoteNo": 55,
+      "page": 116,
+      "section": "성심",
+      "promptHanja": "無故而",
+      "promptKorean": "무고이",
+      "promptTranslation": "아무 까닭",
+      "directMeaningHint": "까닭 없는 재물",
+      "fullHanja": "無故而得千金\n不有大福 必有大禍",
+      "fullKorean": "무고이득천금\n불유대복 필유대화",
+      "directMeaning": "아무 까닭 없이 천금을 얻으면\n큰 복이 있는 것이 아니라 반드시 큰 화가 따른다.",
+      "directMeaningLines": [
+        "아무 까닭 없이",
+        "천금을 얻으면",
+        "큰 복이 있는 것이 아니라",
+        "반드시 큰 화가 따른다."
+      ],
+      "translation": "아무 까닭 없이 천금을 얻으면\n큰 복이 있는 것이 아니라 반드시 큰 화가 따른다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "無故而得千金",
+        "不有大福 必有大禍"
+      ],
+      "koreanLines": [
+        "무고이득천금",
+        "불유대복 필유대화"
+      ],
+      "characters": [
+        {
+          "character": "無",
+          "meaning": "없을",
+          "sound": "무"
+        },
+        {
+          "character": "故",
+          "meaning": "뜻 확인 필요",
+          "sound": "고"
+        },
+        {
+          "character": "而",
+          "meaning": "말 이을",
+          "sound": "이"
+        },
+        {
+          "character": "得",
+          "meaning": "얻을",
+          "sound": "득"
+        },
+        {
+          "character": "千",
+          "meaning": "뜻 확인 필요",
+          "sound": "천"
+        },
+        {
+          "character": "金",
+          "meaning": "뜻 확인 필요",
+          "sound": "금"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "有",
+          "meaning": "있을",
+          "sound": "유"
+        },
+        {
+          "character": "大",
+          "meaning": "클",
+          "sound": "대"
+        },
+        {
+          "character": "福",
+          "meaning": "복",
+          "sound": "복"
+        },
+        {
+          "character": "必",
+          "meaning": "반드시",
+          "sound": "필"
+        },
+        {
+          "character": "禍",
+          "meaning": "재앙",
+          "sound": "화"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-056",
+      "quoteNo": 56,
+      "page": 117,
+      "section": "성심",
+      "promptHanja": "大廈千",
+      "promptKorean": "대하천",
+      "promptTranslation": "천 칸이나",
+      "directMeaningHint": "큰 집이라도",
+      "fullHanja": "大廈千間 夜臥八尺\n良田萬頃 日食二升",
+      "fullKorean": "대하천간 야와팔척\n양전만경 일식이승",
+      "directMeaning": "천 칸이나 되는 큰 집이라도\n밤에 눕는 것은 여덟 자 뿐이고\n좋은 밭이 만 이랑이라도\n하루에 먹는 것은 쌀 두 되일 뿐이다.",
+      "directMeaningLines": [
+        "천 칸이나 되는 큰 집이라도",
+        "밤에 눕는 것은",
+        "여덟 자 뿐이고",
+        "좋은 밭이 만 이랑이라도",
+        "하루에 먹는 것은",
+        "쌀 두 되일 뿐이다."
+      ],
+      "translation": "천 칸이나 되는 큰 집이라도\n밤에 눕는 것은 여덟 자 뿐이고\n좋은 밭이 만 이랑이라도\n하루에 먹는 것은 쌀 두 되일 뿐이다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "大廈千間 夜臥八尺",
+        "良田萬頃 日食二升"
+      ],
+      "koreanLines": [
+        "대하천간 야와팔척",
+        "양전만경 일식이승"
+      ],
+      "characters": [
+        {
+          "character": "大",
+          "meaning": "클",
+          "sound": "대"
+        },
+        {
+          "character": "廈",
+          "meaning": "뜻 확인 필요",
+          "sound": "하"
+        },
+        {
+          "character": "千",
+          "meaning": "뜻 확인 필요",
+          "sound": "천"
+        },
+        {
+          "character": "間",
+          "meaning": "뜻 확인 필요",
+          "sound": "간"
+        },
+        {
+          "character": "夜",
+          "meaning": "밤",
+          "sound": "야"
+        },
+        {
+          "character": "臥",
+          "meaning": "뜻 확인 필요",
+          "sound": "와"
+        },
+        {
+          "character": "八",
+          "meaning": "뜻 확인 필요",
+          "sound": "팔"
+        },
+        {
+          "character": "尺",
+          "meaning": "뜻 확인 필요",
+          "sound": "척"
+        },
+        {
+          "character": "良",
+          "meaning": "뜻 확인 필요",
+          "sound": "양"
+        },
+        {
+          "character": "田",
+          "meaning": "밭",
+          "sound": "전"
+        },
+        {
+          "character": "萬",
+          "meaning": "일만",
+          "sound": "만"
+        },
+        {
+          "character": "頃",
+          "meaning": "뜻 확인 필요",
+          "sound": "경"
+        },
+        {
+          "character": "日",
+          "meaning": "날",
+          "sound": "일"
+        },
+        {
+          "character": "食",
+          "meaning": "밥",
+          "sound": "식"
+        },
+        {
+          "character": "二",
+          "meaning": "뜻 확인 필요",
+          "sound": "이"
+        },
+        {
+          "character": "升",
+          "meaning": "뜻 확인 필요",
+          "sound": "승"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-057",
+      "quoteNo": 57,
+      "page": 118,
+      "section": "성심",
+      "promptHanja": "不恨自",
+      "promptKorean": "불한자",
+      "promptTranslation": "자기 두레박줄이",
+      "directMeaningHint": "남 탓보다",
+      "fullHanja": "不恨自家汲繩短\n只恨他家苦井深",
+      "fullKorean": "불한자가급승단\n지한타가고정심",
+      "directMeaning": "자기 두레박줄이 짧은 것은 탓하지 않고\n남의 집 우물이 깊은 것만 한탄하는구나.",
+      "directMeaningLines": [
+        "자기 두레박줄이 짧은 것은",
+        "탓하지 않고",
+        "남의 집 우물이 깊은 것만",
+        "한탄하는구나."
+      ],
+      "translation": "자기 두레박줄이 짧은 것은 탓하지 않고\n남의 집 우물이 깊은 것만 한탄하는구나.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "不恨自家汲繩短",
+        "只恨他家苦井深"
+      ],
+      "koreanLines": [
+        "불한자가급승단",
+        "지한타가고정심"
+      ],
+      "characters": [
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "恨",
+          "meaning": "뜻 확인 필요",
+          "sound": "한"
+        },
+        {
+          "character": "自",
+          "meaning": "스스로",
+          "sound": "자"
+        },
+        {
+          "character": "家",
+          "meaning": "집",
+          "sound": "가"
+        },
+        {
+          "character": "汲",
+          "meaning": "뜻 확인 필요",
+          "sound": "급"
+        },
+        {
+          "character": "繩",
+          "meaning": "뜻 확인 필요",
+          "sound": "승"
+        },
+        {
+          "character": "短",
+          "meaning": "짧을",
+          "sound": "단"
+        },
+        {
+          "character": "只",
+          "meaning": "뜻 확인 필요",
+          "sound": "지"
+        },
+        {
+          "character": "他",
+          "meaning": "뜻 확인 필요",
+          "sound": "타"
+        },
+        {
+          "character": "苦",
+          "meaning": "괴로울",
+          "sound": "고"
+        },
+        {
+          "character": "井",
+          "meaning": "뜻 확인 필요",
+          "sound": "정"
+        },
+        {
+          "character": "深",
+          "meaning": "뜻 확인 필요",
+          "sound": "심"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-058",
+      "quoteNo": 58,
+      "page": 122,
+      "section": "성심",
+      "promptHanja": "尺璧非",
+      "promptKorean": "척벽비",
+      "promptTranslation": "한 자나",
+      "directMeaningHint": "시간의 보배",
+      "fullHanja": "尺璧非寶\n寸陰是競",
+      "fullKorean": "척벽비보\n촌음시경",
+      "directMeaning": "한 자나 되는 옥이 보배가 아니라\n한 치의 시간을 다투어야 한다.",
+      "directMeaningLines": [
+        "한 자나 되는 옥이",
+        "보배가 아니라",
+        "한 치의 시간을",
+        "다투어야 한다."
+      ],
+      "translation": "한 자나 되는 옥이 보배가 아니라\n한 치의 시간을 다투어야 한다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "尺璧非寶",
+        "寸陰是競"
+      ],
+      "koreanLines": [
+        "척벽비보",
+        "촌음시경"
+      ],
+      "characters": [
+        {
+          "character": "尺",
+          "meaning": "뜻 확인 필요",
+          "sound": "척"
+        },
+        {
+          "character": "璧",
+          "meaning": "뜻 확인 필요",
+          "sound": "벽"
+        },
+        {
+          "character": "非",
+          "meaning": "아닐",
+          "sound": "비"
+        },
+        {
+          "character": "寶",
+          "meaning": "보배",
+          "sound": "보"
+        },
+        {
+          "character": "寸",
+          "meaning": "뜻 확인 필요",
+          "sound": "촌"
+        },
+        {
+          "character": "陰",
+          "meaning": "뜻 확인 필요",
+          "sound": "음"
+        },
+        {
+          "character": "是",
+          "meaning": "옳을",
+          "sound": "시"
+        },
+        {
+          "character": "競",
+          "meaning": "뜻 확인 필요",
+          "sound": "경"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-059",
+      "quoteNo": 59,
+      "page": 123,
+      "section": "성심",
+      "promptHanja": "入山擒",
+      "promptKorean": "입산금",
+      "promptTranslation": "산에 들어가",
+      "directMeaningHint": "충고하기",
+      "fullHanja": "入山擒虎易\n開口告人難",
+      "fullKorean": "입산금호역\n개구고인난",
+      "directMeaning": "산에 들어가 호랑이를 잡는 게 쉽지\n입을 열어 남에게 충고하기는 어렵다.",
+      "directMeaningLines": [
+        "산에 들어가",
+        "호랑이를 잡는 게 쉽지",
+        "입을 열어",
+        "남에게 충고하기는 어렵다."
+      ],
+      "translation": "산에 들어가 호랑이를 잡는 게 쉽지\n입을 열어 남에게 충고하기는 어렵다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "入山擒虎易",
+        "開口告人難"
+      ],
+      "koreanLines": [
+        "입산금호역",
+        "개구고인난"
+      ],
+      "characters": [
+        {
+          "character": "入",
+          "meaning": "뜻 확인 필요",
+          "sound": "입"
+        },
+        {
+          "character": "山",
+          "meaning": "메",
+          "sound": "산"
+        },
+        {
+          "character": "擒",
+          "meaning": "뜻 확인 필요",
+          "sound": "금"
+        },
+        {
+          "character": "虎",
+          "meaning": "뜻 확인 필요",
+          "sound": "호"
+        },
+        {
+          "character": "易",
+          "meaning": "뜻 확인 필요",
+          "sound": "역"
+        },
+        {
+          "character": "開",
+          "meaning": "뜻 확인 필요",
+          "sound": "개"
+        },
+        {
+          "character": "口",
+          "meaning": "입",
+          "sound": "구"
+        },
+        {
+          "character": "告",
+          "meaning": "뜻 확인 필요",
+          "sound": "고"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "難",
+          "meaning": "어려울",
+          "sound": "난"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-060",
+      "quoteNo": 60,
+      "page": 124,
+      "section": "성심",
+      "promptHanja": "遠水",
+      "promptKorean": "원수",
+      "promptTranslation": "멀리 있는",
+      "directMeaningHint": "가까운 이웃",
+      "fullHanja": "遠水 不救近火\n遠親 不如近隣",
+      "fullKorean": "원수 불구근화\n원친 불여근린",
+      "directMeaning": "멀리 있는 물은 가까운 불을 끄지 못하고\n먼 데 있는 친척은 가까운 이웃만 못하다.",
+      "directMeaningLines": [
+        "멀리 있는 물은",
+        "가까운 불을 끄지 못하고",
+        "먼 데 있는 친척은",
+        "가까운 이웃만 못하다."
+      ],
+      "translation": "멀리 있는 물은 가까운 불을 끄지 못하고\n먼 데 있는 친척은 가까운 이웃만 못하다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "遠水 不救近火",
+        "遠親 不如近隣"
+      ],
+      "koreanLines": [
+        "원수 불구근화",
+        "원친 불여근린"
+      ],
+      "characters": [
+        {
+          "character": "遠",
+          "meaning": "멀",
+          "sound": "원"
+        },
+        {
+          "character": "水",
+          "meaning": "뜻 확인 필요",
+          "sound": "수"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "救",
+          "meaning": "뜻 확인 필요",
+          "sound": "구"
+        },
+        {
+          "character": "近",
+          "meaning": "가까울",
+          "sound": "근"
+        },
+        {
+          "character": "火",
+          "meaning": "뜻 확인 필요",
+          "sound": "화"
+        },
+        {
+          "character": "親",
+          "meaning": "친할",
+          "sound": "친"
+        },
+        {
+          "character": "如",
+          "meaning": "같을",
+          "sound": "여"
+        },
+        {
+          "character": "隣",
+          "meaning": "뜻 확인 필요",
+          "sound": "린"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-061",
+      "quoteNo": 61,
+      "page": 128,
+      "section": "성심",
+      "promptHanja": "器滿則",
+      "promptKorean": "기만즉",
+      "promptTranslation": "그릇이 가득",
+      "directMeaningHint": "가득 차면",
+      "fullHanja": "器滿則溢\n人滿則喪",
+      "fullKorean": "기만즉일\n인만즉상",
+      "directMeaning": "그릇이 가득 차면 넘치듯이\n사람이 가득 차면 잃게 된다.",
+      "directMeaningLines": [
+        "그릇이 가득 차면",
+        "넘치듯이",
+        "사람이 가득 차면",
+        "잃게 된다."
+      ],
+      "translation": "그릇이 가득 차면 넘치듯이\n사람이 가득 차면 잃게 된다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "器滿則溢",
+        "人滿則喪"
+      ],
+      "koreanLines": [
+        "기만즉일",
+        "인만즉상"
+      ],
+      "characters": [
+        {
+          "character": "器",
+          "meaning": "그릇",
+          "sound": "기"
+        },
+        {
+          "character": "滿",
+          "meaning": "찰",
+          "sound": "만"
+        },
+        {
+          "character": "則",
+          "meaning": "곧",
+          "sound": "즉"
+        },
+        {
+          "character": "溢",
+          "meaning": "뜻 확인 필요",
+          "sound": "일"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "喪",
+          "meaning": "뜻 확인 필요",
+          "sound": "상"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-062",
+      "quoteNo": 62,
+      "page": 129,
+      "section": "성심",
+      "promptHanja": "良田萬",
+      "promptKorean": "양전만",
+      "promptTranslation": "기름진 땅",
+      "directMeaningHint": "작은 재주",
+      "fullHanja": "良田萬頃\n不如薄藝隨身",
+      "fullKorean": "양전만경\n불여박예수신",
+      "directMeaning": "기름진 땅 만경을 가지느니\n작은 재주 하나를 몸에 지니고 있는 게 낫다.",
+      "directMeaningLines": [
+        "기름진 땅 만경을 가지느니",
+        "작은 재주 하나를",
+        "몸에 지니고 있는 게 낫다."
+      ],
+      "translation": "기름진 땅 만경을 가지느니\n작은 재주 하나를 몸에 지니고 있는 게 낫다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "良田萬頃",
+        "不如薄藝隨身"
+      ],
+      "koreanLines": [
+        "양전만경",
+        "불여박예수신"
+      ],
+      "characters": [
+        {
+          "character": "良",
+          "meaning": "뜻 확인 필요",
+          "sound": "양"
+        },
+        {
+          "character": "田",
+          "meaning": "밭",
+          "sound": "전"
+        },
+        {
+          "character": "萬",
+          "meaning": "일만",
+          "sound": "만"
+        },
+        {
+          "character": "頃",
+          "meaning": "뜻 확인 필요",
+          "sound": "경"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "如",
+          "meaning": "같을",
+          "sound": "여"
+        },
+        {
+          "character": "薄",
+          "meaning": "엷을",
+          "sound": "박"
+        },
+        {
+          "character": "藝",
+          "meaning": "뜻 확인 필요",
+          "sound": "예"
+        },
+        {
+          "character": "隨",
+          "meaning": "뜻 확인 필요",
+          "sound": "수"
+        },
+        {
+          "character": "身",
+          "meaning": "몸",
+          "sound": "신"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "성심"
+      ]
+    },
+    {
+      "id": "MGB-063",
+      "quoteNo": 63,
+      "page": 130,
+      "section": "입교",
+      "promptHanja": "一生之",
+      "promptKorean": "일생지",
+      "promptTranslation": "일생의 계획은",
+      "directMeaningHint": "계획은 때가 있다",
+      "fullHanja": "一生之計 在於幼\n一年之計 在於春\n一日之計 在於寅",
+      "fullKorean": "일생지계 재어유\n일년지계 재어춘\n일일지계 재어인",
+      "directMeaning": "일생의 계획은 어릴 때 있고\n일 년의 계획은 봄에 있으며\n하루의 계획은 새벽에 있다.",
+      "directMeaningLines": [
+        "일생의 계획은",
+        "어릴 때 있고",
+        "일 년의 계획은",
+        "봄에 있으며",
+        "하루의 계획은",
+        "새벽에 있다."
+      ],
+      "translation": "일생의 계획은 어릴 때 있고\n일 년의 계획은 봄에 있으며\n하루의 계획은 새벽에 있다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "一生之計 在於幼",
+        "一年之計 在於春",
+        "一日之計 在於寅"
+      ],
+      "koreanLines": [
+        "일생지계 재어유",
+        "일년지계 재어춘",
+        "일일지계 재어인"
+      ],
+      "characters": [
+        {
+          "character": "一",
+          "meaning": "한",
+          "sound": "일"
+        },
+        {
+          "character": "生",
+          "meaning": "날",
+          "sound": "생"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "計",
+          "meaning": "뜻 확인 필요",
+          "sound": "계"
+        },
+        {
+          "character": "在",
+          "meaning": "있을",
+          "sound": "재"
+        },
+        {
+          "character": "於",
+          "meaning": "어조사",
+          "sound": "어"
+        },
+        {
+          "character": "幼",
+          "meaning": "뜻 확인 필요",
+          "sound": "유"
+        },
+        {
+          "character": "年",
+          "meaning": "뜻 확인 필요",
+          "sound": "년"
+        },
+        {
+          "character": "春",
+          "meaning": "뜻 확인 필요",
+          "sound": "춘"
+        },
+        {
+          "character": "日",
+          "meaning": "날",
+          "sound": "일"
+        },
+        {
+          "character": "寅",
+          "meaning": "뜻 확인 필요",
+          "sound": "인"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "입교"
+      ]
+    },
+    {
+      "id": "MGB-064",
+      "quoteNo": 64,
+      "page": 134,
+      "section": "입교",
+      "promptHanja": "忠臣",
+      "promptKorean": "충신",
+      "promptTranslation": "충신은 두",
+      "directMeaningHint": "충신과 열녀",
+      "fullHanja": "忠臣 不事二君\n烈女 不更二夫",
+      "fullKorean": "충신 불사이군\n열녀 불경이부",
+      "directMeaning": "충신은 두 임금을 섬기지 않고\n열녀는 두 남편을 거치지 않는다.",
+      "directMeaningLines": [
+        "충신은 두 임금을",
+        "섬기지 않고",
+        "열녀는 두 남편을",
+        "거치지 않는다."
+      ],
+      "translation": "충신은 두 임금을 섬기지 않고\n열녀는 두 남편을 거치지 않는다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "忠臣 不事二君",
+        "烈女 不更二夫"
+      ],
+      "koreanLines": [
+        "충신 불사이군",
+        "열녀 불경이부"
+      ],
+      "characters": [
+        {
+          "character": "忠",
+          "meaning": "뜻 확인 필요",
+          "sound": "충"
+        },
+        {
+          "character": "臣",
+          "meaning": "뜻 확인 필요",
+          "sound": "신"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "事",
+          "meaning": "일",
+          "sound": "사"
+        },
+        {
+          "character": "二",
+          "meaning": "뜻 확인 필요",
+          "sound": "이"
+        },
+        {
+          "character": "君",
+          "meaning": "임금",
+          "sound": "군"
+        },
+        {
+          "character": "烈",
+          "meaning": "뜻 확인 필요",
+          "sound": "열"
+        },
+        {
+          "character": "女",
+          "meaning": "뜻 확인 필요",
+          "sound": "녀"
+        },
+        {
+          "character": "更",
+          "meaning": "뜻 확인 필요",
+          "sound": "경"
+        },
+        {
+          "character": "夫",
+          "meaning": "지아비",
+          "sound": "부"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "입교"
+      ]
+    },
+    {
+      "id": "MGB-065",
+      "quoteNo": 65,
+      "page": 135,
+      "section": "입교",
+      "promptHanja": "讀書",
+      "promptKorean": "독서",
+      "promptTranslation": "독서는 집안을",
+      "directMeaningHint": "집안의 근본",
+      "fullHanja": "讀書 起家之本\n循理 保家之本",
+      "fullKorean": "독서 기가지본\n순리 보가지본",
+      "directMeaning": "독서는 집안을 일으키는 근본이요\n이치를 따르는 것이 집안을 보존하는 근본이다.",
+      "directMeaningLines": [
+        "독서는 집안을 일으키는",
+        "근본이요",
+        "이치를 따르는 것이",
+        "집안을 보존하는 근본이다."
+      ],
+      "translation": "독서는 집안을 일으키는 근본이요\n이치를 따르는 것이 집안을 보존하는 근본이다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "讀書 起家之本",
+        "循理 保家之本"
+      ],
+      "koreanLines": [
+        "독서 기가지본",
+        "순리 보가지본"
+      ],
+      "characters": [
+        {
+          "character": "讀",
+          "meaning": "읽을",
+          "sound": "독"
+        },
+        {
+          "character": "書",
+          "meaning": "쓸",
+          "sound": "서"
+        },
+        {
+          "character": "起",
+          "meaning": "일어날",
+          "sound": "기"
+        },
+        {
+          "character": "家",
+          "meaning": "집",
+          "sound": "가"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "本",
+          "meaning": "뜻 확인 필요",
+          "sound": "본"
+        },
+        {
+          "character": "循",
+          "meaning": "뜻 확인 필요",
+          "sound": "순"
+        },
+        {
+          "character": "理",
+          "meaning": "뜻 확인 필요",
+          "sound": "리"
+        },
+        {
+          "character": "保",
+          "meaning": "뜻 확인 필요",
+          "sound": "보"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "입교"
+      ]
+    },
+    {
+      "id": "MGB-066",
+      "quoteNo": 66,
+      "page": 136,
+      "section": "입교",
+      "promptHanja": "治官",
+      "promptKorean": "치관",
+      "promptTranslation": "관리가 일을",
+      "directMeaningHint": "공평과 청렴",
+      "fullHanja": "治官 莫若平\n臨財 莫若廉",
+      "fullKorean": "치관 막약평\n임재 막약염",
+      "directMeaning": "관리가 일을 할 때는 공평해야 하고\n재물을 대할 때는 청렴해야 한다.",
+      "directMeaningLines": [
+        "관리가 일을 할 때는",
+        "공평해야 하고",
+        "재물을 대할 때는",
+        "청렴해야 한다."
+      ],
+      "translation": "관리가 일을 할 때는 공평해야 하고\n재물을 대할 때는 청렴해야 한다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "治官 莫若平",
+        "臨財 莫若廉"
+      ],
+      "koreanLines": [
+        "치관 막약평",
+        "임재 막약염"
+      ],
+      "characters": [
+        {
+          "character": "治",
+          "meaning": "뜻 확인 필요",
+          "sound": "치"
+        },
+        {
+          "character": "官",
+          "meaning": "뜻 확인 필요",
+          "sound": "관"
+        },
+        {
+          "character": "莫",
+          "meaning": "없을",
+          "sound": "막"
+        },
+        {
+          "character": "若",
+          "meaning": "같을",
+          "sound": "약"
+        },
+        {
+          "character": "平",
+          "meaning": "뜻 확인 필요",
+          "sound": "평"
+        },
+        {
+          "character": "臨",
+          "meaning": "뜻 확인 필요",
+          "sound": "임"
+        },
+        {
+          "character": "財",
+          "meaning": "뜻 확인 필요",
+          "sound": "재"
+        },
+        {
+          "character": "廉",
+          "meaning": "뜻 확인 필요",
+          "sound": "염"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "입교"
+      ]
+    },
+    {
+      "id": "MGB-067",
+      "quoteNo": 67,
+      "page": 140,
+      "section": "치정",
+      "promptHanja": "一命之",
+      "promptKorean": "일명지",
+      "promptTranslation": "처음 벼슬하는",
+      "directMeaningHint": "사랑하는 마음",
+      "fullHanja": "一命之士\n苟有存心於愛物\n於人 必有所濟",
+      "fullKorean": "일명지사\n구유존심어애물\n어인 필유소제",
+      "directMeaning": "처음 벼슬하는 선비라도\n남을 사랑하는 마음을 가진다면\n사람들에게 반드시 도움을 줄 것이다.",
+      "directMeaningLines": [
+        "처음 벼슬하는 선비라도",
+        "남을 사랑하는 마음을 가진다면",
+        "사람들에게 반드시",
+        "도움을 줄 것이다."
+      ],
+      "translation": "처음 벼슬하는 선비라도\n남을 사랑하는 마음을 가진다면\n사람들에게 반드시 도움을 줄 것이다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "一命之士",
+        "苟有存心於愛物",
+        "於人 必有所濟"
+      ],
+      "koreanLines": [
+        "일명지사",
+        "구유존심어애물",
+        "어인 필유소제"
+      ],
+      "characters": [
+        {
+          "character": "一",
+          "meaning": "한",
+          "sound": "일"
+        },
+        {
+          "character": "命",
+          "meaning": "뜻 확인 필요",
+          "sound": "명"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "士",
+          "meaning": "뜻 확인 필요",
+          "sound": "사"
+        },
+        {
+          "character": "苟",
+          "meaning": "뜻 확인 필요",
+          "sound": "구"
+        },
+        {
+          "character": "有",
+          "meaning": "있을",
+          "sound": "유"
+        },
+        {
+          "character": "存",
+          "meaning": "있을",
+          "sound": "존"
+        },
+        {
+          "character": "心",
+          "meaning": "마음",
+          "sound": "심"
+        },
+        {
+          "character": "於",
+          "meaning": "어조사",
+          "sound": "어"
+        },
+        {
+          "character": "愛",
+          "meaning": "아낄",
+          "sound": "애"
+        },
+        {
+          "character": "物",
+          "meaning": "물건",
+          "sound": "물"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "必",
+          "meaning": "반드시",
+          "sound": "필"
+        },
+        {
+          "character": "所",
+          "meaning": "바",
+          "sound": "소"
+        },
+        {
+          "character": "濟",
+          "meaning": "뜻 확인 필요",
+          "sound": "제"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "치정"
+      ]
+    },
+    {
+      "id": "MGB-068",
+      "quoteNo": 68,
+      "page": 141,
+      "section": "치정",
+      "promptHanja": "當官之",
+      "promptKorean": "당관지",
+      "promptTranslation": "관직에 임해야",
+      "directMeaningHint": "세 가지 원칙",
+      "fullHanja": "當官之法 唯有三事\n曰清 曰愼 曰勤\n知此三者 知所以持身矣",
+      "fullKorean": "당관지법 유유삼사\n왈청 왈신 왈근\n지차삼자 지소이지신의",
+      "directMeaning": "관직에 임해야 하는 세 가지 원칙은\n청렴함과 신중함과 부지런함이다.\n이 세 가지를 알면 어떻게 처신할지를 안다.",
+      "directMeaningLines": [
+        "관직에 임해야 하는",
+        "세 가지 원칙은",
+        "청렴함과 신중함과",
+        "부지런함이다.",
+        "이 세 가지를 알면",
+        "어떻게 처신할지를 안다."
+      ],
+      "translation": "관직에 임해야 하는 세 가지 원칙은\n청렴함과 신중함과 부지런함이다.\n이 세 가지를 알면 어떻게 처신할지를 안다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "當官之法 唯有三事",
+        "曰清 曰愼 曰勤",
+        "知此三者 知所以持身矣"
+      ],
+      "koreanLines": [
+        "당관지법 유유삼사",
+        "왈청 왈신 왈근",
+        "지차삼자 지소이지신의"
+      ],
+      "characters": [
+        {
+          "character": "當",
+          "meaning": "뜻 확인 필요",
+          "sound": "당"
+        },
+        {
+          "character": "官",
+          "meaning": "뜻 확인 필요",
+          "sound": "관"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "法",
+          "meaning": "법",
+          "sound": "법"
+        },
+        {
+          "character": "唯",
+          "meaning": "뜻 확인 필요",
+          "sound": "유"
+        },
+        {
+          "character": "有",
+          "meaning": "있을",
+          "sound": "유"
+        },
+        {
+          "character": "三",
+          "meaning": "뜻 확인 필요",
+          "sound": "삼"
+        },
+        {
+          "character": "事",
+          "meaning": "일",
+          "sound": "사"
+        },
+        {
+          "character": "曰",
+          "meaning": "뜻 확인 필요",
+          "sound": "왈"
+        },
+        {
+          "character": "清",
+          "meaning": "뜻 확인 필요",
+          "sound": "청"
+        },
+        {
+          "character": "愼",
+          "meaning": "삼갈",
+          "sound": "신"
+        },
+        {
+          "character": "勤",
+          "meaning": "부지런할",
+          "sound": "근"
+        },
+        {
+          "character": "知",
+          "meaning": "알",
+          "sound": "지"
+        },
+        {
+          "character": "此",
+          "meaning": "이",
+          "sound": "차"
+        },
+        {
+          "character": "者",
+          "meaning": "놈",
+          "sound": "자"
+        },
+        {
+          "character": "所",
+          "meaning": "바",
+          "sound": "소"
+        },
+        {
+          "character": "以",
+          "meaning": "써",
+          "sound": "이"
+        },
+        {
+          "character": "持",
+          "meaning": "뜻 확인 필요",
+          "sound": "지"
+        },
+        {
+          "character": "身",
+          "meaning": "몸",
+          "sound": "신"
+        },
+        {
+          "character": "矣",
+          "meaning": "어조사",
+          "sound": "의"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "치정"
+      ]
+    },
+    {
+      "id": "MGB-069",
+      "quoteNo": 69,
+      "page": 142,
+      "section": "안의",
+      "promptHanja": "兄弟爲",
+      "promptKorean": "형제위",
+      "promptTranslation": "형제는 손발과",
+      "directMeaningHint": "형제와 부부",
+      "fullHanja": "兄弟爲手足 夫婦爲衣服\n衣服破時 更得新\n手足斷處 難可續",
+      "fullKorean": "형제위수족 부부위의복\n의복파시 경득신\n수족단처 난가속",
+      "directMeaning": "형제는 손발과 같고 부부는 옷과 같다.\n옷이 찢어지면 다시 기울 수 있지만\n손발이 끊어졌을 때에는 잇기 어렵다.",
+      "directMeaningLines": [
+        "형제는 손발과 같고",
+        "부부는 옷과 같다.",
+        "옷이 찢어지면",
+        "다시 기울 수 있지만",
+        "손발이 끊어졌을 때에는",
+        "잇기 어렵다."
+      ],
+      "translation": "형제는 손발과 같고 부부는 옷과 같다.\n옷이 찢어지면 다시 기울 수 있지만\n손발이 끊어졌을 때에는 잇기 어렵다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "兄弟爲手足 夫婦爲衣服",
+        "衣服破時 更得新",
+        "手足斷處 難可續"
+      ],
+      "koreanLines": [
+        "형제위수족 부부위의복",
+        "의복파시 경득신",
+        "수족단처 난가속"
+      ],
+      "characters": [
+        {
+          "character": "兄",
+          "meaning": "뜻 확인 필요",
+          "sound": "형"
+        },
+        {
+          "character": "弟",
+          "meaning": "뜻 확인 필요",
+          "sound": "제"
+        },
+        {
+          "character": "爲",
+          "meaning": "할",
+          "sound": "위"
+        },
+        {
+          "character": "手",
+          "meaning": "뜻 확인 필요",
+          "sound": "수"
+        },
+        {
+          "character": "足",
+          "meaning": "발",
+          "sound": "족"
+        },
+        {
+          "character": "夫",
+          "meaning": "지아비",
+          "sound": "부"
+        },
+        {
+          "character": "婦",
+          "meaning": "뜻 확인 필요",
+          "sound": "부"
+        },
+        {
+          "character": "衣",
+          "meaning": "뜻 확인 필요",
+          "sound": "의"
+        },
+        {
+          "character": "服",
+          "meaning": "뜻 확인 필요",
+          "sound": "복"
+        },
+        {
+          "character": "破",
+          "meaning": "뜻 확인 필요",
+          "sound": "파"
+        },
+        {
+          "character": "時",
+          "meaning": "때",
+          "sound": "시"
+        },
+        {
+          "character": "更",
+          "meaning": "뜻 확인 필요",
+          "sound": "경"
+        },
+        {
+          "character": "得",
+          "meaning": "얻을",
+          "sound": "득"
+        },
+        {
+          "character": "新",
+          "meaning": "뜻 확인 필요",
+          "sound": "신"
+        },
+        {
+          "character": "斷",
+          "meaning": "뜻 확인 필요",
+          "sound": "단"
+        },
+        {
+          "character": "處",
+          "meaning": "살",
+          "sound": "처"
+        },
+        {
+          "character": "難",
+          "meaning": "어려울",
+          "sound": "난"
+        },
+        {
+          "character": "可",
+          "meaning": "옳을",
+          "sound": "가"
+        },
+        {
+          "character": "續",
+          "meaning": "뜻 확인 필요",
+          "sound": "속"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "안의"
+      ]
+    },
+    {
+      "id": "MGB-070",
+      "quoteNo": 70,
+      "page": 146,
+      "section": "안의",
+      "promptHanja": "富不親",
+      "promptKorean": "부불친",
+      "promptTranslation": "부유하다고 친하지",
+      "directMeaningHint": "대장부란",
+      "fullHanja": "富不親兮貧不疎\n此是人間大丈夫",
+      "fullKorean": "부불친혜빈불소\n차시인간대장부",
+      "directMeaning": "부유하다고 친하지 않고\n가난하다고 멀리하지 않는 것이 대장부다.",
+      "directMeaningLines": [
+        "부유하다고 친하지 않고",
+        "가난하다고 멀리하지 않는 것이",
+        "대장부다."
+      ],
+      "translation": "부유하다고 친하지 않고\n가난하다고 멀리하지 않는 것이 대장부다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "富不親兮貧不疎",
+        "此是人間大丈夫"
+      ],
+      "koreanLines": [
+        "부불친혜빈불소",
+        "차시인간대장부"
+      ],
+      "characters": [
+        {
+          "character": "富",
+          "meaning": "풍성할",
+          "sound": "부"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "親",
+          "meaning": "친할",
+          "sound": "친"
+        },
+        {
+          "character": "兮",
+          "meaning": "어조사",
+          "sound": "혜"
+        },
+        {
+          "character": "貧",
+          "meaning": "가난할",
+          "sound": "빈"
+        },
+        {
+          "character": "疎",
+          "meaning": "뜻 확인 필요",
+          "sound": "소"
+        },
+        {
+          "character": "此",
+          "meaning": "이",
+          "sound": "차"
+        },
+        {
+          "character": "是",
+          "meaning": "옳을",
+          "sound": "시"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "間",
+          "meaning": "뜻 확인 필요",
+          "sound": "간"
+        },
+        {
+          "character": "大",
+          "meaning": "클",
+          "sound": "대"
+        },
+        {
+          "character": "丈",
+          "meaning": "뜻 확인 필요",
+          "sound": "장"
+        },
+        {
+          "character": "夫",
+          "meaning": "지아비",
+          "sound": "부"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "안의"
+      ]
+    },
+    {
+      "id": "MGB-071",
+      "quoteNo": 71,
+      "page": 147,
+      "section": "준예",
+      "promptHanja": "老少長",
+      "promptKorean": "노소장",
+      "promptTranslation": "노인과 젊은이,",
+      "directMeaningHint": "차례와 도리",
+      "fullHanja": "老少長幼 天分秩序\n不可悖理而傷道也",
+      "fullKorean": "노소장유 천분질서\n불가패리이상도야",
+      "directMeaning": "노인과 젊은이, 어른과 어린이는\n하늘이 차례를 나누었으니\n이치를 어기고 도리를 상하게 하면 안 된다.",
+      "directMeaningLines": [
+        "노인과 젊은이,",
+        "어른과 어린이는",
+        "하늘이 차례를 나누었으니",
+        "이치를 어기고",
+        "도리를 상하게 하면 안 된다."
+      ],
+      "translation": "노인과 젊은이, 어른과 어린이는\n하늘이 차례를 나누었으니\n이치를 어기고 도리를 상하게 하면 안 된다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "老少長幼 天分秩序",
+        "不可悖理而傷道也"
+      ],
+      "koreanLines": [
+        "노소장유 천분질서",
+        "불가패리이상도야"
+      ],
+      "characters": [
+        {
+          "character": "老",
+          "meaning": "뜻 확인 필요",
+          "sound": "노"
+        },
+        {
+          "character": "少",
+          "meaning": "뜻 확인 필요",
+          "sound": "소"
+        },
+        {
+          "character": "長",
+          "meaning": "뜻 확인 필요",
+          "sound": "장"
+        },
+        {
+          "character": "幼",
+          "meaning": "뜻 확인 필요",
+          "sound": "유"
+        },
+        {
+          "character": "天",
+          "meaning": "하늘",
+          "sound": "천"
+        },
+        {
+          "character": "分",
+          "meaning": "뜻 확인 필요",
+          "sound": "분"
+        },
+        {
+          "character": "秩",
+          "meaning": "뜻 확인 필요",
+          "sound": "질"
+        },
+        {
+          "character": "序",
+          "meaning": "뜻 확인 필요",
+          "sound": "서"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "可",
+          "meaning": "옳을",
+          "sound": "가"
+        },
+        {
+          "character": "悖",
+          "meaning": "뜻 확인 필요",
+          "sound": "패"
+        },
+        {
+          "character": "理",
+          "meaning": "뜻 확인 필요",
+          "sound": "리"
+        },
+        {
+          "character": "而",
+          "meaning": "말 이을",
+          "sound": "이"
+        },
+        {
+          "character": "傷",
+          "meaning": "뜻 확인 필요",
+          "sound": "상"
+        },
+        {
+          "character": "道",
+          "meaning": "길",
+          "sound": "도"
+        },
+        {
+          "character": "也",
+          "meaning": "어조사",
+          "sound": "야"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "준예"
+      ]
+    },
+    {
+      "id": "MGB-072",
+      "quoteNo": 72,
+      "page": 148,
+      "section": "준예",
+      "promptHanja": "君子有",
+      "promptKorean": "군자유",
+      "promptTranslation": "군자가 용맹이",
+      "directMeaningHint": "용맹과 예의",
+      "fullHanja": "君子有勇而無禮 爲亂\n小人有勇而無禮 爲盜",
+      "fullKorean": "군자유용이무례 위란\n소인유용이무례 위도",
+      "directMeaning": "군자가 용맹이 있고 예의가 없으면 반란을 일으키고\n소인이 용맹이 있고 예의가 없으면 도적이 된다.",
+      "directMeaningLines": [
+        "군자가 용맹이 있고",
+        "예의가 없으면",
+        "반란을 일으키고",
+        "소인이 용맹이 있고",
+        "예의가 없으면",
+        "도적이 된다."
+      ],
+      "translation": "군자가 용맹이 있고 예의가 없으면 반란을 일으키고\n소인이 용맹이 있고 예의가 없으면 도적이 된다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "君子有勇而無禮 爲亂",
+        "小人有勇而無禮 爲盜"
+      ],
+      "koreanLines": [
+        "군자유용이무례 위란",
+        "소인유용이무례 위도"
+      ],
+      "characters": [
+        {
+          "character": "君",
+          "meaning": "임금",
+          "sound": "군"
+        },
+        {
+          "character": "子",
+          "meaning": "아들",
+          "sound": "자"
+        },
+        {
+          "character": "有",
+          "meaning": "있을",
+          "sound": "유"
+        },
+        {
+          "character": "勇",
+          "meaning": "날쌜",
+          "sound": "용"
+        },
+        {
+          "character": "而",
+          "meaning": "말 이을",
+          "sound": "이"
+        },
+        {
+          "character": "無",
+          "meaning": "없을",
+          "sound": "무"
+        },
+        {
+          "character": "禮",
+          "meaning": "뜻 확인 필요",
+          "sound": "례"
+        },
+        {
+          "character": "爲",
+          "meaning": "할",
+          "sound": "위"
+        },
+        {
+          "character": "亂",
+          "meaning": "뜻 확인 필요",
+          "sound": "란"
+        },
+        {
+          "character": "小",
+          "meaning": "작을",
+          "sound": "소"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "盜",
+          "meaning": "뜻 확인 필요",
+          "sound": "도"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "준예"
+      ]
+    },
+    {
+      "id": "MGB-073",
+      "quoteNo": 73,
+      "page": 152,
+      "section": "준예",
+      "promptHanja": "出門如",
+      "promptKorean": "출문여",
+      "promptTranslation": "문 밖에",
+      "directMeaningHint": "언제나 공경",
+      "fullHanja": "出門如見大賓\n入室如有人",
+      "fullKorean": "출문여견대빈\n입실여유인",
+      "directMeaning": "문 밖에 나가서는 큰 손님을 뵐 듯이 하고\n집에 들어와서는 사람이 있는 것 같이 하라.",
+      "directMeaningLines": [
+        "문 밖에 나가서는",
+        "큰 손님을 뵐 듯이 하고",
+        "집에 들어와서는",
+        "사람이 있는 것 같이 하라."
+      ],
+      "translation": "문 밖에 나가서는 큰 손님을 뵐 듯이 하고\n집에 들어와서는 사람이 있는 것 같이 하라.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "出門如見大賓",
+        "入室如有人"
+      ],
+      "koreanLines": [
+        "출문여견대빈",
+        "입실여유인"
+      ],
+      "characters": [
+        {
+          "character": "出",
+          "meaning": "뜻 확인 필요",
+          "sound": "출"
+        },
+        {
+          "character": "門",
+          "meaning": "뜻 확인 필요",
+          "sound": "문"
+        },
+        {
+          "character": "如",
+          "meaning": "같을",
+          "sound": "여"
+        },
+        {
+          "character": "見",
+          "meaning": "볼",
+          "sound": "견"
+        },
+        {
+          "character": "大",
+          "meaning": "클",
+          "sound": "대"
+        },
+        {
+          "character": "賓",
+          "meaning": "뜻 확인 필요",
+          "sound": "빈"
+        },
+        {
+          "character": "入",
+          "meaning": "뜻 확인 필요",
+          "sound": "입"
+        },
+        {
+          "character": "室",
+          "meaning": "뜻 확인 필요",
+          "sound": "실"
+        },
+        {
+          "character": "有",
+          "meaning": "있을",
+          "sound": "유"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "준예"
+      ]
+    },
+    {
+      "id": "MGB-074",
+      "quoteNo": 74,
+      "page": 153,
+      "section": "준예",
+      "promptHanja": "若要人",
+      "promptKorean": "약요인",
+      "promptTranslation": "만약 남이",
+      "directMeaningHint": "남을 중히",
+      "fullHanja": "若要人重我\n無過我重人",
+      "fullKorean": "약요인중아\n무과아중인",
+      "directMeaning": "만약 남이 나를 소중하게 여기기를 바란다면\n나도 남을 소중하게 여겨야 한다.",
+      "directMeaningLines": [
+        "만약 남이 나를",
+        "소중하게 여기기를 바란다면",
+        "나도 남을",
+        "소중하게 여겨야 한다."
+      ],
+      "translation": "만약 남이 나를 소중하게 여기기를 바란다면\n나도 남을 소중하게 여겨야 한다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "若要人重我",
+        "無過我重人"
+      ],
+      "koreanLines": [
+        "약요인중아",
+        "무과아중인"
+      ],
+      "characters": [
+        {
+          "character": "若",
+          "meaning": "같을",
+          "sound": "약"
+        },
+        {
+          "character": "要",
+          "meaning": "뜻 확인 필요",
+          "sound": "요"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "重",
+          "meaning": "뜻 확인 필요",
+          "sound": "중"
+        },
+        {
+          "character": "我",
+          "meaning": "나",
+          "sound": "아"
+        },
+        {
+          "character": "無",
+          "meaning": "없을",
+          "sound": "무"
+        },
+        {
+          "character": "過",
+          "meaning": "지날",
+          "sound": "과"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "준예"
+      ]
+    },
+    {
+      "id": "MGB-075",
+      "quoteNo": 75,
+      "page": 154,
+      "section": "준예",
+      "promptHanja": "父不言",
+      "promptKorean": "부불언",
+      "promptTranslation": "아버지는 자식의",
+      "directMeaningHint": "부모와 자식",
+      "fullHanja": "父不言子之德\n子不談父之過",
+      "fullKorean": "부불언자지덕\n자부담부지과",
+      "directMeaning": "아버지는 자식의 덕을 말하지 아니하고\n아들은 아버지의 허물을 말하지 아니한다.",
+      "directMeaningLines": [
+        "아버지는 자식의 덕을",
+        "말하지 아니하고",
+        "아들은 아버지의 허물을",
+        "말하지 아니한다."
+      ],
+      "translation": "아버지는 자식의 덕을 말하지 아니하고\n아들은 아버지의 허물을 말하지 아니한다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "父不言子之德",
+        "子不談父之過"
+      ],
+      "koreanLines": [
+        "부불언자지덕",
+        "자부담부지과"
+      ],
+      "characters": [
+        {
+          "character": "父",
+          "meaning": "아비",
+          "sound": "부"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "言",
+          "meaning": "말씀",
+          "sound": "언"
+        },
+        {
+          "character": "子",
+          "meaning": "아들",
+          "sound": "자"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "德",
+          "meaning": "덕",
+          "sound": "덕"
+        },
+        {
+          "character": "談",
+          "meaning": "뜻 확인 필요",
+          "sound": "담"
+        },
+        {
+          "character": "過",
+          "meaning": "지날",
+          "sound": "과"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "준예"
+      ]
+    },
+    {
+      "id": "MGB-076",
+      "quoteNo": 76,
+      "page": 158,
+      "section": "언어",
+      "promptHanja": "言不中",
+      "promptKorean": "언부중",
+      "promptTranslation": "이치에 맞지",
+      "directMeaningHint": "맞지 않는 말",
+      "fullHanja": "言不中理\n不如不言",
+      "fullKorean": "언부중리\n불여불언",
+      "directMeaning": "이치에 맞지 않는 말은\n안 하는 편이 더 낫다.",
+      "directMeaningLines": [
+        "이치에 맞지 않는 말은",
+        "안 하는 편이 더 낫다."
+      ],
+      "translation": "이치에 맞지 않는 말은\n안 하는 편이 더 낫다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "言不中理",
+        "不如不言"
+      ],
+      "koreanLines": [
+        "언부중리",
+        "불여불언"
+      ],
+      "characters": [
+        {
+          "character": "言",
+          "meaning": "말씀",
+          "sound": "언"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "中",
+          "meaning": "가운데",
+          "sound": "중"
+        },
+        {
+          "character": "理",
+          "meaning": "뜻 확인 필요",
+          "sound": "리"
+        },
+        {
+          "character": "如",
+          "meaning": "같을",
+          "sound": "여"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "언어"
+      ]
+    },
+    {
+      "id": "MGB-077",
+      "quoteNo": 77,
+      "page": 159,
+      "section": "언어",
+      "promptHanja": "一言不",
+      "promptKorean": "일언부",
+      "promptTranslation": "한 마디",
+      "directMeaningHint": "한 마디 말",
+      "fullHanja": "一言不中\n千語無用",
+      "fullKorean": "일언부중\n천어무용",
+      "directMeaning": "한 마디 말이 맞지 않으면\n천 마디 말이 쓸데없다.",
+      "directMeaningLines": [
+        "한 마디 말이 맞지 않으면",
+        "천 마디 말이 쓸데없다."
+      ],
+      "translation": "한 마디 말이 맞지 않으면\n천 마디 말이 쓸데없다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "一言不中",
+        "千語無用"
+      ],
+      "koreanLines": [
+        "일언부중",
+        "천어무용"
+      ],
+      "characters": [
+        {
+          "character": "一",
+          "meaning": "한",
+          "sound": "일"
+        },
+        {
+          "character": "言",
+          "meaning": "말씀",
+          "sound": "언"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "中",
+          "meaning": "가운데",
+          "sound": "중"
+        },
+        {
+          "character": "千",
+          "meaning": "뜻 확인 필요",
+          "sound": "천"
+        },
+        {
+          "character": "語",
+          "meaning": "뜻 확인 필요",
+          "sound": "어"
+        },
+        {
+          "character": "無",
+          "meaning": "없을",
+          "sound": "무"
+        },
+        {
+          "character": "用",
+          "meaning": "쓸",
+          "sound": "용"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "언어"
+      ]
+    },
+    {
+      "id": "MGB-078",
+      "quoteNo": 78,
+      "page": 160,
+      "section": "언어",
+      "promptHanja": "口舌者",
+      "promptKorean": "구설자",
+      "promptTranslation": "입과 혀는",
+      "directMeaningHint": "입과 혀는",
+      "fullHanja": "口舌者 禍患之門\n滅身之斧也",
+      "fullKorean": "구설자 화환지문\n멸신지부야",
+      "directMeaning": "입과 혀는 재앙과 근심의 문이요\n몸을 망치는 도끼와 같다.",
+      "directMeaningLines": [
+        "입과 혀는",
+        "재앙과 근심의 문이요",
+        "몸을 망치는",
+        "도끼와 같다."
+      ],
+      "translation": "입과 혀는 재앙과 근심의 문이요\n몸을 망치는 도끼와 같다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "口舌者 禍患之門",
+        "滅身之斧也"
+      ],
+      "koreanLines": [
+        "구설자 화환지문",
+        "멸신지부야"
+      ],
+      "characters": [
+        {
+          "character": "口",
+          "meaning": "입",
+          "sound": "구"
+        },
+        {
+          "character": "舌",
+          "meaning": "뜻 확인 필요",
+          "sound": "설"
+        },
+        {
+          "character": "者",
+          "meaning": "놈",
+          "sound": "자"
+        },
+        {
+          "character": "禍",
+          "meaning": "재앙",
+          "sound": "화"
+        },
+        {
+          "character": "患",
+          "meaning": "뜻 확인 필요",
+          "sound": "환"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "門",
+          "meaning": "뜻 확인 필요",
+          "sound": "문"
+        },
+        {
+          "character": "滅",
+          "meaning": "뜻 확인 필요",
+          "sound": "멸"
+        },
+        {
+          "character": "身",
+          "meaning": "몸",
+          "sound": "신"
+        },
+        {
+          "character": "斧",
+          "meaning": "뜻 확인 필요",
+          "sound": "부"
+        },
+        {
+          "character": "也",
+          "meaning": "어조사",
+          "sound": "야"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "언어"
+      ]
+    },
+    {
+      "id": "MGB-079",
+      "quoteNo": 79,
+      "page": 164,
+      "section": "교우",
+      "promptHanja": "相識滿",
+      "promptKorean": "상식만",
+      "promptTranslation": "서로 얼굴을",
+      "directMeaningHint": "마음을 아는 사람",
+      "fullHanja": "相識滿天下\n知心能幾人",
+      "fullKorean": "상식만천하\n지심능기인",
+      "directMeaning": "서로 얼굴을 아는 사람은 세상에 많지만\n서로 마음을 아는 사람이 몇이나 될까.",
+      "directMeaningLines": [
+        "서로 얼굴을 아는 사람은",
+        "세상에 많지만",
+        "서로 마음을 아는 사람이",
+        "몇이나 될까."
+      ],
+      "translation": "서로 얼굴을 아는 사람은 세상에 많지만\n서로 마음을 아는 사람이 몇이나 될까.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "相識滿天下",
+        "知心能幾人"
+      ],
+      "koreanLines": [
+        "상식만천하",
+        "지심능기인"
+      ],
+      "characters": [
+        {
+          "character": "相",
+          "meaning": "서로",
+          "sound": "상"
+        },
+        {
+          "character": "識",
+          "meaning": "뜻 확인 필요",
+          "sound": "식"
+        },
+        {
+          "character": "滿",
+          "meaning": "찰",
+          "sound": "만"
+        },
+        {
+          "character": "天",
+          "meaning": "하늘",
+          "sound": "천"
+        },
+        {
+          "character": "下",
+          "meaning": "아래",
+          "sound": "하"
+        },
+        {
+          "character": "知",
+          "meaning": "알",
+          "sound": "지"
+        },
+        {
+          "character": "心",
+          "meaning": "마음",
+          "sound": "심"
+        },
+        {
+          "character": "能",
+          "meaning": "능할",
+          "sound": "능"
+        },
+        {
+          "character": "幾",
+          "meaning": "기미",
+          "sound": "기"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "교우"
+      ]
+    },
+    {
+      "id": "MGB-080",
+      "quoteNo": 80,
+      "page": 165,
+      "section": "교우",
+      "promptHanja": "與好學",
+      "promptKorean": "여호학",
+      "promptTranslation": "배우기를 좋아하는",
+      "directMeaningHint": "좋은 배움",
+      "fullHanja": "與好學人同行 如霧露中行\n雖不濕衣 時時有潤",
+      "fullKorean": "여호학인동행 여무로중행\n수불습의 시시유윤",
+      "directMeaning": "배우기를 좋아하는 사람과 함께 가면\n안개 속을 가는 것과 같아서\n비록 옷은 흠뻑 젖지 않더라도\n점점 물기가 배어든다.",
+      "directMeaningLines": [
+        "배우기를 좋아하는 사람과",
+        "함께 가면",
+        "안개 속을 가는 것과 같아서",
+        "비록 옷은 흠뻑 젖지 않더라도",
+        "점점 물기가 배어든다."
+      ],
+      "translation": "배우기를 좋아하는 사람과 함께 가면\n안개 속을 가는 것과 같아서\n비록 옷은 흠뻑 젖지 않더라도\n점점 물기가 배어든다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "與好學人同行 如霧露中行",
+        "雖不濕衣 時時有潤"
+      ],
+      "koreanLines": [
+        "여호학인동행 여무로중행",
+        "수불습의 시시유윤"
+      ],
+      "characters": [
+        {
+          "character": "與",
+          "meaning": "줄",
+          "sound": "여"
+        },
+        {
+          "character": "好",
+          "meaning": "좋을",
+          "sound": "호"
+        },
+        {
+          "character": "學",
+          "meaning": "배울",
+          "sound": "학"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "同",
+          "meaning": "뜻 확인 필요",
+          "sound": "동"
+        },
+        {
+          "character": "行",
+          "meaning": "갈",
+          "sound": "행"
+        },
+        {
+          "character": "如",
+          "meaning": "같을",
+          "sound": "여"
+        },
+        {
+          "character": "霧",
+          "meaning": "뜻 확인 필요",
+          "sound": "무"
+        },
+        {
+          "character": "露",
+          "meaning": "뜻 확인 필요",
+          "sound": "로"
+        },
+        {
+          "character": "中",
+          "meaning": "가운데",
+          "sound": "중"
+        },
+        {
+          "character": "雖",
+          "meaning": "비록",
+          "sound": "수"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "濕",
+          "meaning": "뜻 확인 필요",
+          "sound": "습"
+        },
+        {
+          "character": "衣",
+          "meaning": "뜻 확인 필요",
+          "sound": "의"
+        },
+        {
+          "character": "時",
+          "meaning": "때",
+          "sound": "시"
+        },
+        {
+          "character": "有",
+          "meaning": "있을",
+          "sound": "유"
+        },
+        {
+          "character": "潤",
+          "meaning": "뜻 확인 필요",
+          "sound": "윤"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "교우"
+      ]
+    },
+    {
+      "id": "MGB-081",
+      "quoteNo": 81,
+      "page": 166,
+      "section": "교우",
+      "promptHanja": "不結子",
+      "promptKorean": "불결자",
+      "promptTranslation": "열매를 맺지",
+      "directMeaningHint": "의리 없는 벗",
+      "fullHanja": "不結子花 休要種\n無義之朋 不可交",
+      "fullKorean": "불결자화 휴요종\n무의지붕 불가교",
+      "directMeaning": "열매를 맺지 않는 꽃은 심을 필요가 없고\n의리가 없는 벗은 사귀지 말라.",
+      "directMeaningLines": [
+        "열매를 맺지 않는 꽃은",
+        "심을 필요가 없고",
+        "의리가 없는 벗은",
+        "사귀지 말라."
+      ],
+      "translation": "열매를 맺지 않는 꽃은 심을 필요가 없고\n의리가 없는 벗은 사귀지 말라.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "不結子花 休要種",
+        "無義之朋 不可交"
+      ],
+      "koreanLines": [
+        "불결자화 휴요종",
+        "무의지붕 불가교"
+      ],
+      "characters": [
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "結",
+          "meaning": "맺을",
+          "sound": "결"
+        },
+        {
+          "character": "子",
+          "meaning": "아들",
+          "sound": "자"
+        },
+        {
+          "character": "花",
+          "meaning": "뜻 확인 필요",
+          "sound": "화"
+        },
+        {
+          "character": "休",
+          "meaning": "뜻 확인 필요",
+          "sound": "휴"
+        },
+        {
+          "character": "要",
+          "meaning": "뜻 확인 필요",
+          "sound": "요"
+        },
+        {
+          "character": "種",
+          "meaning": "씨",
+          "sound": "종"
+        },
+        {
+          "character": "無",
+          "meaning": "없을",
+          "sound": "무"
+        },
+        {
+          "character": "義",
+          "meaning": "옳을",
+          "sound": "의"
+        },
+        {
+          "character": "之",
+          "meaning": "갈",
+          "sound": "지"
+        },
+        {
+          "character": "朋",
+          "meaning": "뜻 확인 필요",
+          "sound": "붕"
+        },
+        {
+          "character": "可",
+          "meaning": "옳을",
+          "sound": "가"
+        },
+        {
+          "character": "交",
+          "meaning": "사귈",
+          "sound": "교"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "교우"
+      ]
+    },
+    {
+      "id": "MGB-082",
+      "quoteNo": 82,
+      "page": 170,
+      "section": "교우",
+      "promptHanja": "路遙知",
+      "promptKorean": "로요지",
+      "promptTranslation": "길이 멀면",
+      "directMeaningHint": "오래 보아야",
+      "fullHanja": "路遙知馬力\n日久見人心",
+      "fullKorean": "로요지마력\n일구견인심",
+      "directMeaning": "길이 멀면 말의 힘을 알게 되고\n시간이 흘러야 사람의 마음을 보게 된다.",
+      "directMeaningLines": [
+        "길이 멀면",
+        "말의 힘을 알게 되고",
+        "시간이 흘러야",
+        "사람의 마음을 보게 된다."
+      ],
+      "translation": "길이 멀면 말의 힘을 알게 되고\n시간이 흘러야 사람의 마음을 보게 된다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "路遙知馬力",
+        "日久見人心"
+      ],
+      "koreanLines": [
+        "로요지마력",
+        "일구견인심"
+      ],
+      "characters": [
+        {
+          "character": "路",
+          "meaning": "길",
+          "sound": "노"
+        },
+        {
+          "character": "遙",
+          "meaning": "뜻 확인 필요",
+          "sound": "요"
+        },
+        {
+          "character": "知",
+          "meaning": "알",
+          "sound": "지"
+        },
+        {
+          "character": "馬",
+          "meaning": "뜻 확인 필요",
+          "sound": "마"
+        },
+        {
+          "character": "力",
+          "meaning": "뜻 확인 필요",
+          "sound": "력"
+        },
+        {
+          "character": "日",
+          "meaning": "날",
+          "sound": "일"
+        },
+        {
+          "character": "久",
+          "meaning": "오랠",
+          "sound": "구"
+        },
+        {
+          "character": "見",
+          "meaning": "볼",
+          "sound": "견"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        },
+        {
+          "character": "心",
+          "meaning": "마음",
+          "sound": "심"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "교우"
+      ]
+    },
+    {
+      "id": "MGB-083",
+      "quoteNo": 83,
+      "page": 171,
+      "section": "권학",
+      "promptHanja": "勿謂今",
+      "promptKorean": "물위금",
+      "promptTranslation": "오늘 배우지",
+      "directMeaningHint": "오늘 배우기",
+      "fullHanja": "勿謂今日不學而有來日\n勿謂今年不學而有來年",
+      "fullKorean": "물위금일불학이유래일\n물위금년불학이유래년",
+      "directMeaning": "오늘 배우지 않고 내일 배운다고 말하지 말라.\n올해 배우지 않고 내년에 배운다고 말하지도 말라.",
+      "directMeaningLines": [
+        "오늘 배우지 않고",
+        "내일 배운다고 말하지 말라.",
+        "올해 배우지 않고",
+        "내년에 배운다고 말하지도 말라."
+      ],
+      "translation": "오늘 배우지 않고 내일 배운다고 말하지 말라.\n올해 배우지 않고 내년에 배운다고 말하지도 말라.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "勿謂今日不學而有來日",
+        "勿謂今年不學而有來年"
+      ],
+      "koreanLines": [
+        "물위금일불학이유래일",
+        "물위금년불학이유래년"
+      ],
+      "characters": [
+        {
+          "character": "勿",
+          "meaning": "말",
+          "sound": "물"
+        },
+        {
+          "character": "謂",
+          "meaning": "뜻 확인 필요",
+          "sound": "위"
+        },
+        {
+          "character": "今",
+          "meaning": "이제",
+          "sound": "금"
+        },
+        {
+          "character": "日",
+          "meaning": "날",
+          "sound": "일"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "學",
+          "meaning": "배울",
+          "sound": "학"
+        },
+        {
+          "character": "而",
+          "meaning": "말 이을",
+          "sound": "이"
+        },
+        {
+          "character": "有",
+          "meaning": "있을",
+          "sound": "유"
+        },
+        {
+          "character": "來",
+          "meaning": "올",
+          "sound": "래"
+        },
+        {
+          "character": "年",
+          "meaning": "뜻 확인 필요",
+          "sound": "년"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "권학"
+      ]
+    },
+    {
+      "id": "MGB-084",
+      "quoteNo": 84,
+      "page": 172,
+      "section": "권학",
+      "promptHanja": "盛年不",
+      "promptKorean": "성년부",
+      "promptTranslation": "젊은 나이는",
+      "directMeaningHint": "젊은 때는",
+      "fullHanja": "盛年不重來 一日難再晨\n及時當勉勵 歲月不待人",
+      "fullKorean": "성년부중래 일일난재신\n급시당면려 세월부대인",
+      "directMeaning": "젊은 나이는 다시 오지 않고\n하루의 새벽은 두 번 오기 어렵다.\n그때그때 할 일을 다하라.\n세월이 사람을 기다려 주지 않는다.",
+      "directMeaningLines": [
+        "젊은 나이는 다시 오지 않고",
+        "하루의 새벽은",
+        "두 번 오기 어렵다.",
+        "그때그때 할 일을 다하라.",
+        "세월이 사람을",
+        "기다려 주지 않는다."
+      ],
+      "translation": "젊은 나이는 다시 오지 않고\n하루의 새벽은 두 번 오기 어렵다.\n그때그때 할 일을 다하라.\n세월이 사람을 기다려 주지 않는다.",
+      "deepMeaning": "",
+      "hanjaLines": [
+        "盛年不重來 一日難再晨",
+        "及時當勉勵 歲月不待人"
+      ],
+      "koreanLines": [
+        "성년부중래 일일난재신",
+        "급시당면려 세월부대인"
+      ],
+      "characters": [
+        {
+          "character": "盛",
+          "meaning": "뜻 확인 필요",
+          "sound": "성"
+        },
+        {
+          "character": "年",
+          "meaning": "뜻 확인 필요",
+          "sound": "년"
+        },
+        {
+          "character": "不",
+          "meaning": "아닐",
+          "sound": "불"
+        },
+        {
+          "character": "重",
+          "meaning": "뜻 확인 필요",
+          "sound": "중"
+        },
+        {
+          "character": "來",
+          "meaning": "올",
+          "sound": "래"
+        },
+        {
+          "character": "一",
+          "meaning": "한",
+          "sound": "일"
+        },
+        {
+          "character": "日",
+          "meaning": "날",
+          "sound": "일"
+        },
+        {
+          "character": "難",
+          "meaning": "어려울",
+          "sound": "난"
+        },
+        {
+          "character": "再",
+          "meaning": "뜻 확인 필요",
+          "sound": "재"
+        },
+        {
+          "character": "晨",
+          "meaning": "뜻 확인 필요",
+          "sound": "신"
+        },
+        {
+          "character": "及",
+          "meaning": "미칠",
+          "sound": "급"
+        },
+        {
+          "character": "時",
+          "meaning": "때",
+          "sound": "시"
+        },
+        {
+          "character": "當",
+          "meaning": "뜻 확인 필요",
+          "sound": "당"
+        },
+        {
+          "character": "勉",
+          "meaning": "뜻 확인 필요",
+          "sound": "면"
+        },
+        {
+          "character": "勵",
+          "meaning": "뜻 확인 필요",
+          "sound": "려"
+        },
+        {
+          "character": "歲",
+          "meaning": "뜻 확인 필요",
+          "sound": "세"
+        },
+        {
+          "character": "月",
+          "meaning": "뜻 확인 필요",
+          "sound": "월"
+        },
+        {
+          "character": "待",
+          "meaning": "뜻 확인 필요",
+          "sound": "대"
+        },
+        {
+          "character": "人",
+          "meaning": "사람",
+          "sound": "인"
+        }
+      ],
+      "sourceFile": "pasted-text-remaining-pages-104-172.txt",
+      "reviewStatus": "verified_structural_pass_text_draft",
+      "reviewNote": "directMeaning은 제공 텍스트 원문을 보존했습니다. characters.meaning은 기존 데이터에 있는 글자는 재사용하고, 미확보 글자는 뜻 확인 필요로 표시했습니다.",
+      "tags": [
+        "권학"
+      ]
     }
   ]
 }
