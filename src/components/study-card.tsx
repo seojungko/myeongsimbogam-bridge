@@ -2,13 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
-import { Mic } from "lucide-react";
 import { cn } from "@/lib/cn";
-import {
-  useHanjaVoiceRecognition,
-  useKoreanMeaningVoiceRecognition
-} from "@/lib/use-hanja-voice-recognition";
-import { useVoiceBeta, useVoiceDebug } from "@/lib/use-voice-beta";
 import type { StudyPageRecord } from "@dataset/types";
 
 type StudyCardProps = {
@@ -23,7 +17,6 @@ type MaskedTranslationPart =
       key: string;
       type: "cover";
       value: string;
-      voiceIndex: number | null;
       widthEm: number;
     }
   | {
@@ -35,7 +28,6 @@ type MaskedTranslationPart =
       key: string;
       type: "visible";
       value: string;
-      voiceIndex: number | null;
     };
 type PhraseCell =
   | {
@@ -43,7 +35,6 @@ type PhraseCell =
       hanja: string;
       key: string;
       reading: string;
-      recognized: boolean;
       type: "character";
     }
   | {
@@ -72,7 +63,6 @@ type RangeCelebration = {
 };
 
 const LEARNED_RECORD_IDS_KEY = "bridge.learnedRecordIds";
-const VOICE_BETA_INTRO_SEEN_KEY = "voiceBetaIntroSeen";
 const COMPLETION_SPARKLE_MS = 560;
 const RANGE_CELEBRATION_HEADLINES = [
   "대단해!",
@@ -399,12 +389,10 @@ function getHanjaSizeTier(rows: PhraseRow[]): HanjaSizeTier {
 
 function buildPhraseLayout(
   passage: StudyPageRecord,
-  visibleAnswer: boolean,
-  recognizedVoiceIndices: readonly number[]
+  visibleAnswer: boolean
 ): PhraseLayout {
   const rows: PhraseCell[][] = [[]];
   const readings = passage.fullKorean.match(/[\uAC00-\uD7A3]/gu) ?? [];
-  const recognizedVoiceIndexSet = new Set(recognizedVoiceIndices);
   const visibleOffsets = visibleAnswer
     ? null
     : getVisibleOffsets(passage.fullHanja, passage.promptHanja);
@@ -430,15 +418,12 @@ function buildPhraseLayout(
     const reading = readings[readingIndex] ?? "";
     const isCueVisible =
       visibleAnswer || visibleOffsets?.has(textOffset) === true;
-    const isRecognized =
-      reading.length > 0 && recognizedVoiceIndexSet.has(readingIndex);
 
     rows[rows.length - 1].push({
       cueVisible: isCueVisible,
       hanja,
       key: `character-${textOffset}-${hanja}`,
       reading,
-      recognized: isRecognized,
       type: "character"
     });
 
@@ -468,10 +453,6 @@ function getCoverWidthEm(value: string) {
   return Math.min(Math.max(visibleCharacters * 0.5, 1.2), 6.8);
 }
 
-function normalizeMeaningToken(value: string) {
-  return value.match(/[\uAC00-\uD7A30-9]+/gu)?.join("") ?? "";
-}
-
 function buildMaskedTranslationParts(
   fullText: string,
   prompt: string,
@@ -481,7 +462,6 @@ function buildMaskedTranslationParts(
   const tokens = fullText.match(/\s+|\S+/gu) ?? [];
   const promptIndex = prompt.length > 0 ? fullText.indexOf(prompt) : -1;
   let textOffset = 0;
-  let voiceIndex = 0;
 
   tokens.forEach((token, index) => {
     if (/^\s+$/u.test(token)) {
@@ -494,8 +474,6 @@ function buildMaskedTranslationParts(
       return;
     }
 
-    const normalizedToken = normalizeMeaningToken(token);
-    const tokenVoiceIndex = normalizedToken.length > 0 ? voiceIndex : null;
     const tokenStartsInPrompt =
       promptIndex >= 0 &&
       textOffset >= promptIndex &&
@@ -511,21 +489,15 @@ function buildMaskedTranslationParts(
       parts.push({
         key: `visible-${index}-${textOffset}`,
         type: "visible" as const,
-        value: token,
-        voiceIndex: tokenVoiceIndex
+        value: token
       });
     } else {
       parts.push({
         key: `cover-${index}-${textOffset}`,
         type: "cover",
         value: token,
-        voiceIndex: tokenVoiceIndex,
         widthEm: getCoverWidthEm(token)
       });
-    }
-
-    if (normalizedToken.length > 0) {
-      voiceIndex += 1;
     }
 
     textOffset += token.length;
@@ -565,8 +537,6 @@ function writeLearnedRecordIds(recordIds: Set<string>) {
 }
 
 export function StudyCard({ passages }: StudyCardProps) {
-  const isVoiceBetaEnabled = useVoiceBeta();
-  const isVoiceDebugEnabled = useVoiceDebug();
   const completionTimeoutRef = useRef<number | null>(null);
   const [pageIndex, setPageIndex] = useState(0);
   const [completionSparkleRecordId, setCompletionSparkleRecordId] = useState<
@@ -576,8 +546,6 @@ export function StudyCard({ passages }: StudyCardProps) {
   const [isCharacterMeaningPeeking, setIsCharacterMeaningPeeking] =
     useState(false);
   const [isPeeking, setIsPeeking] = useState(false);
-  const [showVoiceIntro, setShowVoiceIntro] = useState(false);
-  const [voiceModeEnabled, setVoiceModeEnabled] = useState(false);
   const [rangeCelebration, setRangeCelebration] =
     useState<RangeCelebration | null>(null);
   const [showRangeSheet, setShowRangeSheet] = useState(false);
@@ -592,49 +560,6 @@ export function StudyCard({ passages }: StudyCardProps) {
   }, []);
 
   useEffect(() => {
-    if (!isVoiceBetaEnabled) {
-      setShowVoiceIntro(false);
-      setVoiceModeEnabled(false);
-      return;
-    }
-
-    try {
-      setShowVoiceIntro(
-        window.localStorage.getItem(VOICE_BETA_INTRO_SEEN_KEY) !== "true"
-      );
-    } catch {
-      setShowVoiceIntro(true);
-    }
-  }, [isVoiceBetaEnabled]);
-
-  useEffect(() => {
-    if (!isVoiceBetaEnabled) {
-      setVoiceModeEnabled(false);
-      return;
-    }
-
-    function disableVoiceModeForBackground() {
-      setVoiceModeEnabled(false);
-    }
-
-    function handleVisibilityChange() {
-      if (document.visibilityState === "hidden") {
-        disableVoiceModeForBackground();
-      }
-    }
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("pagehide", disableVoiceModeForBackground);
-    window.addEventListener("freeze", disableVoiceModeForBackground);
-
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("pagehide", disableVoiceModeForBackground);
-      window.removeEventListener("freeze", disableVoiceModeForBackground);
-    };
-  }, [isVoiceBetaEnabled]);
-
-  useEffect(() => {
     return () => {
       if (completionTimeoutRef.current !== null) {
         window.clearTimeout(completionTimeoutRef.current);
@@ -643,29 +568,6 @@ export function StudyCard({ passages }: StudyCardProps) {
   }, []);
 
   const totalPages = passages.length;
-  const voicePassage =
-    passages[Math.min(pageIndex, Math.max(totalPages - 1, 0))];
-  const voiceMeaningText = voicePassage ? getMeaningText(voicePassage) : "";
-  const hanjaVoiceRecognition = useHanjaVoiceRecognition({
-    enabled:
-      isVoiceBetaEnabled &&
-      viewMode === "phrase" &&
-      !isCompletingRecord &&
-      totalPages > 0,
-    expectedText: voicePassage?.fullKorean ?? "",
-    onVoiceModeUnavailable: disableVoiceMode,
-    voiceModeEnabled
-  });
-  const meaningVoiceRecognition = useKoreanMeaningVoiceRecognition({
-    enabled:
-      isVoiceBetaEnabled &&
-      viewMode === "meaning" &&
-      !isCompletingRecord &&
-      totalPages > 0,
-    expectedText: voiceMeaningText,
-    onVoiceModeUnavailable: disableVoiceMode,
-    voiceModeEnabled
-  });
 
   if (totalPages === 0) {
     return (
@@ -703,49 +605,13 @@ export function StudyCard({ passages }: StudyCardProps) {
   );
   const phraseLayout = buildPhraseLayout(
     passage,
-    phraseAnswerVisible,
-    isVoiceBetaEnabled ? hanjaVoiceRecognition.recognizedIndices : []
+    phraseAnswerVisible
   );
-  const phraseCells = phraseLayout.rows.flatMap((row) =>
-    row.cells.filter((cell) => cell.type === "character")
-  );
-  const visualUnitCount = phraseCells.length;
-  const cueVisibleCount = phraseCells.filter((cell) => cell.cueVisible).length;
   const hanjaClasses = hanjaSizeClasses[phraseLayout.sizeTier];
   const isFirstRecord = currentIndex === 0;
   const isLastRecord = currentIndex === totalPages - 1;
   const isLastRecordInCurrentRange =
     currentRangePosition === currentRangeRecords.length - 1;
-  const activeVoiceRecognition = isMeaningMode
-    ? meaningVoiceRecognition
-    : hanjaVoiceRecognition;
-  const isVoiceControlUnavailable =
-    activeVoiceRecognition.support === "unsupported";
-  const isVoiceListening = activeVoiceRecognition.isListening;
-  const isVoiceModeOn = isVoiceBetaEnabled && voiceModeEnabled;
-
-  function disableVoiceMode() {
-    setVoiceModeEnabled(false);
-  }
-
-  function dismissVoiceIntro() {
-    try {
-      window.localStorage.setItem(VOICE_BETA_INTRO_SEEN_KEY, "true");
-    } catch {
-      // Keep the guidance lightweight even when storage is unavailable.
-    }
-
-    setShowVoiceIntro(false);
-  }
-
-  function toggleVoiceListening() {
-    if (!isVoiceBetaEnabled || isVoiceControlUnavailable) {
-      return;
-    }
-
-    setVoiceModeEnabled((currentValue) => !currentValue);
-  }
-
   function moveToRecord(nextIndex: number) {
     if (isCompletingRecord) {
       return;
@@ -757,8 +623,6 @@ export function StudyCard({ passages }: StudyCardProps) {
       return;
     }
 
-    hanjaVoiceRecognition.stopListening();
-    meaningVoiceRecognition.stopListening();
     setIsPeeking(false);
     setIsCharacterMeaningPeeking(false);
     setShowRangeSheet(false);
@@ -773,8 +637,6 @@ export function StudyCard({ passages }: StudyCardProps) {
   }
 
   function switchMode(nextMode: StudyViewMode) {
-    hanjaVoiceRecognition.stopListening();
-    meaningVoiceRecognition.stopListening();
     setIsPeeking(false);
     setIsCharacterMeaningPeeking(false);
     setViewMode(nextMode);
@@ -836,8 +698,6 @@ export function StudyCard({ passages }: StudyCardProps) {
       return;
     }
 
-    hanjaVoiceRecognition.stopListening();
-    meaningVoiceRecognition.stopListening();
     setIsPeeking(false);
     setIsCharacterMeaningPeeking(false);
 
@@ -898,30 +758,6 @@ export function StudyCard({ passages }: StudyCardProps) {
         className="book-cover pointer-events-none absolute inset-0 rounded-lg"
         aria-hidden
       />
-
-      {showVoiceIntro ? (
-        <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/45 px-5">
-          <div className="w-full max-w-xs rounded-2xl border border-white/5 bg-[#121212]/95 p-5 text-center shadow-soft">
-            <p className="whitespace-pre-line text-[0.95rem] font-bold leading-7 text-white/86">
-              {`'처음 만나는 명심보감' 책의
-암기를 돕기 위한 앱이에요.
-
-카드 영역을 길게 누르면
-가려진 글자가 보여요.
-
-마이크를 켜고 소리내어 읽으면
-맞힌 글자가 파란색으로 변해요.`}
-            </p>
-            <button
-              type="button"
-              className="mt-5 min-h-11 rounded-full bg-[rgb(var(--accent))] px-6 text-sm font-black text-black transition active:scale-[0.98]"
-              onClick={dismissVoiceIntro}
-            >
-              화이팅🎉
-            </button>
-          </div>
-        </div>
-      ) : null}
 
       {showRangeSheet ? (
         <div className="absolute inset-0 z-30 flex items-end bg-black/50">
@@ -1016,29 +852,6 @@ export function StudyCard({ passages }: StudyCardProps) {
       <div className="relative z-10 flex min-h-0 w-full flex-col">
         <header className="study-card-header shrink-0">
           <div className="relative min-h-9">
-            {isVoiceBetaEnabled ? (
-              <button
-                type="button"
-                className={cn(
-                  "absolute left-0 top-0 flex size-9 items-center justify-center rounded-full transition",
-                  isVoiceModeOn
-                    ? "bg-[rgb(var(--accent)/0.2)] text-[rgb(var(--accent))] shadow-[0_0_18px_rgb(var(--accent)/0.12)]"
-                    : "bg-white/8 text-white/82 active:bg-white/12",
-                  isVoiceListening &&
-                    "animate-pulse shadow-[0_0_18px_rgb(var(--accent)/0.18)]",
-                  isVoiceControlUnavailable &&
-                    "pointer-events-none opacity-35"
-                )}
-                onClick={toggleVoiceListening}
-                aria-label={
-                  isVoiceModeOn ? "음성 모드 끄기" : "음성 모드 켜기"
-                }
-                aria-pressed={isVoiceModeOn}
-                disabled={isVoiceControlUnavailable}
-              >
-                <Mic className="size-4" aria-hidden />
-              </button>
-            ) : null}
             <div className="absolute left-1/2 top-0 flex -translate-x-1/2 items-center justify-center gap-1.5 whitespace-nowrap">
               <button
                 type="button"
@@ -1146,8 +959,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                       );
                     }
 
-                    const shouldRenderActualCell =
-                      cell.recognized || cell.cueVisible;
+                    const shouldRenderActualCell = cell.cueVisible;
 
                     return (
                       <span
@@ -1164,9 +976,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                             <span
                               className={cn(
                                 "flex min-h-0 flex-1 items-center font-black tracking-normal",
-                                cell.recognized
-                                  ? "text-[rgb(var(--accent))]"
-                                  : "text-white",
+                                "text-white",
                                 hanjaClasses.hanja
                               )}
                             >
@@ -1175,9 +985,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                             <span
                               className={cn(
                                 "flex h-[1.25em] max-w-full shrink-0 items-center overflow-hidden whitespace-nowrap font-bold",
-                                cell.recognized
-                                  ? "text-[rgb(var(--accent))]"
-                                  : "text-white/68",
+                                "text-white/68",
                                 hanjaClasses.reading
                               )}
                             >
@@ -1219,58 +1027,28 @@ export function StudyCard({ passages }: StudyCardProps) {
                 )}
               >
                 {maskedTranslationParts.map((part) => {
-                      if (part.type === "visible") {
-                        const isMeaningVoiceRecognized =
-                          isVoiceBetaEnabled &&
-                          part.voiceIndex !== null &&
-                          part.voiceIndex <
-                            meaningVoiceRecognition.recognizedCount;
+                  if (part.type === "visible") {
+                    return (
+                      <span className="text-white/88" key={part.key}>
+                        {part.value}
+                      </span>
+                    );
+                  }
 
-                        return (
-                          <span
-                            className={
-                              isMeaningVoiceRecognized
-                                ? "text-[rgb(var(--accent))]"
-                                : "text-white/88"
-                            }
-                            key={part.key}
-                          >
-                            {part.value}
-                          </span>
-                        );
-                      }
+                  if (part.type === "space") {
+                    return <span key={part.key}>{part.value}</span>;
+                  }
 
-                      if (part.type === "space") {
-                        return <span key={part.key}>{part.value}</span>;
-                      }
-
-                      const isMeaningVoiceRecognized =
-                        isVoiceBetaEnabled &&
-                        part.voiceIndex !== null &&
-                        part.voiceIndex <
-                          meaningVoiceRecognition.recognizedCount;
-
-                      if (isMeaningVoiceRecognized) {
-                        return (
-                          <span
-                            className="text-[rgb(var(--accent))]"
-                            key={part.key}
-                          >
-                            {part.value}
-                          </span>
-                        );
-                      }
-
-                      return (
-                        <span
-                          className="rounded bg-white/10 text-transparent"
-                          key={part.key}
-                          aria-hidden
-                        >
-                          {part.value}
-                        </span>
-                      );
-                    })}
+                  return (
+                    <span
+                      className="rounded bg-white/10 text-transparent"
+                      key={part.key}
+                      aria-hidden
+                    >
+                      {part.value}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           ) : null}
@@ -1295,45 +1073,6 @@ export function StudyCard({ passages }: StudyCardProps) {
         </section>
 
         <div className="study-card-actions shrink-0">
-          {isVoiceBetaEnabled && isVoiceDebugEnabled && viewMode === "phrase" ? (
-            <div className="rounded-lg bg-white/5 px-2.5 py-2 text-left text-[0.62rem] font-semibold leading-4 text-white/42">
-              <p className="font-black text-white/58">Voice Debug</p>
-              <p className="truncate">
-                target: {hanjaVoiceRecognition.expectedNormalized || "-"}
-              </p>
-              <p className="truncate">
-                live: {hanjaVoiceRecognition.liveTranscriptNormalized || "-"}
-              </p>
-              <p className="truncate">
-                final: {hanjaVoiceRecognition.finalTranscript || "-"}
-              </p>
-              <p className="truncate">
-                interim: {hanjaVoiceRecognition.interimTranscript || "-"}
-              </p>
-              <p>
-                progress: {hanjaVoiceRecognition.recognizedCount} /{" "}
-                {hanjaVoiceRecognition.targetCount}
-              </p>
-              <p>visualUnits: {visualUnitCount}</p>
-              <p>
-                recognized: [
-                {hanjaVoiceRecognition.recognizedIndices.join(",")}]
-              </p>
-              <p>
-                tolerance:{" "}
-                {hanjaVoiceRecognition.toleranceApplied ? "applied" : "off"}
-              </p>
-              <p>cue: {cueVisibleCount}</p>
-              <button
-                type="button"
-                className="mt-1 rounded-full bg-white/8 px-2 py-1 text-[0.62rem] font-black text-white/64 transition active:bg-white/12"
-                onClick={hanjaVoiceRecognition.debugRevealAll}
-              >
-                Debug reveal all
-              </button>
-            </div>
-          ) : null}
-
           {viewMode === "phrase" ? (
             <button
               type="button"
