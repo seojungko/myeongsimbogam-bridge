@@ -469,10 +469,15 @@ function buildMaskedTranslationParts(
   let textOffset = 0;
 
   if (!answerVisible && displayHint) {
+    const displayHintIndex = fullText.indexOf(displayHint);
+    const hiddenCue =
+      displayHintIndex >= 0 ? displayHint : prompt;
+    const hiddenCueIndex =
+      displayHintIndex >= 0 ? displayHintIndex : promptIndex;
     const hiddenText =
-      promptIndex >= 0
-        ? `${fullText.slice(0, promptIndex)}${fullText.slice(
-            promptIndex + prompt.length
+      hiddenCueIndex >= 0
+        ? `${fullText.slice(0, hiddenCueIndex)}${fullText.slice(
+            hiddenCueIndex + hiddenCue.length
           )}`
         : fullText;
 
