@@ -460,12 +460,49 @@ function getCoverWidthEm(value: string) {
 function buildMaskedTranslationParts(
   fullText: string,
   prompt: string,
-  answerVisible: boolean
+  answerVisible: boolean,
+  displayHint?: string
 ) {
   const parts: MaskedTranslationPart[] = [];
   const tokens = fullText.match(/\s+|\S+/gu) ?? [];
   const promptIndex = prompt.length > 0 ? fullText.indexOf(prompt) : -1;
   let textOffset = 0;
+
+  if (!answerVisible && displayHint) {
+    const hiddenText =
+      promptIndex >= 0
+        ? `${fullText.slice(0, promptIndex)}${fullText.slice(
+            promptIndex + prompt.length
+          )}`
+        : fullText;
+
+    parts.push({
+      key: "visible-direct-meaning-hint",
+      type: "visible",
+      value: displayHint
+    });
+
+    const hiddenTokens = hiddenText.match(/\s+|\S+/gu) ?? [];
+    hiddenTokens.forEach((token, index) => {
+      if (/^\s+$/u.test(token)) {
+        parts.push({
+          key: `hint-space-${index}`,
+          type: "space",
+          value: token
+        });
+        return;
+      }
+
+      parts.push({
+        key: `hint-cover-${index}`,
+        type: "cover",
+        value: token,
+        widthEm: getCoverWidthEm(token)
+      });
+    });
+
+    return parts;
+  }
 
   tokens.forEach((token, index) => {
     if (/^\s+$/u.test(token)) {
@@ -659,7 +696,8 @@ export function StudyCard({ passages }: StudyCardProps) {
   const maskedTranslationParts = buildMaskedTranslationParts(
     meaningText,
     passage.promptTranslation,
-    meaningAnswerVisible
+    meaningAnswerVisible,
+    passage.directMeaningHint
   );
   const phraseLayout = buildPhraseLayout(
     passage,

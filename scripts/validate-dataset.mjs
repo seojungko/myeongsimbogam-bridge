@@ -128,6 +128,13 @@ function validateRecord(record, index) {
     }
   }
 
+  if (
+    record.directMeaningHint !== undefined &&
+    !isNonEmptyString(record.directMeaningHint)
+  ) {
+    errors.push(`${label}: directMeaningHint must be a non-empty string when provided`);
+  }
+
   if (isNonEmptyString(record.fullHanja) && isNonEmptyString(record.fullKorean)) {
     const hanjaLines = record.fullHanja.split("\n");
     const koreanLines = record.fullKorean.split("\n");

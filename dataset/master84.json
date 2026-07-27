@@ -2429,7 +2429,8 @@
       ],
       "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
       "reviewStatus": "verified_structural_pass_image_draft",
-      "reviewNote": "prompt*는 임시 cue 후보입니다."
+      "reviewNote": "prompt*는 임시 cue 후보입니다.",
+      "directMeaningHint": "분함을 참으면"
     },
     {
       "id": "MGB-030",
@@ -2511,7 +2512,8 @@
       ],
       "sourceFile": "source_records_pages_55_74_draft.json",
       "reviewStatus": "verified_structural_pass_image_draft",
-      "reviewNote": "prompt*는 임시 cue 후보입니다."
+      "reviewNote": "prompt*는 임시 cue 후보입니다.",
+      "directMeaningHint": "자기를 굽히면"
     },
     {
       "id": "MGB-031",
@@ -2660,7 +2662,8 @@
       ],
       "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
       "reviewStatus": "verified_structural_pass_image_draft",
-      "reviewNote": "prompt*는 임시 cue 후보입니다."
+      "reviewNote": "prompt*는 임시 cue 후보입니다.",
+      "directMeaningHint": "인정을 남겨 두면"
     },
     {
       "id": "MGB-033",
@@ -2759,7 +2762,8 @@
       ],
       "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
       "reviewStatus": "verified_structural_pass_image_draft",
-      "reviewNote": "prompt*는 임시 cue 후보입니다."
+      "reviewNote": "prompt*는 임시 cue 후보입니다.",
+      "directMeaningHint": "널리 배우면"
     },
     {
       "id": "MGB-034",
@@ -2873,7 +2877,8 @@
       ],
       "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
       "reviewStatus": "verified_structural_pass_image_draft",
-      "reviewNote": "prompt*는 임시 cue 후보입니다."
+      "reviewNote": "prompt*는 임시 cue 후보입니다.",
+      "directMeaningHint": "배움이 많아지면"
     },
     {
       "id": "MGB-035",

@@ -158,6 +158,13 @@ function getRecordErrors(value: unknown, index: number) {
     }
   }
 
+  if (
+    record.directMeaningHint !== undefined &&
+    !isNonEmptyString(record.directMeaningHint)
+  ) {
+    errors.push(`${label}: directMeaningHint must be a non-empty string when provided`);
+  }
+
   if (fullHanja && fullKorean) {
     const hanjaLines = fullHanja.split("\n");
     const koreanLines = fullKorean.split("\n");
