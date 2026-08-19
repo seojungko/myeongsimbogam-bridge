@@ -4,6 +4,8 @@ This audit lists character meanings that still require manual source confirmatio
 
 Reason: the available repo/source dataset does not include verified bottom-glossary meanings for these entries. They are intentionally left as placeholders instead of being guessed from general Hanja knowledge.
 
+Total records: 84
+Total character entries: 929
 Total affected records: 36
 Total placeholder character meanings: 167
 
