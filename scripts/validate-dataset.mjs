@@ -14,6 +14,22 @@ function isNonEmptyString(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
 
+function isPlaceholderMeaning(value) {
+  if (value === null || value === undefined) {
+    return true;
+  }
+
+  const normalized = String(value).trim().toLowerCase();
+
+  return (
+    normalized.length === 0 ||
+    normalized.includes("뜻 확인") ||
+    normalized.includes("확인필요") ||
+    normalized.includes("todo") ||
+    normalized.includes("unknown")
+  );
+}
+
 function countVisibleCharacters(value) {
   return Array.from(value).filter((character) => !/\s/.test(character)).length;
 }
@@ -178,6 +194,12 @@ function validateRecord(record, index) {
           `${label}: characters[${characterIndex}] must have character, meaning, sound`
         );
       } else {
+        if (isPlaceholderMeaning(character.meaning)) {
+          errors.push(
+            `${label}: characters[${characterIndex}] ${character.character} has placeholder meaning: ${character.meaning}`
+          );
+        }
+
         knownCharacters.add(character.character);
       }
     });
