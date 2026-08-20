@@ -163,6 +163,12 @@ function getRecordErrors(value: unknown, index: number) {
     !isNonEmptyString(record.directMeaningHint)
   ) {
     errors.push(`${label}: directMeaningHint must be a non-empty string when provided`);
+  } else if (
+    directMeaning &&
+    isNonEmptyString(record.directMeaningHint) &&
+    !directMeaning.includes(record.directMeaningHint)
+  ) {
+    errors.push(`${label}: directMeaningHint must appear inside directMeaning`);
   }
 
   if (fullHanja && fullKorean) {

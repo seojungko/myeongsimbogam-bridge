@@ -149,6 +149,12 @@ function validateRecord(record, index) {
     !isNonEmptyString(record.directMeaningHint)
   ) {
     errors.push(`${label}: directMeaningHint must be a non-empty string when provided`);
+  } else if (
+    isNonEmptyString(record.directMeaning) &&
+    isNonEmptyString(record.directMeaningHint) &&
+    !record.directMeaning.includes(record.directMeaningHint)
+  ) {
+    errors.push(`${label}: directMeaningHint must appear inside directMeaning`);
   }
 
   if (isNonEmptyString(record.fullHanja) && isNonEmptyString(record.fullKorean)) {

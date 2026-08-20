@@ -2473,15 +2473,15 @@
       "sourceFile": "source_records_missing_pages_54_84_addendum_draft.json",
       "reviewStatus": "verified_structural_pass_image_draft",
       "reviewNote": "prompt*는 임시 cue 후보입니다.",
-      "directMeaningHint": "분함을 참으면"
+      "directMeaningHint": "한때의 분한 것을 참으면"
     },
     {
       "id": "MGB-030",
       "quoteNo": 30,
       "page": 70,
       "section": "계성 편",
-      "promptHanja": "屈己者能",
-      "promptKorean": "굴기자능",
+      "promptHanja": "屈己者能處衆",
+      "promptKorean": "굴기자능처중",
       "promptTranslation": "자기를 굽힐 줄 아는 사람은",
       "fullHanja": "屈己者能處衆\n好勝者必遇敵",
       "fullKorean": "굴기자능처중\n호승자필우적",
@@ -2556,7 +2556,7 @@
       "sourceFile": "source_records_pages_55_74_draft.json",
       "reviewStatus": "verified_structural_pass_image_draft",
       "reviewNote": "prompt*는 임시 cue 후보입니다.",
-      "directMeaningHint": "자기를 굽히면"
+      "directMeaningHint": "자기를 굽힐 줄 아는 사람은"
     },
     {
       "id": "MGB-031",
@@ -4399,7 +4399,7 @@
       "promptHanja": "接物之要",
       "promptKorean": "접물지요",
       "promptTranslation": "사물을 대할",
-      "directMeaningHint": "사물을 대하는 요점은",
+      "directMeaningHint": "사물을 대할 때 가장 중요한 것은",
       "fullHanja": "接物之要\n己所不欲 勿施於人\n行有不得 反求諸己",
       "fullKorean": "접물지요\n기소불욕 물시어인\n행유부득 반구제기",
       "directMeaning": "사물을 대할 때 가장 중요한 것은\n자기가 하기 싫은 일을 남에게 시키지 않는 것과\n실행하고도 결과를 얻지 못하는 것이 있거든\n돌이켜 자신에게 그 원인을 찾는 것이다.",
@@ -5758,7 +5758,7 @@
       "promptHanja": "當官之法",
       "promptKorean": "당관지법",
       "promptTranslation": "관직에 임해야",
-      "directMeaningHint": "관직에 임하는 법은",
+      "directMeaningHint": "관직에 임해야 하는 세 가지 원칙은",
       "fullHanja": "當官之法 唯有三事\n曰清 曰愼 曰勤\n知此三者 知所以持身矣",
       "fullKorean": "당관지법 유유삼사\n왈청 왈신 왈근\n지차삼자 지소이지신의",
       "directMeaning": "관직에 임해야 하는 세 가지 원칙은\n청렴함과 신중함과 부지런함이다.\n이 세 가지를 알면 어떻게 처신할지를 안다.",
@@ -6573,7 +6573,7 @@
       "promptHanja": "言不中理",
       "promptKorean": "언부중리",
       "promptTranslation": "이치에 맞지",
-      "directMeaningHint": "이치에 맞지 않으면",
+      "directMeaningHint": "이치에 맞지 않는 말은",
       "fullHanja": "言不中理\n不如不言",
       "fullKorean": "언부중리\n불여불언",
       "directMeaning": "이치에 맞지 않는 말은\n안 하는 편이 더 낫다.",
@@ -6633,7 +6633,7 @@
       "promptHanja": "一言不中",
       "promptKorean": "일언부중",
       "promptTranslation": "한 마디",
-      "directMeaningHint": "한 마디가 맞지 않으면",
+      "directMeaningHint": "한 마디 말이 맞지 않으면",
       "fullHanja": "一言不中\n千語無用",
       "fullKorean": "일언부중\n천어무용",
       "directMeaning": "한 마디 말이 맞지 않으면\n천 마디 말이 쓸데없다.",
