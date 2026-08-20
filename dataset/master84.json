@@ -4087,12 +4087,12 @@
         },
         {
           "character": "惜",
-          "meaning": "뜻 확인 필요",
+          "meaning": "아낄",
           "sound": "석"
         },
         {
           "character": "糞",
-          "meaning": "뜻 확인 필요",
+          "meaning": "똥",
           "sound": "분"
         },
         {
@@ -4102,12 +4102,12 @@
         },
         {
           "character": "金",
-          "meaning": "뜻 확인 필요",
+          "meaning": "쇠",
           "sound": "금"
         },
         {
           "character": "敗",
-          "meaning": "뜻 확인 필요",
+          "meaning": "깨뜨릴",
           "sound": "패"
         },
         {
@@ -4162,17 +4162,17 @@
         },
         {
           "character": "清",
-          "meaning": "뜻 확인 필요",
+          "meaning": "맑을",
           "sound": "청"
         },
         {
           "character": "閑",
-          "meaning": "뜻 확인 필요",
+          "meaning": "막을",
           "sound": "한"
         },
         {
           "character": "仙",
-          "meaning": "뜻 확인 필요",
+          "meaning": "신선",
           "sound": "선"
         }
       ],
@@ -4219,7 +4219,7 @@
         },
         {
           "character": "藥",
-          "meaning": "뜻 확인 필요",
+          "meaning": "약",
           "sound": "약"
         },
         {
@@ -4229,12 +4229,12 @@
         },
         {
           "character": "醫",
-          "meaning": "뜻 확인 필요",
+          "meaning": "의원",
           "sound": "의"
         },
         {
           "character": "卿",
-          "meaning": "뜻 확인 필요",
+          "meaning": "벼슬",
           "sound": "경"
         },
         {
@@ -4244,7 +4244,7 @@
         },
         {
           "character": "壽",
-          "meaning": "뜻 확인 필요",
+          "meaning": "목숨",
           "sound": "수"
         },
         {
@@ -4254,7 +4254,7 @@
         },
         {
           "character": "錢",
-          "meaning": "뜻 확인 필요",
+          "meaning": "돈",
           "sound": "전"
         },
         {
@@ -4264,7 +4264,7 @@
         },
         {
           "character": "買",
-          "meaning": "뜻 확인 필요",
+          "meaning": "살",
           "sound": "매"
         },
         {
@@ -4355,12 +4355,12 @@
         },
         {
           "character": "臣",
-          "meaning": "뜻 확인 필요",
+          "meaning": "신하",
           "sound": "신"
         },
         {
           "character": "識",
-          "meaning": "뜻 확인 필요",
+          "meaning": "알",
           "sound": "식"
         },
         {
@@ -4370,7 +4370,7 @@
         },
         {
           "character": "友",
-          "meaning": "뜻 확인 필요",
+          "meaning": "벗",
           "sound": "우"
         },
         {
@@ -4425,12 +4425,12 @@
       "characters": [
         {
           "character": "接",
-          "meaning": "뜻 확인 필요",
+          "meaning": "사귈",
           "sound": "접"
         },
         {
           "character": "物",
-          "meaning": "물건",
+          "meaning": "만물",
           "sound": "물"
         },
         {
@@ -4440,7 +4440,7 @@
         },
         {
           "character": "要",
-          "meaning": "뜻 확인 필요",
+          "meaning": "구할",
           "sound": "요"
         },
         {
@@ -4500,7 +4500,7 @@
         },
         {
           "character": "反",
-          "meaning": "뜻 확인 필요",
+          "meaning": "되돌릴",
           "sound": "반"
         },
         {
@@ -4550,17 +4550,17 @@
       "characters": [
         {
           "character": "水",
-          "meaning": "뜻 확인 필요",
+          "meaning": "물",
           "sound": "수"
         },
         {
           "character": "至",
-          "meaning": "뜻 확인 필요",
+          "meaning": "이를",
           "sound": "지"
         },
         {
           "character": "清",
-          "meaning": "뜻 확인 필요",
+          "meaning": "맑을",
           "sound": "청"
         },
         {
@@ -4575,7 +4575,7 @@
         },
         {
           "character": "魚",
-          "meaning": "뜻 확인 필요",
+          "meaning": "고기",
           "sound": "어"
         },
         {
@@ -4590,7 +4590,7 @@
         },
         {
           "character": "徒",
-          "meaning": "뜻 확인 필요",
+          "meaning": "무리",
           "sound": "도"
         }
       ],
@@ -4636,12 +4636,12 @@
         },
         {
           "character": "故",
-          "meaning": "뜻 확인 필요",
+          "meaning": "옛",
           "sound": "고"
         },
         {
           "character": "而",
-          "meaning": "말 이을",
+          "meaning": "말이을",
           "sound": "이"
         },
         {
@@ -4651,12 +4651,12 @@
         },
         {
           "character": "千",
-          "meaning": "뜻 확인 필요",
+          "meaning": "일천",
           "sound": "천"
         },
         {
           "character": "金",
-          "meaning": "뜻 확인 필요",
+          "meaning": "쇠",
           "sound": "금"
         },
         {
@@ -4671,7 +4671,7 @@
         },
         {
           "character": "大",
-          "meaning": "클",
+          "meaning": "큰",
           "sound": "대"
         },
         {
@@ -4728,22 +4728,22 @@
       "characters": [
         {
           "character": "大",
-          "meaning": "클",
+          "meaning": "큰",
           "sound": "대"
         },
         {
           "character": "廈",
-          "meaning": "뜻 확인 필요",
+          "meaning": "처마",
           "sound": "하"
         },
         {
           "character": "千",
-          "meaning": "뜻 확인 필요",
+          "meaning": "일천",
           "sound": "천"
         },
         {
           "character": "間",
-          "meaning": "뜻 확인 필요",
+          "meaning": "사이",
           "sound": "간"
         },
         {
@@ -4753,22 +4753,22 @@
         },
         {
           "character": "臥",
-          "meaning": "뜻 확인 필요",
+          "meaning": "엎드릴",
           "sound": "와"
         },
         {
           "character": "八",
-          "meaning": "뜻 확인 필요",
+          "meaning": "여덟",
           "sound": "팔"
         },
         {
           "character": "尺",
-          "meaning": "뜻 확인 필요",
+          "meaning": "자",
           "sound": "척"
         },
         {
           "character": "良",
-          "meaning": "뜻 확인 필요",
+          "meaning": "좋을",
           "sound": "양"
         },
         {
@@ -4783,7 +4783,7 @@
         },
         {
           "character": "頃",
-          "meaning": "뜻 확인 필요",
+          "meaning": "밭넓이",
           "sound": "경"
         },
         {
@@ -4798,12 +4798,12 @@
         },
         {
           "character": "二",
-          "meaning": "뜻 확인 필요",
+          "meaning": "두",
           "sound": "이"
         },
         {
           "character": "升",
-          "meaning": "뜻 확인 필요",
+          "meaning": "되",
           "sound": "승"
         }
       ],
@@ -4848,7 +4848,7 @@
         },
         {
           "character": "恨",
-          "meaning": "뜻 확인 필요",
+          "meaning": "한할",
           "sound": "한"
         },
         {
@@ -4863,12 +4863,12 @@
         },
         {
           "character": "汲",
-          "meaning": "뜻 확인 필요",
+          "meaning": "길을",
           "sound": "급"
         },
         {
           "character": "繩",
-          "meaning": "뜻 확인 필요",
+          "meaning": "줄",
           "sound": "승"
         },
         {
@@ -4878,27 +4878,27 @@
         },
         {
           "character": "只",
-          "meaning": "뜻 확인 필요",
+          "meaning": "다만",
           "sound": "지"
         },
         {
           "character": "他",
-          "meaning": "뜻 확인 필요",
+          "meaning": "다를",
           "sound": "타"
         },
         {
           "character": "苦",
-          "meaning": "괴로울",
+          "meaning": "쓸",
           "sound": "고"
         },
         {
           "character": "井",
-          "meaning": "뜻 확인 필요",
+          "meaning": "우물",
           "sound": "정"
         },
         {
           "character": "深",
-          "meaning": "뜻 확인 필요",
+          "meaning": "깊을",
           "sound": "심"
         }
       ],
@@ -4938,12 +4938,12 @@
       "characters": [
         {
           "character": "尺",
-          "meaning": "뜻 확인 필요",
+          "meaning": "자",
           "sound": "척"
         },
         {
           "character": "璧",
-          "meaning": "뜻 확인 필요",
+          "meaning": "벽",
           "sound": "벽"
         },
         {
@@ -4958,12 +4958,12 @@
         },
         {
           "character": "寸",
-          "meaning": "뜻 확인 필요",
+          "meaning": "마디",
           "sound": "촌"
         },
         {
           "character": "陰",
-          "meaning": "뜻 확인 필요",
+          "meaning": "응달",
           "sound": "음"
         },
         {
@@ -4973,7 +4973,7 @@
         },
         {
           "character": "競",
-          "meaning": "뜻 확인 필요",
+          "meaning": "겨룰",
           "sound": "경"
         }
       ],
@@ -5013,32 +5013,32 @@
       "characters": [
         {
           "character": "入",
-          "meaning": "뜻 확인 필요",
+          "meaning": "들",
           "sound": "입"
         },
         {
           "character": "山",
-          "meaning": "메",
+          "meaning": "뫼",
           "sound": "산"
         },
         {
           "character": "擒",
-          "meaning": "뜻 확인 필요",
+          "meaning": "사로잡을",
           "sound": "금"
         },
         {
           "character": "虎",
-          "meaning": "뜻 확인 필요",
+          "meaning": "범",
           "sound": "호"
         },
         {
           "character": "易",
-          "meaning": "뜻 확인 필요",
+          "meaning": "바꿀",
           "sound": "역"
         },
         {
           "character": "開",
-          "meaning": "뜻 확인 필요",
+          "meaning": "열",
           "sound": "개"
         },
         {
@@ -5048,7 +5048,7 @@
         },
         {
           "character": "告",
-          "meaning": "뜻 확인 필요",
+          "meaning": "알릴",
           "sound": "고"
         },
         {
@@ -5105,7 +5105,7 @@
         },
         {
           "character": "水",
-          "meaning": "뜻 확인 필요",
+          "meaning": "물",
           "sound": "수"
         },
         {
@@ -5115,7 +5115,7 @@
         },
         {
           "character": "救",
-          "meaning": "뜻 확인 필요",
+          "meaning": "건질",
           "sound": "구"
         },
         {
@@ -5125,7 +5125,7 @@
         },
         {
           "character": "火",
-          "meaning": "뜻 확인 필요",
+          "meaning": "불",
           "sound": "화"
         },
         {
@@ -5140,7 +5140,7 @@
         },
         {
           "character": "隣",
-          "meaning": "뜻 확인 필요",
+          "meaning": "이웃",
           "sound": "린"
         }
       ],
@@ -5195,7 +5195,7 @@
         },
         {
           "character": "溢",
-          "meaning": "뜻 확인 필요",
+          "meaning": "넘칠",
           "sound": "일"
         },
         {
@@ -5205,7 +5205,7 @@
         },
         {
           "character": "喪",
-          "meaning": "뜻 확인 필요",
+          "meaning": "죽을",
           "sound": "상"
         }
       ],
@@ -5246,7 +5246,7 @@
       "characters": [
         {
           "character": "良",
-          "meaning": "뜻 확인 필요",
+          "meaning": "좋을",
           "sound": "양"
         },
         {
@@ -5261,7 +5261,7 @@
         },
         {
           "character": "頃",
-          "meaning": "뜻 확인 필요",
+          "meaning": "이랑",
           "sound": "경"
         },
         {
@@ -5281,12 +5281,12 @@
         },
         {
           "character": "藝",
-          "meaning": "뜻 확인 필요",
+          "meaning": "심을",
           "sound": "예"
         },
         {
           "character": "隨",
-          "meaning": "뜻 확인 필요",
+          "meaning": "따를",
           "sound": "수"
         },
         {
@@ -5349,7 +5349,7 @@
         },
         {
           "character": "計",
-          "meaning": "뜻 확인 필요",
+          "meaning": "꾀",
           "sound": "계"
         },
         {
@@ -5364,17 +5364,17 @@
         },
         {
           "character": "幼",
-          "meaning": "뜻 확인 필요",
+          "meaning": "어릴",
           "sound": "유"
         },
         {
           "character": "年",
-          "meaning": "뜻 확인 필요",
+          "meaning": "해",
           "sound": "년"
         },
         {
           "character": "春",
-          "meaning": "뜻 확인 필요",
+          "meaning": "봄",
           "sound": "춘"
         },
         {
@@ -5384,7 +5384,7 @@
         },
         {
           "character": "寅",
-          "meaning": "뜻 확인 필요",
+          "meaning": "셋째지지",
           "sound": "인"
         }
       ],
@@ -5424,12 +5424,12 @@
       "characters": [
         {
           "character": "忠",
-          "meaning": "뜻 확인 필요",
+          "meaning": "충성",
           "sound": "충"
         },
         {
           "character": "臣",
-          "meaning": "뜻 확인 필요",
+          "meaning": "신하",
           "sound": "신"
         },
         {
@@ -5444,7 +5444,7 @@
         },
         {
           "character": "二",
-          "meaning": "뜻 확인 필요",
+          "meaning": "두",
           "sound": "이"
         },
         {
@@ -5454,17 +5454,17 @@
         },
         {
           "character": "烈",
-          "meaning": "뜻 확인 필요",
+          "meaning": "매울",
           "sound": "열"
         },
         {
           "character": "女",
-          "meaning": "뜻 확인 필요",
+          "meaning": "여자",
           "sound": "녀"
         },
         {
           "character": "更",
-          "meaning": "뜻 확인 필요",
+          "meaning": "고칠",
           "sound": "경"
         },
         {
@@ -5515,7 +5515,7 @@
         },
         {
           "character": "書",
-          "meaning": "쓸",
+          "meaning": "글",
           "sound": "서"
         },
         {
@@ -5535,22 +5535,22 @@
         },
         {
           "character": "本",
-          "meaning": "뜻 확인 필요",
+          "meaning": "밑",
           "sound": "본"
         },
         {
           "character": "循",
-          "meaning": "뜻 확인 필요",
+          "meaning": "좇을",
           "sound": "순"
         },
         {
           "character": "理",
-          "meaning": "뜻 확인 필요",
+          "meaning": "다스릴",
           "sound": "리"
         },
         {
           "character": "保",
-          "meaning": "뜻 확인 필요",
+          "meaning": "지킬",
           "sound": "보"
         }
       ],
@@ -5590,12 +5590,12 @@
       "characters": [
         {
           "character": "治",
-          "meaning": "뜻 확인 필요",
+          "meaning": "다스릴",
           "sound": "치"
         },
         {
           "character": "官",
-          "meaning": "뜻 확인 필요",
+          "meaning": "벼슬",
           "sound": "관"
         },
         {
@@ -5610,22 +5610,22 @@
         },
         {
           "character": "平",
-          "meaning": "뜻 확인 필요",
+          "meaning": "평평할",
           "sound": "평"
         },
         {
           "character": "臨",
-          "meaning": "뜻 확인 필요",
+          "meaning": "임할",
           "sound": "임"
         },
         {
           "character": "財",
-          "meaning": "뜻 확인 필요",
+          "meaning": "재물",
           "sound": "재"
         },
         {
           "character": "廉",
-          "meaning": "뜻 확인 필요",
+          "meaning": "청렴할",
           "sound": "염"
         }
       ],
@@ -5674,7 +5674,7 @@
         },
         {
           "character": "命",
-          "meaning": "뜻 확인 필요",
+          "meaning": "목숨",
           "sound": "명"
         },
         {
@@ -5684,12 +5684,12 @@
         },
         {
           "character": "士",
-          "meaning": "뜻 확인 필요",
+          "meaning": "선비",
           "sound": "사"
         },
         {
           "character": "苟",
-          "meaning": "뜻 확인 필요",
+          "meaning": "진실로",
           "sound": "구"
         },
         {
@@ -5714,12 +5714,12 @@
         },
         {
           "character": "愛",
-          "meaning": "아낄",
+          "meaning": "사랑",
           "sound": "애"
         },
         {
           "character": "物",
-          "meaning": "물건",
+          "meaning": "만물",
           "sound": "물"
         },
         {
@@ -5739,7 +5739,7 @@
         },
         {
           "character": "濟",
-          "meaning": "뜻 확인 필요",
+          "meaning": "도울",
           "sound": "제"
         }
       ],
@@ -5782,12 +5782,12 @@
       "characters": [
         {
           "character": "當",
-          "meaning": "뜻 확인 필요",
+          "meaning": "당할",
           "sound": "당"
         },
         {
           "character": "官",
-          "meaning": "뜻 확인 필요",
+          "meaning": "벼슬",
           "sound": "관"
         },
         {
@@ -5802,7 +5802,7 @@
         },
         {
           "character": "唯",
-          "meaning": "뜻 확인 필요",
+          "meaning": "오직",
           "sound": "유"
         },
         {
@@ -5812,7 +5812,7 @@
         },
         {
           "character": "三",
-          "meaning": "뜻 확인 필요",
+          "meaning": "석",
           "sound": "삼"
         },
         {
@@ -5822,12 +5822,12 @@
         },
         {
           "character": "曰",
-          "meaning": "뜻 확인 필요",
+          "meaning": "가로",
           "sound": "왈"
         },
         {
           "character": "清",
-          "meaning": "뜻 확인 필요",
+          "meaning": "맑을",
           "sound": "청"
         },
         {
@@ -5867,7 +5867,7 @@
         },
         {
           "character": "持",
-          "meaning": "뜻 확인 필요",
+          "meaning": "가질",
           "sound": "지"
         },
         {
@@ -5920,12 +5920,12 @@
       "characters": [
         {
           "character": "兄",
-          "meaning": "뜻 확인 필요",
+          "meaning": "맏",
           "sound": "형"
         },
         {
           "character": "弟",
-          "meaning": "뜻 확인 필요",
+          "meaning": "아우",
           "sound": "제"
         },
         {
@@ -5935,7 +5935,7 @@
         },
         {
           "character": "手",
-          "meaning": "뜻 확인 필요",
+          "meaning": "손",
           "sound": "수"
         },
         {
@@ -5950,22 +5950,22 @@
         },
         {
           "character": "婦",
-          "meaning": "뜻 확인 필요",
+          "meaning": "아내",
           "sound": "부"
         },
         {
           "character": "衣",
-          "meaning": "뜻 확인 필요",
+          "meaning": "옷",
           "sound": "의"
         },
         {
           "character": "服",
-          "meaning": "뜻 확인 필요",
+          "meaning": "옷",
           "sound": "복"
         },
         {
           "character": "破",
-          "meaning": "뜻 확인 필요",
+          "meaning": "깨뜨릴",
           "sound": "파"
         },
         {
@@ -5975,7 +5975,7 @@
         },
         {
           "character": "更",
-          "meaning": "뜻 확인 필요",
+          "meaning": "고칠",
           "sound": "경"
         },
         {
@@ -5985,17 +5985,17 @@
         },
         {
           "character": "新",
-          "meaning": "뜻 확인 필요",
+          "meaning": "새",
           "sound": "신"
         },
         {
           "character": "斷",
-          "meaning": "뜻 확인 필요",
+          "meaning": "끊을",
           "sound": "단"
         },
         {
           "character": "處",
-          "meaning": "살",
+          "meaning": "곳",
           "sound": "처"
         },
         {
@@ -6010,7 +6010,7 @@
         },
         {
           "character": "續",
-          "meaning": "뜻 확인 필요",
+          "meaning": "이을",
           "sound": "속"
         }
       ],
@@ -6051,7 +6051,7 @@
       "characters": [
         {
           "character": "富",
-          "meaning": "풍성할",
+          "meaning": "부유할",
           "sound": "부"
         },
         {
@@ -6076,7 +6076,7 @@
         },
         {
           "character": "疎",
-          "meaning": "뜻 확인 필요",
+          "meaning": "성길",
           "sound": "소"
         },
         {
@@ -6096,17 +6096,17 @@
         },
         {
           "character": "間",
-          "meaning": "뜻 확인 필요",
+          "meaning": "사이",
           "sound": "간"
         },
         {
           "character": "大",
-          "meaning": "클",
+          "meaning": "큰",
           "sound": "대"
         },
         {
           "character": "丈",
-          "meaning": "뜻 확인 필요",
+          "meaning": "어른",
           "sound": "장"
         },
         {
@@ -6152,22 +6152,22 @@
       "characters": [
         {
           "character": "老",
-          "meaning": "뜻 확인 필요",
+          "meaning": "늙을",
           "sound": "노"
         },
         {
           "character": "少",
-          "meaning": "뜻 확인 필요",
+          "meaning": "젊은이",
           "sound": "소"
         },
         {
           "character": "長",
-          "meaning": "뜻 확인 필요",
+          "meaning": "길",
           "sound": "장"
         },
         {
           "character": "幼",
-          "meaning": "뜻 확인 필요",
+          "meaning": "어린",
           "sound": "유"
         },
         {
@@ -6177,17 +6177,17 @@
         },
         {
           "character": "分",
-          "meaning": "뜻 확인 필요",
+          "meaning": "나눌",
           "sound": "분"
         },
         {
           "character": "秩",
-          "meaning": "뜻 확인 필요",
+          "meaning": "차례",
           "sound": "질"
         },
         {
           "character": "序",
-          "meaning": "뜻 확인 필요",
+          "meaning": "차례",
           "sound": "서"
         },
         {
@@ -6202,22 +6202,22 @@
         },
         {
           "character": "悖",
-          "meaning": "뜻 확인 필요",
+          "meaning": "거스를",
           "sound": "패"
         },
         {
           "character": "理",
-          "meaning": "뜻 확인 필요",
+          "meaning": "다스릴",
           "sound": "리"
         },
         {
           "character": "而",
-          "meaning": "말 이을",
+          "meaning": "말이을",
           "sound": "이"
         },
         {
           "character": "傷",
-          "meaning": "뜻 확인 필요",
+          "meaning": "상처",
           "sound": "상"
         },
         {
@@ -6284,12 +6284,12 @@
         },
         {
           "character": "勇",
-          "meaning": "날쌜",
+          "meaning": "날랠",
           "sound": "용"
         },
         {
           "character": "而",
-          "meaning": "말 이을",
+          "meaning": "말이을",
           "sound": "이"
         },
         {
@@ -6299,7 +6299,7 @@
         },
         {
           "character": "禮",
-          "meaning": "뜻 확인 필요",
+          "meaning": "예절",
           "sound": "례"
         },
         {
@@ -6309,7 +6309,7 @@
         },
         {
           "character": "亂",
-          "meaning": "뜻 확인 필요",
+          "meaning": "어지러울",
           "sound": "란"
         },
         {
@@ -6324,7 +6324,7 @@
         },
         {
           "character": "盜",
-          "meaning": "뜻 확인 필요",
+          "meaning": "훔칠",
           "sound": "도"
         }
       ],
@@ -6364,12 +6364,12 @@
       "characters": [
         {
           "character": "出",
-          "meaning": "뜻 확인 필요",
+          "meaning": "날",
           "sound": "출"
         },
         {
           "character": "門",
-          "meaning": "뜻 확인 필요",
+          "meaning": "문",
           "sound": "문"
         },
         {
@@ -6384,22 +6384,22 @@
         },
         {
           "character": "大",
-          "meaning": "클",
+          "meaning": "큰",
           "sound": "대"
         },
         {
           "character": "賓",
-          "meaning": "뜻 확인 필요",
+          "meaning": "손",
           "sound": "빈"
         },
         {
           "character": "入",
-          "meaning": "뜻 확인 필요",
+          "meaning": "들",
           "sound": "입"
         },
         {
           "character": "室",
-          "meaning": "뜻 확인 필요",
+          "meaning": "집",
           "sound": "실"
         },
         {
@@ -6454,7 +6454,7 @@
         },
         {
           "character": "要",
-          "meaning": "뜻 확인 필요",
+          "meaning": "구할",
           "sound": "요"
         },
         {
@@ -6464,7 +6464,7 @@
         },
         {
           "character": "重",
-          "meaning": "뜻 확인 필요",
+          "meaning": "무거울",
           "sound": "중"
         },
         {
@@ -6549,7 +6549,7 @@
         },
         {
           "character": "談",
-          "meaning": "뜻 확인 필요",
+          "meaning": "말씀",
           "sound": "담"
         },
         {
@@ -6609,7 +6609,7 @@
         },
         {
           "character": "理",
-          "meaning": "뜻 확인 필요",
+          "meaning": "다스릴",
           "sound": "리"
         },
         {
@@ -6674,12 +6674,12 @@
         },
         {
           "character": "千",
-          "meaning": "뜻 확인 필요",
+          "meaning": "일천",
           "sound": "천"
         },
         {
           "character": "語",
-          "meaning": "뜻 확인 필요",
+          "meaning": "말씀",
           "sound": "어"
         },
         {
@@ -6734,7 +6734,7 @@
         },
         {
           "character": "舌",
-          "meaning": "뜻 확인 필요",
+          "meaning": "혀",
           "sound": "설"
         },
         {
@@ -6749,7 +6749,7 @@
         },
         {
           "character": "患",
-          "meaning": "뜻 확인 필요",
+          "meaning": "근심",
           "sound": "환"
         },
         {
@@ -6759,12 +6759,12 @@
         },
         {
           "character": "門",
-          "meaning": "뜻 확인 필요",
+          "meaning": "문",
           "sound": "문"
         },
         {
           "character": "滅",
-          "meaning": "뜻 확인 필요",
+          "meaning": "멸할",
           "sound": "멸"
         },
         {
@@ -6774,7 +6774,7 @@
         },
         {
           "character": "斧",
-          "meaning": "뜻 확인 필요",
+          "meaning": "도끼",
           "sound": "부"
         },
         {
@@ -6824,12 +6824,12 @@
         },
         {
           "character": "識",
-          "meaning": "뜻 확인 필요",
+          "meaning": "알",
           "sound": "식"
         },
         {
           "character": "滿",
-          "meaning": "찰",
+          "meaning": "찰, 가득할",
           "sound": "만"
         },
         {
@@ -6859,7 +6859,7 @@
         },
         {
           "character": "幾",
-          "meaning": "기미",
+          "meaning": "몇",
           "sound": "기"
         },
         {
@@ -6906,7 +6906,7 @@
       "characters": [
         {
           "character": "與",
-          "meaning": "줄",
+          "meaning": "줄, 같이할",
           "sound": "여"
         },
         {
@@ -6926,7 +6926,7 @@
         },
         {
           "character": "同",
-          "meaning": "뜻 확인 필요",
+          "meaning": "같을",
           "sound": "동"
         },
         {
@@ -6941,12 +6941,12 @@
         },
         {
           "character": "霧",
-          "meaning": "뜻 확인 필요",
+          "meaning": "안개",
           "sound": "무"
         },
         {
           "character": "露",
-          "meaning": "뜻 확인 필요",
+          "meaning": "이슬",
           "sound": "로"
         },
         {
@@ -6966,12 +6966,12 @@
         },
         {
           "character": "濕",
-          "meaning": "뜻 확인 필요",
+          "meaning": "축축할",
           "sound": "습"
         },
         {
           "character": "衣",
-          "meaning": "뜻 확인 필요",
+          "meaning": "옷",
           "sound": "의"
         },
         {
@@ -6986,7 +6986,7 @@
         },
         {
           "character": "潤",
-          "meaning": "뜻 확인 필요",
+          "meaning": "윤택할",
           "sound": "윤"
         }
       ],
@@ -7041,17 +7041,17 @@
         },
         {
           "character": "花",
-          "meaning": "뜻 확인 필요",
+          "meaning": "꽃",
           "sound": "화"
         },
         {
           "character": "休",
-          "meaning": "뜻 확인 필요",
+          "meaning": "쉴",
           "sound": "휴"
         },
         {
           "character": "要",
-          "meaning": "뜻 확인 필요",
+          "meaning": "요긴할",
           "sound": "요"
         },
         {
@@ -7066,7 +7066,7 @@
         },
         {
           "character": "義",
-          "meaning": "옳을",
+          "meaning": "옳음, 의리",
           "sound": "의"
         },
         {
@@ -7076,7 +7076,7 @@
         },
         {
           "character": "朋",
-          "meaning": "뜻 확인 필요",
+          "meaning": "벗",
           "sound": "붕"
         },
         {
@@ -7131,7 +7131,7 @@
         },
         {
           "character": "遙",
-          "meaning": "뜻 확인 필요",
+          "meaning": "멀",
           "sound": "요"
         },
         {
@@ -7141,12 +7141,12 @@
         },
         {
           "character": "馬",
-          "meaning": "뜻 확인 필요",
+          "meaning": "말",
           "sound": "마"
         },
         {
           "character": "力",
-          "meaning": "뜻 확인 필요",
+          "meaning": "힘",
           "sound": "력"
         },
         {
@@ -7218,7 +7218,7 @@
         },
         {
           "character": "謂",
-          "meaning": "뜻 확인 필요",
+          "meaning": "이를",
           "sound": "위"
         },
         {
@@ -7243,7 +7243,7 @@
         },
         {
           "character": "而",
-          "meaning": "말 이을",
+          "meaning": "말이을",
           "sound": "이"
         },
         {
@@ -7258,7 +7258,7 @@
         },
         {
           "character": "年",
-          "meaning": "뜻 확인 필요",
+          "meaning": "해",
           "sound": "년"
         }
       ],
@@ -7300,12 +7300,12 @@
       "characters": [
         {
           "character": "盛",
-          "meaning": "뜻 확인 필요",
+          "meaning": "성할",
           "sound": "성"
         },
         {
           "character": "年",
-          "meaning": "뜻 확인 필요",
+          "meaning": "해",
           "sound": "년"
         },
         {
@@ -7315,7 +7315,7 @@
         },
         {
           "character": "重",
-          "meaning": "뜻 확인 필요",
+          "meaning": "무거울, 거듭",
           "sound": "중"
         },
         {
@@ -7340,12 +7340,12 @@
         },
         {
           "character": "再",
-          "meaning": "뜻 확인 필요",
+          "meaning": "두 번째",
           "sound": "재"
         },
         {
           "character": "晨",
-          "meaning": "뜻 확인 필요",
+          "meaning": "새벽",
           "sound": "신"
         },
         {
@@ -7360,32 +7360,32 @@
         },
         {
           "character": "當",
-          "meaning": "뜻 확인 필요",
+          "meaning": "당할",
           "sound": "당"
         },
         {
           "character": "勉",
-          "meaning": "뜻 확인 필요",
+          "meaning": "힘쓸",
           "sound": "면"
         },
         {
           "character": "勵",
-          "meaning": "뜻 확인 필요",
+          "meaning": "힘쓸",
           "sound": "려"
         },
         {
           "character": "歲",
-          "meaning": "뜻 확인 필요",
+          "meaning": "해",
           "sound": "세"
         },
         {
           "character": "月",
-          "meaning": "뜻 확인 필요",
+          "meaning": "달",
           "sound": "월"
         },
         {
           "character": "待",
-          "meaning": "뜻 확인 필요",
+          "meaning": "기다릴",
           "sound": "대"
         },
         {
