@@ -7,6 +7,7 @@ import type {
   PointerEvent as ReactPointerEvent
 } from "react";
 import { cn } from "@/lib/cn";
+import { readStudyState, writeStudyState } from "@/lib/study-state";
 import type { StudyPageRecord } from "@dataset/types";
 
 type StudyCardProps = {
@@ -66,7 +67,6 @@ type RangeCelebration = {
   secondary: string;
 };
 
-const LEARNED_RECORD_IDS_KEY = "bridge.learnedRecordIds";
 const COMPLETION_SPARKLE_MS = 560;
 const RANGE_CELEBRATION_HEADLINES = [
   "대단해!",
@@ -564,32 +564,6 @@ function getDisplayMeaningText(passage: StudyPageRecord) {
   return getMeaningText(passage);
 }
 
-function readLearnedRecordIds() {
-  if (typeof window === "undefined") {
-    return new Set<string>();
-  }
-
-  try {
-    const rawValue = window.localStorage.getItem(LEARNED_RECORD_IDS_KEY);
-    const value = rawValue ? JSON.parse(rawValue) : [];
-
-    return new Set(
-      Array.isArray(value)
-        ? value.filter((recordId): recordId is string => typeof recordId === "string")
-        : []
-    );
-  } catch {
-    return new Set<string>();
-  }
-}
-
-function writeLearnedRecordIds(recordIds: Set<string>) {
-  window.localStorage.setItem(
-    LEARNED_RECORD_IDS_KEY,
-    JSON.stringify(Array.from(recordIds))
-  );
-}
-
 export function StudyCard({ passages }: StudyCardProps) {
   const completionTimeoutRef = useRef<number | null>(null);
   const activePeekPointerIdRef = useRef<number | null>(null);
@@ -609,6 +583,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   const [learnedRecordIds, setLearnedRecordIds] = useState<Set<string>>(
     () => new Set()
   );
+  const [isStudyStateLoaded, setIsStudyStateLoaded] = useState(false);
   const [isTurningPage, setIsTurningPage] = useState(false);
 
   const clearPeek = useCallback(() => {
@@ -629,8 +604,30 @@ export function StudyCard({ passages }: StudyCardProps) {
   }, []);
 
   useEffect(() => {
-    setLearnedRecordIds(readLearnedRecordIds());
-  }, []);
+    const storedState = readStudyState(passages, window.localStorage);
+
+    setLearnedRecordIds(storedState.learnedQuoteIds);
+    setPageIndex(storedState.currentIndex);
+    setIsStudyStateLoaded(true);
+  }, [passages]);
+
+  useEffect(() => {
+    if (!isStudyStateLoaded || passages.length === 0) {
+      return;
+    }
+
+    const safeIndex = Math.min(pageIndex, passages.length - 1);
+    const currentPassage = passages[safeIndex];
+    const selectedRangeEnd = getPageRangeEnd(currentPassage.page);
+
+    writeStudyState(window.localStorage, {
+      version: 1,
+      learnedQuoteIds: Array.from(learnedRecordIds),
+      currentQuoteId: currentPassage.id,
+      selectedRangeStart: getPageRangeStart(selectedRangeEnd),
+      selectedRangeEnd
+    });
+  }, [isStudyStateLoaded, learnedRecordIds, pageIndex, passages]);
 
   useEffect(() => {
     return () => {
@@ -747,7 +744,6 @@ export function StudyCard({ passages }: StudyCardProps) {
     const nextLearnedRecordIds = new Set(learnedRecordIds);
     nextLearnedRecordIds.add(passage.id);
     setLearnedRecordIds(nextLearnedRecordIds);
-    writeLearnedRecordIds(nextLearnedRecordIds);
   }
 
   function finishCompletedRecord() {
