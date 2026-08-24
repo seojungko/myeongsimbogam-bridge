@@ -9,6 +9,7 @@ export type StudyStateV1 = {
   currentQuoteId: string;
   selectedRangeStart: number;
   selectedRangeEnd: number;
+  targetPage?: number;
 };
 
 type StudyStateSnapshot = {
@@ -16,6 +17,7 @@ type StudyStateSnapshot = {
   learnedQuoteIds: Set<string>;
   selectedRangeEnd: number;
   selectedRangeStart: number;
+  targetPage?: number;
 };
 
 function getRangeEnd(page: number) {
@@ -114,6 +116,14 @@ export function readStudyState(
       (passage) =>
         passage.page >= selectedRangeStart && passage.page <= selectedRangeEnd
     );
+    const maximumPage = Math.max(...passages.map((passage) => passage.page), 1);
+    const targetPage =
+      typeof stored.targetPage === "number" &&
+      Number.isInteger(stored.targetPage) &&
+      stored.targetPage >= 1 &&
+      stored.targetPage <= maximumPage
+        ? stored.targetPage
+        : undefined;
 
     return {
       currentIndex:
@@ -124,7 +134,8 @@ export function readStudyState(
             : 0,
       learnedQuoteIds,
       selectedRangeEnd,
-      selectedRangeStart
+      selectedRangeStart,
+      targetPage
     };
   } catch {
     const legacyLearnedIds = readLegacyLearnedIds(storage, validIds);

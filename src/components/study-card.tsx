@@ -6,6 +6,7 @@ import type {
   MouseEvent as ReactMouseEvent,
   PointerEvent as ReactPointerEvent
 } from "react";
+import { Flag } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { readStudyState, writeStudyState } from "@/lib/study-state";
 import type { StudyPageRecord } from "@dataset/types";
@@ -56,6 +57,7 @@ type PhraseLayout = {
 };
 type PageRangeSummary = {
   count: number;
+  displayEnd: number;
   end: number;
   firstIndex: number;
   label: string;
@@ -202,7 +204,7 @@ function getPageRangeEnd(page: number) {
 }
 
 function getPageRangeLabel(rangeEnd: number) {
-  return `~${rangeEnd}쪽`;
+  return `${getPageRangeStart(rangeEnd)}~`;
 }
 
 function getPageRangeStart(rangeEnd: number) {
@@ -211,6 +213,10 @@ function getPageRangeStart(rangeEnd: number) {
 
 function buildPageRangeSummaries(passages: readonly StudyPageRecord[]) {
   const ranges = new Map<number, PageRangeSummary>();
+  const lastDatasetPage = Math.max(
+    ...passages.map((passage) => passage.page),
+    1
+  );
 
   passages.forEach((passage, index) => {
     const rangeEnd = getPageRangeEnd(passage.page);
@@ -223,6 +229,7 @@ function buildPageRangeSummaries(passages: readonly StudyPageRecord[]) {
 
     ranges.set(rangeEnd, {
       count: 1,
+      displayEnd: Math.min(rangeEnd, lastDatasetPage),
       end: rangeEnd,
       firstIndex: index,
       label: getPageRangeLabel(rangeEnd),
@@ -579,6 +586,10 @@ export function StudyCard({ passages }: StudyCardProps) {
   const [rangeCelebration, setRangeCelebration] =
     useState<RangeCelebration | null>(null);
   const [showRangeSheet, setShowRangeSheet] = useState(false);
+  const [showTargetDialog, setShowTargetDialog] = useState(false);
+  const [targetInput, setTargetInput] = useState("");
+  const [targetInputError, setTargetInputError] = useState("");
+  const [targetPage, setTargetPage] = useState<number | undefined>(undefined);
   const [viewMode, setViewMode] = useState<StudyViewMode>("phrase");
   const [learnedRecordIds, setLearnedRecordIds] = useState<Set<string>>(
     () => new Set()
@@ -608,6 +619,7 @@ export function StudyCard({ passages }: StudyCardProps) {
 
     setLearnedRecordIds(storedState.learnedQuoteIds);
     setPageIndex(storedState.currentIndex);
+    setTargetPage(storedState.targetPage);
     setIsStudyStateLoaded(true);
   }, [passages]);
 
@@ -625,9 +637,10 @@ export function StudyCard({ passages }: StudyCardProps) {
       learnedQuoteIds: Array.from(learnedRecordIds),
       currentQuoteId: currentPassage.id,
       selectedRangeStart: getPageRangeStart(selectedRangeEnd),
-      selectedRangeEnd
+      selectedRangeEnd,
+      targetPage
     });
-  }, [isStudyStateLoaded, learnedRecordIds, pageIndex, passages]);
+  }, [isStudyStateLoaded, learnedRecordIds, pageIndex, passages, targetPage]);
 
   useEffect(() => {
     return () => {
@@ -682,6 +695,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   const currentRangeEnd = getPageRangeEnd(passage.page);
   const currentRangeStart = getPageRangeStart(currentRangeEnd);
   const currentRangeLabel = getPageRangeLabel(currentRangeEnd);
+  const currentRangeCelebrationLabel = `~${currentRangeEnd}쪽`;
   const currentRangeRecords = passages.filter(
     (record) => record.page >= currentRangeStart && record.page <= currentRangeEnd
   );
@@ -710,6 +724,49 @@ export function StudyCard({ passages }: StudyCardProps) {
   const isLastRecord = currentIndex === totalPages - 1;
   const isLastRecordInCurrentRange =
     currentRangePosition === currentRangeRecords.length - 1;
+  const maximumDatasetPage = Math.max(
+    ...passages.map((record) => record.page),
+    1
+  );
+  const hasExceededTarget =
+    targetPage !== undefined &&
+    passages.some(
+      (record) => learnedRecordIds.has(record.id) && record.page > targetPage
+    );
+
+  function openTargetDialog() {
+    setShowRangeSheet(false);
+    setTargetInput(String(passage.page));
+    setTargetInputError("");
+    setShowTargetDialog(true);
+  }
+
+  function closeTargetDialog() {
+    setShowTargetDialog(false);
+    setTargetInputError("");
+  }
+
+  function saveTargetPage() {
+    const parsedTarget = Number(targetInput);
+
+    if (
+      !Number.isInteger(parsedTarget) ||
+      parsedTarget < 1 ||
+      parsedTarget > maximumDatasetPage
+    ) {
+      setTargetInputError(`1쪽부터 ${maximumDatasetPage}쪽 사이로 입력해 주세요.`);
+      return;
+    }
+
+    setTargetPage(parsedTarget);
+    closeTargetDialog();
+  }
+
+  function removeTargetPage() {
+    setTargetPage(undefined);
+    closeTargetDialog();
+  }
+
   function moveToRecord(nextIndex: number) {
     if (isCompletingRecord) {
       return;
@@ -813,7 +870,7 @@ export function StudyCard({ passages }: StudyCardProps) {
     }
 
     if (shouldCelebrateRange) {
-      setRangeCelebration(buildRangeCelebration(currentRangeLabel));
+      setRangeCelebration(buildRangeCelebration(currentRangeCelebrationLabel));
       vibrateForRangeCompletion();
 
       completionTimeoutRef.current = window.setTimeout(() => {
@@ -918,6 +975,10 @@ export function StudyCard({ passages }: StudyCardProps) {
             <div className="space-y-1">
               {pageRanges.map((range) => {
                 const isCurrentRange = range.end === currentRangeEnd;
+                const containsTarget =
+                  targetPage !== undefined &&
+                  targetPage >= range.start &&
+                  targetPage <= range.displayEnd;
 
                 return (
                   <button
@@ -932,8 +993,14 @@ export function StudyCard({ passages }: StudyCardProps) {
                     onClick={() => moveToRange(range)}
                   >
                     <span className="font-black">{range.label}</span>
-                    <span className="text-white/58">
-                      {range.start}~{range.end}쪽
+                    <span className="flex items-center gap-1.5 text-white/58">
+                      {range.start}~{range.displayEnd}쪽
+                      {containsTarget ? (
+                        <Flag
+                          className="size-3.5 shrink-0 fill-white/12 text-white/55"
+                          aria-label="설정한 진도가 있는 범위"
+                        />
+                      ) : null}
                     </span>
                     <span className="text-right text-white/64">
                       {range.count}구문
@@ -942,6 +1009,89 @@ export function StudyCard({ passages }: StudyCardProps) {
                 );
               })}
             </div>
+          </div>
+        </div>
+      ) : null}
+
+      {showTargetDialog ? (
+        <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/58 px-5">
+          <button
+            type="button"
+            className="absolute inset-0 cursor-default"
+            onClick={closeTargetDialog}
+            aria-label="진도 정하기 닫기"
+          />
+          <div
+            className="relative w-full max-w-[19rem] rounded-xl border border-white/8 bg-[#181818] p-5 shadow-soft"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="study-target-title"
+          >
+            <h2 id="study-target-title" className="text-lg font-black text-white">
+              진도 정하기
+            </h2>
+            <p className="mt-1 text-sm font-semibold text-white/64">
+              이번에는 몇 쪽까지 외울까요?
+            </p>
+            {targetPage !== undefined ? (
+              <p className="mt-3 text-xs font-semibold text-white/40">
+                지금 정한 진도: {targetPage}쪽
+              </p>
+            ) : null}
+            <label className="mt-3 block">
+              <span className="sr-only">외울 쪽수</span>
+              <div className="flex items-center rounded-lg bg-white/8 px-3">
+                <input
+                  type="number"
+                  inputMode="numeric"
+                  min={1}
+                  max={maximumDatasetPage}
+                  className="h-12 min-w-0 flex-1 bg-transparent text-lg font-black text-white outline-none"
+                  value={targetInput}
+                  onChange={(event) => {
+                    setTargetInput(event.target.value);
+                    setTargetInputError("");
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      saveTargetPage();
+                    }
+                  }}
+                  autoFocus
+                />
+                <span className="text-sm font-bold text-white/55">쪽</span>
+              </div>
+            </label>
+            {targetInputError ? (
+              <p className="mt-2 text-xs font-semibold text-red-300" role="alert">
+                {targetInputError}
+              </p>
+            ) : null}
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                className="h-11 rounded-lg bg-white/8 text-sm font-bold text-white/70 active:bg-white/12"
+                onClick={closeTargetDialog}
+              >
+                취소
+              </button>
+              <button
+                type="button"
+                className="h-11 rounded-lg bg-[rgb(var(--accent))] text-sm font-black text-black active:brightness-95"
+                onClick={saveTargetPage}
+              >
+                저장
+              </button>
+            </div>
+            {targetPage !== undefined ? (
+              <button
+                type="button"
+                className="mx-auto mt-3 block px-3 py-1 text-xs font-semibold text-white/38 underline underline-offset-4 active:text-white/60"
+                onClick={removeTargetPage}
+              >
+                진도 지우기
+              </button>
+            ) : null}
           </div>
         </div>
       ) : null}
@@ -988,22 +1138,55 @@ export function StudyCard({ passages }: StudyCardProps) {
       <div className="relative z-10 flex min-h-0 w-full flex-col">
         <header className="study-card-header shrink-0">
           <div className="relative min-h-9">
-            <div className="absolute left-1/2 top-0 flex -translate-x-1/2 items-center justify-center gap-1.5 whitespace-nowrap">
+            <button
+              type="button"
+              className={cn(
+                "absolute left-0 top-0 flex h-9 w-12 items-center justify-center gap-0.5 rounded-full px-1 text-[0.625rem] font-black transition-colors active:bg-white/12",
+                hasExceededTarget
+                  ? "bg-[rgb(var(--accent)/0.12)] text-[rgb(var(--accent))]"
+                  : "bg-white/8 text-white/72"
+              )}
+              onClick={openTargetDialog}
+              aria-label={
+                targetPage === undefined
+                  ? "진도 설정"
+                  : hasExceededTarget
+                    ? "설정한 진도보다 더 외웠어요, 진도 변경"
+                    : `진도 ${targetPage}쪽, 변경`
+              }
+            >
+              <Flag
+                className={cn(
+                  "size-3.5 shrink-0",
+                  targetPage !== undefined && "fill-current",
+                  hasExceededTarget &&
+                    "drop-shadow-[0_0_5px_rgb(var(--accent)/0.65)]"
+                )}
+                strokeDasharray={targetPage === undefined ? "3 2" : undefined}
+                aria-hidden
+              />
+              {!hasExceededTarget ? (
+                <span className="whitespace-nowrap">
+                  {targetPage === undefined ? "설정" : `${targetPage}쪽`}
+                </span>
+              ) : null}
+            </button>
+            <div className="absolute left-1/2 top-0 flex -translate-x-1/2 items-center justify-center gap-0.5 whitespace-nowrap">
               <button
                 type="button"
-                className="flex size-9 items-center justify-center rounded-full border border-white/5 bg-white/10 text-base font-black text-white/92 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-colors active:bg-white/16 disabled:pointer-events-none disabled:opacity-30"
+                className="flex size-[1.875rem] items-center justify-center rounded-full border border-white/5 bg-white/10 text-sm font-black text-white/92 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-colors active:bg-white/16 disabled:pointer-events-none disabled:opacity-30"
                 onClick={() => moveToRecord(currentIndex - 1)}
                 disabled={isFirstRecord}
                 aria-label="이전 카드"
               >
                 ←
               </button>
-              <p className="text-center text-[0.95rem] font-bold text-white">
+              <p className="text-center text-[0.78rem] font-bold text-white">
                 {passage.page}쪽 · {currentIndex + 1}번째
               </p>
               <button
                 type="button"
-                className="flex size-9 items-center justify-center rounded-full border border-white/5 bg-white/10 text-base font-black text-white/92 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-colors active:bg-white/16 disabled:pointer-events-none disabled:opacity-30"
+                className="flex size-[1.875rem] items-center justify-center rounded-full border border-white/5 bg-white/10 text-sm font-black text-white/92 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-colors active:bg-white/16 disabled:pointer-events-none disabled:opacity-30"
                 onClick={() => moveToRecord(currentIndex + 1)}
                 disabled={isLastRecord}
                 aria-label="다음 카드"
@@ -1013,7 +1196,7 @@ export function StudyCard({ passages }: StudyCardProps) {
             </div>
             <button
               type="button"
-              className="absolute right-0 top-0 flex h-9 items-center rounded-full border border-white/5 bg-white/10 px-3.5 text-xs font-black text-white/92 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-colors active:bg-white/16 active:text-white"
+              className="absolute right-0 top-0 flex h-9 w-12 items-center justify-center rounded-full border border-white/5 bg-white/10 px-1 text-[0.7rem] font-black text-white/92 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition-colors active:bg-white/16 active:text-white"
               onClick={() => setShowRangeSheet(true)}
               aria-label={`${currentRangeLabel} 범위 선택`}
             >
