@@ -589,7 +589,6 @@ export function StudyCard({ passages }: StudyCardProps) {
   const [showTargetDialog, setShowTargetDialog] = useState(false);
   const [targetInput, setTargetInput] = useState("");
   const [targetInputError, setTargetInputError] = useState("");
-  const [targetExceeded, setTargetExceeded] = useState(false);
   const [targetPage, setTargetPage] = useState<number | undefined>(undefined);
   const [viewMode, setViewMode] = useState<StudyViewMode>("phrase");
   const [learnedRecordIds, setLearnedRecordIds] = useState<Set<string>>(
@@ -620,7 +619,6 @@ export function StudyCard({ passages }: StudyCardProps) {
 
     setLearnedRecordIds(storedState.learnedQuoteIds);
     setPageIndex(storedState.currentIndex);
-    setTargetExceeded(storedState.targetExceeded);
     setTargetPage(storedState.targetPage);
     setIsStudyStateLoaded(true);
   }, [passages]);
@@ -640,7 +638,6 @@ export function StudyCard({ passages }: StudyCardProps) {
       currentQuoteId: currentPassage.id,
       selectedRangeStart: getPageRangeStart(selectedRangeEnd),
       selectedRangeEnd,
-      targetExceeded,
       targetPage
     });
   }, [
@@ -648,7 +645,6 @@ export function StudyCard({ passages }: StudyCardProps) {
     learnedRecordIds,
     pageIndex,
     passages,
-    targetExceeded,
     targetPage
   ]);
 
@@ -738,16 +734,10 @@ export function StudyCard({ passages }: StudyCardProps) {
     ...passages.map((record) => record.page),
     1
   );
-  const learnedPassages = passages.filter((record) =>
-    learnedRecordIds.has(record.id)
-  );
   const hasReachedTarget =
-    targetPage !== undefined &&
-    learnedPassages.some((record) => record.page >= targetPage);
+    targetPage !== undefined && passage.page === targetPage;
   const hasExceededTarget =
-    targetPage !== undefined &&
-    targetExceeded &&
-    learnedPassages.some((record) => record.page > targetPage);
+    targetPage !== undefined && passage.page > targetPage;
 
   function openTargetDialog() {
     setShowRangeSheet(false);
@@ -774,13 +764,11 @@ export function StudyCard({ passages }: StudyCardProps) {
     }
 
     setTargetPage(parsedTarget);
-    setTargetExceeded(false);
     closeTargetDialog();
   }
 
   function removeTargetPage() {
     setTargetPage(undefined);
-    setTargetExceeded(false);
     closeTargetDialog();
   }
 
@@ -815,18 +803,9 @@ export function StudyCard({ passages }: StudyCardProps) {
   }
 
   function markCurrentRecordLearned() {
-    const isNewlyLearned = !learnedRecordIds.has(passage.id);
     const nextLearnedRecordIds = new Set(learnedRecordIds);
     nextLearnedRecordIds.add(passage.id);
     setLearnedRecordIds(nextLearnedRecordIds);
-
-    if (
-      isNewlyLearned &&
-      targetPage !== undefined &&
-      passage.page > targetPage
-    ) {
-      setTargetExceeded(true);
-    }
   }
 
   function finishCompletedRecord() {
@@ -1172,16 +1151,16 @@ export function StudyCard({ passages }: StudyCardProps) {
                 targetPage === undefined
                   ? "진도 설정"
                   : hasExceededTarget
-                    ? "설정한 진도보다 더 외웠어요, 진도 변경"
+                    ? "설정한 진도를 지났어요"
                     : hasReachedTarget
-                      ? `진도 ${targetPage}쪽을 외웠어요, 변경`
-                      : `진도 ${targetPage}쪽, 변경`
+                      ? `진도 ${targetPage}쪽에 도착`
+                      : `진도 ${targetPage}쪽`
               }
             >
               <Flag
                 className={cn(
                   "size-3.5 shrink-0",
-                  hasReachedTarget &&
+                  (hasReachedTarget || hasExceededTarget) &&
                     "fill-[rgb(var(--accent))] text-[rgb(var(--accent))]",
                   hasExceededTarget &&
                     "drop-shadow-[0_0_5px_rgb(var(--accent)/0.65)]"
@@ -1189,11 +1168,13 @@ export function StudyCard({ passages }: StudyCardProps) {
                 strokeDasharray={targetPage === undefined ? "3 2" : undefined}
                 aria-hidden
               />
-              {!hasExceededTarget ? (
-                <span className="whitespace-nowrap">
-                  {targetPage === undefined ? "설정" : `${targetPage}쪽`}
-                </span>
-              ) : null}
+              <span className="whitespace-nowrap">
+                {targetPage === undefined
+                  ? "설정"
+                  : hasExceededTarget
+                    ? "달성"
+                    : `${targetPage}쪽`}
+              </span>
             </button>
             <div className="absolute left-1/2 top-0 flex -translate-x-1/2 items-center justify-center gap-0.5 whitespace-nowrap">
               <button
