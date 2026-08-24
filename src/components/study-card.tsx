@@ -1145,13 +1145,13 @@ export function StudyCard({ passages }: StudyCardProps) {
           <div className="relative min-h-9">
             <button
               type="button"
-              className="absolute left-0 top-0 flex h-9 w-12 items-center justify-center gap-0.5 rounded-full bg-white/8 px-1 text-[0.625rem] font-black text-white/72 transition-colors active:bg-white/12"
+              className="absolute left-0 top-0 flex h-9 w-[4.25rem] items-center justify-start gap-1 rounded-full bg-white/8 py-1 pl-2 pr-1 text-[0.625rem] font-black text-white/72 transition-colors active:bg-white/12"
               onClick={openTargetDialog}
               aria-label={
                 targetPage === undefined
                   ? "진도 설정"
                   : hasExceededTarget
-                    ? "설정한 진도를 지났어요"
+                    ? `설정한 진도 ${targetPage}쪽을 지났어요`
                     : hasReachedTarget
                       ? `진도 ${targetPage}쪽에 도착`
                       : `진도 ${targetPage}쪽`
@@ -1172,7 +1172,7 @@ export function StudyCard({ passages }: StudyCardProps) {
                 {targetPage === undefined
                   ? "설정"
                   : hasExceededTarget
-                    ? "달성"
+                    ? `${targetPage}쪽+`
                     : `${targetPage}쪽`}
               </span>
             </button>
