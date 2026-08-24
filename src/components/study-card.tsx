@@ -1157,12 +1157,7 @@ export function StudyCard({ passages }: StudyCardProps) {
           <div className="relative min-h-9">
             <button
               type="button"
-              className={cn(
-                "absolute left-0 top-0 flex h-9 w-12 items-center justify-center gap-0.5 rounded-full px-1 text-[0.625rem] font-black transition-colors active:bg-white/12",
-                hasExceededTarget
-                  ? "bg-[rgb(var(--accent)/0.12)] text-[rgb(var(--accent))]"
-                  : "bg-white/8 text-white/72"
-              )}
+              className="absolute left-0 top-0 flex h-9 w-12 items-center justify-center gap-0.5 rounded-full bg-white/8 px-1 text-[0.625rem] font-black text-white/72 transition-colors active:bg-white/12"
               onClick={openTargetDialog}
               aria-label={
                 targetPage === undefined
@@ -1175,7 +1170,8 @@ export function StudyCard({ passages }: StudyCardProps) {
               <Flag
                 className={cn(
                   "size-3.5 shrink-0",
-                  targetPage !== undefined && "fill-current",
+                  targetPage !== undefined &&
+                    "fill-[rgb(var(--accent))] text-[rgb(var(--accent))]",
                   hasExceededTarget &&
                     "drop-shadow-[0_0_5px_rgb(var(--accent)/0.65)]"
                 )}
