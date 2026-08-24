@@ -9,6 +9,7 @@ export type StudyStateV1 = {
   currentQuoteId: string;
   selectedRangeStart: number;
   selectedRangeEnd: number;
+  targetExceeded?: boolean;
   targetPage?: number;
 };
 
@@ -17,6 +18,7 @@ type StudyStateSnapshot = {
   learnedQuoteIds: Set<string>;
   selectedRangeEnd: number;
   selectedRangeStart: number;
+  targetExceeded: boolean;
   targetPage?: number;
 };
 
@@ -66,7 +68,8 @@ function getDefaultSnapshot(
     currentIndex: 0,
     learnedQuoteIds: new Set<string>(),
     selectedRangeEnd,
-    selectedRangeStart: getRangeStart(selectedRangeEnd)
+    selectedRangeStart: getRangeStart(selectedRangeEnd),
+    targetExceeded: false
   };
 }
 
@@ -135,6 +138,7 @@ export function readStudyState(
       learnedQuoteIds,
       selectedRangeEnd,
       selectedRangeStart,
+      targetExceeded: targetPage !== undefined && stored.targetExceeded === true,
       targetPage
     };
   } catch {

@@ -589,6 +589,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   const [showTargetDialog, setShowTargetDialog] = useState(false);
   const [targetInput, setTargetInput] = useState("");
   const [targetInputError, setTargetInputError] = useState("");
+  const [targetExceeded, setTargetExceeded] = useState(false);
   const [targetPage, setTargetPage] = useState<number | undefined>(undefined);
   const [viewMode, setViewMode] = useState<StudyViewMode>("phrase");
   const [learnedRecordIds, setLearnedRecordIds] = useState<Set<string>>(
@@ -619,6 +620,7 @@ export function StudyCard({ passages }: StudyCardProps) {
 
     setLearnedRecordIds(storedState.learnedQuoteIds);
     setPageIndex(storedState.currentIndex);
+    setTargetExceeded(storedState.targetExceeded);
     setTargetPage(storedState.targetPage);
     setIsStudyStateLoaded(true);
   }, [passages]);
@@ -638,9 +640,17 @@ export function StudyCard({ passages }: StudyCardProps) {
       currentQuoteId: currentPassage.id,
       selectedRangeStart: getPageRangeStart(selectedRangeEnd),
       selectedRangeEnd,
+      targetExceeded,
       targetPage
     });
-  }, [isStudyStateLoaded, learnedRecordIds, pageIndex, passages, targetPage]);
+  }, [
+    isStudyStateLoaded,
+    learnedRecordIds,
+    pageIndex,
+    passages,
+    targetExceeded,
+    targetPage
+  ]);
 
   useEffect(() => {
     return () => {
@@ -728,11 +738,7 @@ export function StudyCard({ passages }: StudyCardProps) {
     ...passages.map((record) => record.page),
     1
   );
-  const hasExceededTarget =
-    targetPage !== undefined &&
-    passages.some(
-      (record) => learnedRecordIds.has(record.id) && record.page > targetPage
-    );
+  const hasExceededTarget = targetPage !== undefined && targetExceeded;
 
   function openTargetDialog() {
     setShowRangeSheet(false);
@@ -759,11 +765,13 @@ export function StudyCard({ passages }: StudyCardProps) {
     }
 
     setTargetPage(parsedTarget);
+    setTargetExceeded(false);
     closeTargetDialog();
   }
 
   function removeTargetPage() {
     setTargetPage(undefined);
+    setTargetExceeded(false);
     closeTargetDialog();
   }
 
@@ -798,9 +806,18 @@ export function StudyCard({ passages }: StudyCardProps) {
   }
 
   function markCurrentRecordLearned() {
+    const isNewlyLearned = !learnedRecordIds.has(passage.id);
     const nextLearnedRecordIds = new Set(learnedRecordIds);
     nextLearnedRecordIds.add(passage.id);
     setLearnedRecordIds(nextLearnedRecordIds);
+
+    if (
+      isNewlyLearned &&
+      targetPage !== undefined &&
+      passage.page > targetPage
+    ) {
+      setTargetExceeded(true);
+    }
   }
 
   function finishCompletedRecord() {
