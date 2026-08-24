@@ -738,7 +738,16 @@ export function StudyCard({ passages }: StudyCardProps) {
     ...passages.map((record) => record.page),
     1
   );
-  const hasExceededTarget = targetPage !== undefined && targetExceeded;
+  const learnedPassages = passages.filter((record) =>
+    learnedRecordIds.has(record.id)
+  );
+  const hasReachedTarget =
+    targetPage !== undefined &&
+    learnedPassages.some((record) => record.page >= targetPage);
+  const hasExceededTarget =
+    targetPage !== undefined &&
+    targetExceeded &&
+    learnedPassages.some((record) => record.page > targetPage);
 
   function openTargetDialog() {
     setShowRangeSheet(false);
@@ -1164,13 +1173,15 @@ export function StudyCard({ passages }: StudyCardProps) {
                   ? "진도 설정"
                   : hasExceededTarget
                     ? "설정한 진도보다 더 외웠어요, 진도 변경"
-                    : `진도 ${targetPage}쪽, 변경`
+                    : hasReachedTarget
+                      ? `진도 ${targetPage}쪽을 외웠어요, 변경`
+                      : `진도 ${targetPage}쪽, 변경`
               }
             >
               <Flag
                 className={cn(
                   "size-3.5 shrink-0",
-                  targetPage !== undefined &&
+                  hasReachedTarget &&
                     "fill-[rgb(var(--accent))] text-[rgb(var(--accent))]",
                   hasExceededTarget &&
                     "drop-shadow-[0_0_5px_rgb(var(--accent)/0.65)]"
