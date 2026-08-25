@@ -18,13 +18,18 @@ type StudyCardProps = {
 type StudyViewMode = "phrase" | "meaning";
 type CardDensity = "short" | "medium" | "long" | "extraLong";
 type HanjaSizeTier = "large" | "mediumLarge" | "medium" | "compact";
-type MaskedTranslationPart =
+type MaskedTranslationSegment =
   | {
       key: string;
       type: "cover";
       value: string;
-      widthEm: number;
     }
+  | {
+      key: string;
+      type: "visible";
+      value: string;
+    };
+type MaskedTranslationToken =
   | {
       key: string;
       type: "space";
@@ -32,8 +37,8 @@ type MaskedTranslationPart =
     }
   | {
       key: string;
-      type: "visible";
-      value: string;
+      segments: MaskedTranslationSegment[];
+      type: "word";
     };
 type PhraseCell =
   | {
@@ -54,6 +59,10 @@ type PhraseRow = {
 type PhraseLayout = {
   rows: PhraseRow[];
   sizeTier: HanjaSizeTier;
+};
+type MaskedTranslationRow = {
+  key: string;
+  tokens: MaskedTranslationToken[];
 };
 type PageRangeSummary = {
   count: number;
@@ -456,119 +465,133 @@ function buildPhraseLayout(
   };
 }
 
-function getCoverWidthEm(value: string) {
-  const visibleCharacters = Array.from(value).filter(
-    (character) => !/\s/.test(character)
-  ).length;
-
-  return Math.min(Math.max(visibleCharacters * 0.5, 1.2), 6.8);
-}
-
-function buildMaskedTranslationParts(
-  fullText: string,
+function buildMaskedTranslationRows(
+  lines: readonly string[],
   prompt: string,
   answerVisible: boolean,
   displayHint?: string
 ) {
-  const parts: MaskedTranslationPart[] = [];
-  const tokens = fullText.match(/\s+|\S+/gu) ?? [];
+  const fullText = lines.join(" ");
+  const displayHintIndex =
+    displayHint && displayHint.length > 0 ? fullText.indexOf(displayHint) : -1;
   const promptIndex = prompt.length > 0 ? fullText.indexOf(prompt) : -1;
-  let textOffset = 0;
+  const visibleCue = displayHintIndex >= 0 ? displayHint! : prompt;
+  const visibleCueIndex =
+    displayHintIndex >= 0 ? displayHintIndex : promptIndex;
+  const visibleCueEnd =
+    visibleCueIndex >= 0 ? visibleCueIndex + visibleCue.length : -1;
+  let lineOffset = 0;
 
-  if (!answerVisible && displayHint) {
-    const displayHintIndex = fullText.indexOf(displayHint);
-    const hiddenCue =
-      displayHintIndex >= 0 ? displayHint : prompt;
-    const hiddenCueIndex =
-      displayHintIndex >= 0 ? displayHintIndex : promptIndex;
-    const hiddenText =
-      hiddenCueIndex >= 0
-        ? `${fullText.slice(0, hiddenCueIndex)}${fullText.slice(
-            hiddenCueIndex + hiddenCue.length
-          )}`
-        : fullText;
+  return lines.map((line, lineIndex): MaskedTranslationRow => {
+    const rowTokens: MaskedTranslationToken[] = [];
+    const tokens = line.match(/\s+|\S+/gu) ?? [];
+    let tokenOffset = 0;
 
-    parts.push({
-      key: "visible-direct-meaning-hint",
-      type: "visible",
-      value: displayHint
-    });
+    tokens.forEach((token, tokenIndex) => {
+      const tokenStart = lineOffset + tokenOffset;
+      const tokenEnd = tokenStart + token.length;
+      const keyBase = `${lineIndex}-${tokenIndex}-${tokenStart}`;
 
-    const hiddenTokens = hiddenText.match(/\s+|\S+/gu) ?? [];
-    hiddenTokens.forEach((token, index) => {
       if (/^\s+$/u.test(token)) {
-        parts.push({
-          key: `hint-space-${index}`,
+        rowTokens.push({
+          key: `space-${keyBase}`,
           type: "space",
           value: token
         });
+        tokenOffset += token.length;
         return;
       }
 
-      parts.push({
-        key: `hint-cover-${index}`,
-        type: "cover",
-        value: token,
-        widthEm: getCoverWidthEm(token)
+      const segments: MaskedTranslationSegment[] = [];
+
+      if (answerVisible) {
+        segments.push({
+          key: `visible-${keyBase}`,
+          type: "visible",
+          value: token
+        });
+        rowTokens.push({
+          key: `word-${keyBase}`,
+          segments,
+          type: "word"
+        });
+        tokenOffset += token.length;
+        return;
+      }
+
+      const overlapStart = Math.max(tokenStart, visibleCueIndex);
+      const overlapEnd = Math.min(tokenEnd, visibleCueEnd);
+
+      if (visibleCueIndex < 0 || overlapStart >= overlapEnd) {
+        segments.push({
+          key: `cover-${keyBase}`,
+          type: "cover",
+          value: token
+        });
+        rowTokens.push({
+          key: `word-${keyBase}`,
+          segments,
+          type: "word"
+        });
+        tokenOffset += token.length;
+        return;
+      }
+
+      const visibleStartInToken = overlapStart - tokenStart;
+      const visibleEndInToken = overlapEnd - tokenStart;
+      const before = token.slice(0, visibleStartInToken);
+      const visible = token.slice(visibleStartInToken, visibleEndInToken);
+      const after = token.slice(visibleEndInToken);
+
+      if (before) {
+        segments.push({
+          key: `cover-before-${keyBase}`,
+          type: "cover",
+          value: before
+        });
+      }
+
+      segments.push({
+        key: `visible-${keyBase}`,
+        type: "visible",
+        value: visible
       });
+
+      if (after) {
+        segments.push({
+          key: `cover-after-${keyBase}`,
+          type: "cover",
+          value: after
+        });
+      }
+
+      rowTokens.push({
+        key: `word-${keyBase}`,
+        segments,
+        type: "word"
+      });
+      tokenOffset += token.length;
     });
 
-    return parts;
-  }
+    lineOffset += line.length + 1;
 
-  tokens.forEach((token, index) => {
-    if (/^\s+$/u.test(token)) {
-      parts.push({
-        key: `space-${index}-${textOffset}`,
-        type: "space",
-        value: token
-      });
-      textOffset += token.length;
-      return;
-    }
-
-    const tokenStartsInPrompt =
-      promptIndex >= 0 &&
-      textOffset >= promptIndex &&
-      textOffset < promptIndex + prompt.length;
-    const tokenEndsInPrompt =
-      promptIndex >= 0 &&
-      textOffset + token.length > promptIndex &&
-      textOffset + token.length <= promptIndex + prompt.length;
-    const shouldShowText =
-      answerVisible || tokenStartsInPrompt || tokenEndsInPrompt;
-
-    if (shouldShowText) {
-      parts.push({
-        key: `visible-${index}-${textOffset}`,
-        type: "visible" as const,
-        value: token
-      });
-    } else {
-      parts.push({
-        key: `cover-${index}-${textOffset}`,
-        type: "cover",
-        value: token,
-        widthEm: getCoverWidthEm(token)
-      });
-    }
-
-    textOffset += token.length;
+    return {
+      key: `meaning-row-${lineIndex}`,
+      tokens: rowTokens
+    };
   });
-
-  return parts;
 }
 
 function getMeaningText(passage: StudyPageRecord) {
   return passage.directMeaning || passage.translation;
 }
 
-function getDisplayMeaningText(passage: StudyPageRecord) {
+function getDisplayMeaningLines(passage: StudyPageRecord) {
   if (passage.directMeaningLines && passage.directMeaningLines.length > 0) {
-    return passage.directMeaningLines.join("\n");
+    return passage.directMeaningLines;
   }
 
-  return getMeaningText(passage);
+  return getMeaningText(passage).split(/\r?\n/u);
 }
 
 export function StudyCard({ passages }: StudyCardProps) {
@@ -714,9 +737,9 @@ export function StudyCard({ passages }: StudyCardProps) {
   const visibleAnswer = isPeeking || isCharacterMeaningPeeking;
   const phraseAnswerVisible = isPhraseMode && visibleAnswer;
   const meaningAnswerVisible = isMeaningMode && isPeeking;
-  const meaningText = getDisplayMeaningText(passage);
-  const maskedTranslationParts = buildMaskedTranslationParts(
-    meaningText,
+  const meaningLines = getDisplayMeaningLines(passage);
+  const maskedTranslationRows = buildMaskedTranslationRows(
+    meaningLines,
     passage.promptTranslation,
     meaningAnswerVisible,
     passage.directMeaningHint
@@ -1336,46 +1359,45 @@ export function StudyCard({ passages }: StudyCardProps) {
           ) : null}
 
           {viewMode === "meaning" ? (
-            <div className="relative flex w-full flex-col">
-              <p
-                className={cn(
-                  "invisible w-full max-w-full whitespace-pre-wrap break-keep px-1 font-semibold",
-                  classes.translation
-                )}
-                aria-hidden
-              >
-                {meaningText}
-              </p>
-              <div
-                className={cn(
-                  "absolute inset-x-0 top-0 w-full max-w-full whitespace-pre-wrap break-keep px-1 font-semibold text-white/84",
-                  classes.translation
-                )}
-              >
-                {maskedTranslationParts.map((part) => {
-                  if (part.type === "visible") {
-                    return (
-                      <span className="text-white/88" key={part.key}>
-                        {part.value}
-                      </span>
-                    );
-                  }
+            <div
+              className={cn(
+                "w-full max-w-full whitespace-pre-wrap break-keep px-1 font-semibold text-white/84",
+                classes.translation
+              )}
+            >
+              {maskedTranslationRows.map((row) => (
+                <div className="w-full" key={row.key}>
+                  {row.tokens.length > 0 ? (
+                    row.tokens.map((token) => {
+                      if (token.type === "space") {
+                        return <span key={token.key}>{token.value}</span>;
+                      }
 
-                  if (part.type === "space") {
-                    return <span key={part.key}>{part.value}</span>;
-                  }
-
-                  return (
-                    <span
-                      className="rounded bg-white/10 text-transparent"
-                      key={part.key}
-                      aria-hidden
-                    >
-                      {part.value}
-                    </span>
-                  );
-                })}
-              </div>
+                      return (
+                        <span className="whitespace-nowrap" key={token.key}>
+                          {token.segments.map((segment) =>
+                            segment.type === "visible" ? (
+                              <span className="text-white/88" key={segment.key}>
+                                {segment.value}
+                              </span>
+                            ) : (
+                              <span
+                                className="rounded bg-white/10 text-transparent"
+                                key={segment.key}
+                                aria-hidden
+                              >
+                                {segment.value}
+                              </span>
+                            )
+                          )}
+                        </span>
+                      );
+                    })
+                  ) : (
+                    <span aria-hidden>&nbsp;</span>
+                  )}
+                </div>
+              ))}
             </div>
           ) : null}
 
