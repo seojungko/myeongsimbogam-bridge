@@ -8,6 +8,7 @@ import type {
 } from "react";
 import { Flag } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { LearningModePilot } from "@/components/learning-mode-pilot";
 import { readStudyState, writeStudyState } from "@/lib/study-state";
 import type { StudyPageRecord } from "@dataset/types";
 
@@ -16,6 +17,7 @@ type StudyCardProps = {
 };
 
 type StudyViewMode = "phrase" | "meaning";
+type StudyExperienceMode = "learn" | "recall";
 type CardDensity = "short" | "medium" | "long" | "extraLong";
 type HanjaSizeTier = "large" | "mediumLarge" | "medium" | "compact";
 type MaskedTranslationSegment =
@@ -613,6 +615,8 @@ export function StudyCard({ passages }: StudyCardProps) {
   const [targetInput, setTargetInput] = useState("");
   const [targetInputError, setTargetInputError] = useState("");
   const [targetPage, setTargetPage] = useState<number | undefined>(undefined);
+  const [experienceMode, setExperienceMode] =
+    useState<StudyExperienceMode>("recall");
   const [viewMode, setViewMode] = useState<StudyViewMode>("phrase");
   const [learnedRecordIds, setLearnedRecordIds] = useState<Set<string>>(
     () => new Set()
@@ -825,6 +829,12 @@ export function StudyCard({ passages }: StudyCardProps) {
     setViewMode(nextMode);
   }
 
+  function switchExperienceMode(nextMode: StudyExperienceMode) {
+    clearPeek();
+    setIsCharacterMeaningPeeking(false);
+    setExperienceMode(nextMode);
+  }
+
   function markCurrentRecordLearned() {
     const nextLearnedRecordIds = new Set(learnedRecordIds);
     nextLearnedRecordIds.add(passage.id);
@@ -972,6 +982,7 @@ export function StudyCard({ passages }: StudyCardProps) {
   return (
     <article
       className="study-card relative flex max-h-[calc(100svh-32px)] min-h-[calc(100svh-32px)] w-full overflow-hidden rounded-lg border border-[#2A2A2A] bg-[#121212] p-4 text-white shadow-soft"
+      data-experience={experienceMode}
       data-state={visibleAnswer ? "open" : "closed"}
       data-turning={isTurningPage ? "true" : "false"}
     >
@@ -1163,7 +1174,7 @@ export function StudyCard({ passages }: StudyCardProps) {
         </div>
       ) : null}
 
-      <div className="relative z-10 flex min-h-0 w-full flex-col">
+      <div className="relative z-10 flex h-full min-h-0 w-full flex-col">
         <header className="study-card-header shrink-0">
           <div className="relative min-h-9">
             <button
@@ -1272,21 +1283,67 @@ export function StudyCard({ passages }: StudyCardProps) {
           </div>
         </header>
 
+        <div className="mx-auto mt-1.5 grid w-full max-w-[13rem] shrink-0 grid-cols-2 rounded-lg bg-white/5 p-1">
+          <button
+            type="button"
+            className={cn(
+              "min-h-9 rounded-md px-3 text-xs font-black transition-colors",
+              experienceMode === "learn"
+                ? "bg-[rgb(var(--accent))] text-black"
+                : "text-white/52 active:bg-white/8"
+            )}
+            onClick={() => switchExperienceMode("learn")}
+          >
+            배우기
+          </button>
+          <button
+            type="button"
+            className={cn(
+              "min-h-9 rounded-md px-3 text-xs font-black transition-colors",
+              experienceMode === "recall"
+                ? "bg-[rgb(var(--accent))] text-black"
+                : "text-white/52 active:bg-white/8"
+            )}
+            onClick={() => switchExperienceMode("recall")}
+          >
+            외워보기
+          </button>
+        </div>
+
         <section
           className={cn(
             "study-page-content relative flex min-h-0 flex-1 flex-col items-center text-center",
-            density === "extraLong" ? "justify-start" : "justify-center",
-            "touch-none select-none [-webkit-touch-callout:none] [-webkit-user-select:none]",
-            classes.content
+            experienceMode === "learn"
+              ? "justify-stretch overflow-hidden pt-1"
+              : density === "extraLong"
+                ? "justify-start"
+                : "justify-center",
+            experienceMode === "recall" &&
+              "touch-none select-none [-webkit-touch-callout:none] [-webkit-user-select:none]",
+            experienceMode === "recall" && classes.content
           )}
-          onContextMenu={preventPeekContextMenu}
-          onLostPointerCapture={handlePeekLostPointerCapture}
-          onPointerCancel={handlePeekPointerCancel}
-          onPointerDown={beginPeek}
-          onPointerLeave={handlePeekPointerLeave}
-          onPointerUp={endPeek}
+          onContextMenu={
+            experienceMode === "recall" ? preventPeekContextMenu : undefined
+          }
+          onLostPointerCapture={
+            experienceMode === "recall"
+              ? handlePeekLostPointerCapture
+              : undefined
+          }
+          onPointerCancel={
+            experienceMode === "recall" ? handlePeekPointerCancel : undefined
+          }
+          onPointerDown={experienceMode === "recall" ? beginPeek : undefined}
+          onPointerLeave={
+            experienceMode === "recall" ? handlePeekPointerLeave : undefined
+          }
+          onPointerUp={experienceMode === "recall" ? endPeek : undefined}
         >
-          {viewMode === "phrase" ? (
+          {experienceMode === "learn" ? (
+            <LearningModePilot key={passage.id} passage={passage} />
+          ) : null}
+
+          {experienceMode === "recall" && viewMode === "phrase" ? (
             <div className={cn("flex w-full flex-col", hanjaClasses.rowGap)}>
               {phraseLayout.rows.map((row) => (
                 <div
@@ -1358,7 +1415,7 @@ export function StudyCard({ passages }: StudyCardProps) {
             </div>
           ) : null}
 
-          {viewMode === "meaning" ? (
+          {experienceMode === "recall" && viewMode === "meaning" ? (
             <div
               className={cn(
                 "w-full max-w-full whitespace-pre-wrap break-keep px-1 font-semibold text-white/84",
@@ -1401,7 +1458,9 @@ export function StudyCard({ passages }: StudyCardProps) {
             </div>
           ) : null}
 
-          {isCharacterMeaningPeeking && viewMode === "phrase" ? (
+          {experienceMode === "recall" &&
+          isCharacterMeaningPeeking &&
+          viewMode === "phrase" ? (
             <div className="pointer-events-none absolute inset-x-2 bottom-2 z-20 rounded-lg border border-white/5 bg-black/70 px-3 py-2 text-left shadow-soft backdrop-blur-sm">
               <div className="flex flex-wrap gap-x-3 gap-y-1.5 text-[0.78rem] font-semibold leading-5 text-white/78">
                 {passage.characters.map((character) => (
@@ -1420,6 +1479,7 @@ export function StudyCard({ passages }: StudyCardProps) {
           ) : null}
         </section>
 
+        {experienceMode === "recall" ? (
         <div className="study-card-actions shrink-0">
           {viewMode === "phrase" ? (
             <button
@@ -1473,6 +1533,7 @@ export function StudyCard({ passages }: StudyCardProps) {
             외웠어!
           </button>
         </div>
+        ) : null}
       </div>
     </article>
   );

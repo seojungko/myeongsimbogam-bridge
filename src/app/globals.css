@@ -63,6 +63,14 @@ a {
   perspective: 1200px;
 }
 
+.study-card[data-experience="learn"] {
+  perspective: none;
+}
+
+.study-card[data-experience="learn"] .book-cover {
+  display: none;
+}
+
 .study-card .book-cover {
   background: linear-gradient(
     90deg,

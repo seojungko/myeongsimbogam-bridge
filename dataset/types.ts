@@ -25,6 +25,7 @@ export type StudyPageRecord = {
   sourceFile?: string;
   reviewStatus?: string;
   reviewNote?: string;
+  learningSets?: LearningSet[];
   tags?: string[];
 };
 
@@ -32,6 +33,22 @@ export type CharacterMeaning = {
   character: string;
   meaning: string;
   sound: string;
+};
+
+export type LearningMeaningLink = {
+  character: string;
+  target: string;
+};
+
+export type LearningChunk = {
+  hanja: string;
+  reading: string;
+  directMeaning: string;
+  meaningLinks?: LearningMeaningLink[];
+};
+
+export type LearningSet = {
+  chunks: LearningChunk[];
 };
 
 export type Master84Dataset = {

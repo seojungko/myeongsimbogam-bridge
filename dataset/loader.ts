@@ -1,6 +1,8 @@
 import master84Json from "./master84.json";
 import type {
   CharacterMeaning,
+  LearningChunk,
+  LearningSet,
   Master84Dataset,
   StudyDataset,
   StudyPageRecord
@@ -40,6 +42,20 @@ function isCharacterMeaning(value: unknown): value is CharacterMeaning {
     isNonEmptyString(value.meaning) &&
     isNonEmptyString(value.sound)
   );
+}
+
+function isLearningChunk(value: unknown): value is LearningChunk {
+  return (
+    isObject(value) &&
+    isNonEmptyString(value.hanja) &&
+    isNonEmptyString(value.reading) &&
+    isNonEmptyString(value.directMeaning) &&
+    (value.meaningLinks === undefined || Array.isArray(value.meaningLinks))
+  );
+}
+
+function isLearningSet(value: unknown): value is LearningSet {
+  return isObject(value) && Array.isArray(value.chunks);
 }
 
 function getRecordErrors(value: unknown, index: number) {
@@ -169,6 +185,75 @@ function getRecordErrors(value: unknown, index: number) {
     !directMeaning.includes(record.directMeaningHint)
   ) {
     errors.push(`${label}: directMeaningHint must appear inside directMeaning`);
+  }
+
+  if (record.learningSets !== undefined) {
+    if (
+      !Array.isArray(record.learningSets) ||
+      record.learningSets.length === 0 ||
+      !record.learningSets.every(isLearningSet)
+    ) {
+      errors.push(`${label}: learningSets must be a non-empty learning set array`);
+    } else {
+      record.learningSets.forEach((learningSet, setIndex) => {
+        if (learningSet.chunks.length === 0) {
+          errors.push(`${label}: learningSets[${setIndex}] must contain chunks`);
+        }
+
+        learningSet.chunks.forEach((chunk, chunkIndex) => {
+          const chunkLabel = `${label}: learningSets[${setIndex}].chunks[${chunkIndex}]`;
+
+          if (!isLearningChunk(chunk)) {
+            errors.push(`${chunkLabel} must contain hanja, reading, and directMeaning`);
+            return;
+          }
+
+          if (fullHanja && !fullHanja.includes(chunk.hanja)) {
+            errors.push(`${chunkLabel}.hanja must appear inside fullHanja`);
+          }
+
+          if (fullKorean && !fullKorean.includes(chunk.reading)) {
+            errors.push(`${chunkLabel}.reading must appear inside fullKorean`);
+          }
+
+          if (directMeaning && !directMeaning.includes(chunk.directMeaning)) {
+            errors.push(`${chunkLabel}.directMeaning must appear inside directMeaning`);
+          }
+
+          if (
+            countVisibleCharacters(chunk.hanja) !==
+            countVisibleCharacters(chunk.reading)
+          ) {
+            errors.push(`${chunkLabel} Hanja and reading counts must match`);
+          }
+
+          if (chunk.meaningLinks && chunk.meaningLinks.length > 2) {
+            errors.push(`${chunkLabel}.meaningLinks must contain at most two links`);
+          }
+
+          chunk.meaningLinks?.forEach((link, linkIndex) => {
+            const linkLabel = `${chunkLabel}.meaningLinks[${linkIndex}]`;
+
+            if (
+              !isObject(link) ||
+              !isNonEmptyString(link.character) ||
+              !isNonEmptyString(link.target)
+            ) {
+              errors.push(`${linkLabel} must contain character and target`);
+              return;
+            }
+
+            if (!chunk.hanja.includes(link.character)) {
+              errors.push(`${linkLabel}.character must appear inside chunk.hanja`);
+            }
+
+            if (!chunk.directMeaning.includes(link.target)) {
+              errors.push(`${linkLabel}.target must appear inside chunk.directMeaning`);
+            }
+          });
+        });
+      });
+    }
   }
 
   if (fullHanja && fullKorean) {

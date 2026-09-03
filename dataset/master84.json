@@ -4354,6 +4354,74 @@
         "욕식기인 선시기우",
         "욕지기부 선시기자"
       ],
+      "learningSets": [
+        {
+          "chunks": [
+            {
+              "hanja": "欲知其君",
+              "reading": "욕지기군",
+              "directMeaning": "그 임금을 알고자 하면",
+              "meaningLinks": [
+                { "character": "知", "target": "알고자" },
+                { "character": "君", "target": "임금" }
+              ]
+            },
+            {
+              "hanja": "先視其臣",
+              "reading": "선시기신",
+              "directMeaning": "먼저 그의 신하를 보고",
+              "meaningLinks": [
+                { "character": "先", "target": "먼저" },
+                { "character": "臣", "target": "신하" }
+              ]
+            }
+          ]
+        },
+        {
+          "chunks": [
+            {
+              "hanja": "欲識其人",
+              "reading": "욕식기인",
+              "directMeaning": "그 사람을 알고자 하면",
+              "meaningLinks": [
+                { "character": "識", "target": "알고자" },
+                { "character": "人", "target": "사람" }
+              ]
+            },
+            {
+              "hanja": "先視其友",
+              "reading": "선시기우",
+              "directMeaning": "먼저 그의 친구를 볼 것이며",
+              "meaningLinks": [
+                { "character": "先", "target": "먼저" },
+                { "character": "友", "target": "친구" }
+              ]
+            }
+          ]
+        },
+        {
+          "chunks": [
+            {
+              "hanja": "欲知其父",
+              "reading": "욕지기부",
+              "directMeaning": "그 아버지를 알고자 하면",
+              "meaningLinks": [
+                { "character": "知", "target": "알고자" },
+                { "character": "父", "target": "아버지" }
+              ]
+            },
+            {
+              "hanja": "先視其子",
+              "reading": "선시기자",
+              "directMeaning": "먼저 그의 자식을 보라.",
+              "meaningLinks": [
+                { "character": "先", "target": "먼저" },
+                { "character": "子", "target": "자식" }
+              ]
+            }
+          ]
+        }
+      ],
       "characters": [
         {
           "character": "欲",
